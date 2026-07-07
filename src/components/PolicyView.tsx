@@ -403,92 +403,65 @@ export default function PolicyView({ policy }: Props) {
     };
   }, []);
 
-  const vitalScatterDecrease = useMemo((): VitalScatterPoint[] => {
+  // 자연증감(흐름)은 인구(저량)의 [최초 관측월, 최종 관측월] 구간 변화와 창이 일치해야
+  // 총증감 = 자연 + 사회적 분해가 성립한다. 최초 관측월의 출생·사망은 그 이전 달 대비
+  // 변화를 설명하는 흐름이므로 누계에서 제외한다 (최초월 다음 달부터 합산).
+  const vitalScatterAll = useMemo((): VitalScatterPoint[] => {
     if (!vitalData || !popTrendData) return [];
-    return policy.regions
-      .filter((r) => r.type === "감소")
-      .flatMap((r) => {
-        const vSeries = vitalData.series[r.id];
-        const pVals = popTrendData.series[r.id];
-        if (!vSeries || !pVals) return [];
+    return policy.regions.flatMap((r) => {
+      const vSeries = vitalData.series[r.id];
+      const pVals = popTrendData.series[r.id];
+      if (!vSeries || !pVals) return [];
 
-        const firstIdx = pVals.findIndex((v) => v !== null);
-        const lastIdx = [...pVals].reverse().findIndex((v) => v !== null);
-        if (firstIdx === -1 || lastIdx === -1) return [];
-        const firstPop = pVals[firstIdx] as number;
-        if (firstPop === 0) return [];
-        const lastPop = (
-          [...pVals].reverse().find((v) => v !== null)
-        ) as number;
+      const firstIdx = pVals.findIndex((v) => v !== null);
+      if (firstIdx === -1) return [];
+      let lastIdx = -1;
+      for (let i = pVals.length - 1; i >= 0; i--) {
+        if (pVals[i] !== null) { lastIdx = i; break; }
+      }
+      const firstPop = pVals[firstIdx] as number;
+      const lastPop = pVals[lastIdx] as number;
+      if (firstPop === 0 || lastIdx <= firstIdx) return [];
 
-        const totalChange = lastPop - firstPop;
-        let cumNatural = 0;
-        let hasNatural = false;
-        for (let i = 0; i < vitalData.months.length; i++) {
-          const b = vSeries.births[i];
-          const d = vSeries.deaths[i];
-          if (b !== null && d !== null) {
-            cumNatural += b - d;
-            hasNatural = true;
-          }
+      const firstYm = popTrendData.months[firstIdx];
+      const lastYm = popTrendData.months[lastIdx];
+      const totalChange = lastPop - firstPop;
+
+      let cumNatural = 0;
+      let hasNatural = false;
+      for (let i = 0; i < vitalData.months.length; i++) {
+        const ym = vitalData.months[i];
+        if (ym <= firstYm || ym > lastYm) continue; // 창 정렬: 최초월 제외
+        const b = vSeries.births[i];
+        const d = vSeries.deaths[i];
+        if (b !== null && d !== null) {
+          cumNatural += b - d;
+          hasNatural = true;
         }
-        if (!hasNatural) return [];
-        const cumSocial = totalChange - cumNatural;
-        return [
-          {
-            id: r.id,
-            sido: r.sido,
-            sigungu: r.sigungu,
-            type: "감소" as const,
-            xNat: (cumNatural / firstPop) * 100,
-            ySoc: (cumSocial / firstPop) * 100,
-          },
-        ];
-      });
+      }
+      if (!hasNatural) return [];
+      const cumSocial = totalChange - cumNatural;
+      return [
+        {
+          id: r.id,
+          sido: r.sido,
+          sigungu: r.sigungu,
+          type: r.type,
+          xNat: (cumNatural / firstPop) * 100,
+          ySoc: (cumSocial / firstPop) * 100,
+        },
+      ];
+    });
   }, [vitalData, popTrendData, policy.regions]);
 
-  const vitalScatterInterest = useMemo((): VitalScatterPoint[] => {
-    if (!vitalData || !popTrendData) return [];
-    return policy.regions
-      .filter((r) => r.type === "관심")
-      .flatMap((r) => {
-        const vSeries = vitalData.series[r.id];
-        const pVals = popTrendData.series[r.id];
-        if (!vSeries || !pVals) return [];
-
-        const firstIdx = pVals.findIndex((v) => v !== null);
-        if (firstIdx === -1) return [];
-        const firstPop = pVals[firstIdx] as number;
-        if (firstPop === 0) return [];
-        const lastPop = (
-          [...pVals].reverse().find((v) => v !== null)
-        ) as number;
-
-        const totalChange = lastPop - firstPop;
-        let cumNatural = 0;
-        let hasNatural = false;
-        for (let i = 0; i < vitalData.months.length; i++) {
-          const b = vSeries.births[i];
-          const d = vSeries.deaths[i];
-          if (b !== null && d !== null) {
-            cumNatural += b - d;
-            hasNatural = true;
-          }
-        }
-        if (!hasNatural) return [];
-        const cumSocial = totalChange - cumNatural;
-        return [
-          {
-            id: r.id,
-            sido: r.sido,
-            sigungu: r.sigungu,
-            type: "관심" as const,
-            xNat: (cumNatural / firstPop) * 100,
-            ySoc: (cumSocial / firstPop) * 100,
-          },
-        ];
-      });
-  }, [vitalData, popTrendData, policy.regions]);
+  const vitalScatterDecrease = useMemo(
+    () => vitalScatterAll.filter((p) => p.type === "감소"),
+    [vitalScatterAll]
+  );
+  const vitalScatterInterest = useMemo(
+    () => vitalScatterAll.filter((p) => p.type === "관심"),
+    [vitalScatterAll]
+  );
 
   return (
     <div className="flex flex-col gap-12">

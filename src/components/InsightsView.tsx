@@ -32,6 +32,7 @@ export interface PerCapitaPoint {
 interface Props {
   perCapitaData: PerCapitaPoint[];
   latestYear: string;
+  censusYear: string;
 }
 
 // Scatter tooltip
@@ -65,7 +66,7 @@ function ScatterTip({
   );
 }
 
-export default function InsightsView({ perCapitaData, latestYear }: Props) {
+export default function InsightsView({ perCapitaData, latestYear, censusYear }: Props) {
   const [showAllTable, setShowAllTable] = useState(false);
   const [insights, setInsights] = useState<Insights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(true);
@@ -136,7 +137,7 @@ export default function InsightsView({ perCapitaData, latestYear }: Props) {
               1인당 기금액 랭킹
             </h2>
             <p className="text-xs text-stone-400 mt-0.5">
-              {latestYear}년 기금 ÷ 2024 총인구 · 상위 15개 지역
+              {latestYear}년 기금 ÷ {censusYear}년 총인구 · 상위 15개 지역
             </p>
           </div>
           <button

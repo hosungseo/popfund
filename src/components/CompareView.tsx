@@ -15,11 +15,8 @@ import {
 } from "recharts";
 import type { Region, PopulationTrend } from "@/lib/types";
 import RegionBadge from "./RegionBadge";
-import { formatNumber, formatWon } from "@/lib/utils";
+import { formatNumber, formatWon, fmtYm } from "@/lib/utils";
 
-function fmtYm(ym: string): string {
-  return `${ym.slice(2, 4)}.${ym.slice(4, 6)}`;
-}
 
 function fmtPopShort(n: number): string {
   if (n >= 10_000) return `${(n / 10_000).toFixed(0)}만`;

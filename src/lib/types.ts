@@ -131,6 +131,9 @@ export interface Policy {
   medians: { perCapitaFundCum: number; declinePct: number };
 }
 
+// v2.0 decline type classification
+export type DeclineType = "이중감소형" | "자연감소주도형" | "유출주도형" | "회복형";
+
 // v2.0 vital trend type
 export interface VitalTrend {
   firstYm: string;

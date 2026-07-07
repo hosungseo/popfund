@@ -1,3 +1,5 @@
+import type { VitalTrend, PopulationTrend, DeclineType } from "./types";
+
 /** Format a number with thousands comma separator */
 export function formatNumber(n: number): string {
   return n.toLocaleString("ko-KR");
@@ -54,6 +56,55 @@ export function normName(name: string): string {
   return name.replace(/\([^)]*\)/g, "").replace(/\s+/g, "");
 }
 
+/**
+ * Classify a region's population decline type from cumulative vital + social change.
+ * Mirrors the VitalDecomposition monthly formula: natural = births-deaths,
+ * social ≈ totalChange - natural.
+ */
+export function computeDeclineType(
+  regionId: string,
+  vital: VitalTrend,
+  popTrend: PopulationTrend,
+): DeclineType | null {
+  const vSeries = vital.series[regionId];
+  const pVals = popTrend.series[regionId];
+  if (!vSeries || !pVals) return null;
+
+  const popByYm: Record<string, number | null> = {};
+  popTrend.months.forEach((ym, i) => {
+    popByYm[ym] = pVals[i] ?? null;
+  });
+
+  let naturalCum = 0;
+  let socialCum = 0;
+  let hasData = false;
+
+  vital.months.forEach((ym, i) => {
+    const births = vSeries.births[i] ?? null;
+    const deaths = vSeries.deaths[i] ?? null;
+    if (births === null || deaths === null) return;
+
+    const natural = births - deaths;
+    const pop = popByYm[ym] ?? null;
+    const prevYm = i > 0 ? vital.months[i - 1] : null;
+    const prevPop = prevYm ? (popByYm[prevYm] ?? null) : null;
+    const totalChange =
+      pop !== null && prevPop !== null ? pop - prevPop : null;
+    const social = totalChange !== null ? totalChange - natural : null;
+
+    naturalCum += natural;
+    if (social !== null) socialCum += social;
+    hasData = true;
+  });
+
+  if (!hasData) return null;
+
+  if (naturalCum < 0 && socialCum < 0) return "이중감소형";
+  if (naturalCum < 0 && socialCum >= 0) return "자연감소주도형";
+  if (naturalCum >= 0 && socialCum < 0) return "유출주도형";
+  return "회복형";
+}
+
 /** Compute 2-digit hex shard key for a normalized project name (data-contract spec) */
 export function shardOf(norm: string): string {
   let h = 5381;
@@ -61,4 +112,9 @@ export function shardOf(norm: string): string {
     h = ((h * 33) ^ norm.charCodeAt(i)) >>> 0;
   }
   return (h & 0xff).toString(16).padStart(2, "0");
+}
+
+/** "202210" → "22.10" 축약 연월 표기 (차트 축 공통) */
+export function fmtYm(ym: string): string {
+  return `${ym.slice(2, 4)}.${ym.slice(4, 6)}`;
 }

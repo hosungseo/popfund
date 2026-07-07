@@ -11,14 +11,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { PopulationTrend } from "@/lib/types";
+import { fmtYm } from "@/lib/utils";
 
 interface Props {
   regionId: string;
 }
 
-function fmtYm(ym: string): string {
-  return `${ym.slice(2, 4)}.${ym.slice(4, 6)}`;
-}
 
 function fmtPop(n: number): string {
   if (n >= 100_000_000) return `${(n / 100_000_000).toFixed(1)}억`;

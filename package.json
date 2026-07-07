@@ -11,7 +11,10 @@
     "data:derived": "node scripts/build-derived.mjs",
     "data:validate": "node scripts/validate-data.mjs",
     "data:policy": "node scripts/build-policy.mjs",
-    "data:vital": "node --env-file=.env.local scripts/build-vital.mjs"
+    "data:vital": "node --env-file=.env.local scripts/build-vital.mjs",
+    "data:trend": "node --env-file=.env.local scripts/build-trend.mjs",
+    "data:pyramid": "node --env-file=.env.local scripts/build-pyramid.mjs",
+    "data:lifepop": "python3 scripts/parse_lifepop.py"
   },
   "dependencies": {
     "@types/d3-geo": "^3.1.0",

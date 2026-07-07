@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-import type { Region, Meta, Policy } from "./types";
+import type { Region, Meta, Policy, Lifepop, VitalTrend, PopulationTrend } from "./types";
 
 const PUBLIC_DATA = join(process.cwd(), "public", "data");
 const FIXTURES = join(process.cwd(), "src", "lib", "fixtures");
@@ -34,6 +34,36 @@ export function loadPolicy(): Policy {
     join(PUBLIC_DATA, "policy.json"),
     join(FIXTURES, "policy.json")
   );
+}
+
+export function loadLifepop(): Lifepop | null {
+  const p = join(PUBLIC_DATA, "lifepop.json");
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, "utf-8")) as Lifepop;
+  } catch {
+    return null;
+  }
+}
+
+export function loadVitalTrend(): VitalTrend | null {
+  const p = join(PUBLIC_DATA, "vital-trend.json");
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, "utf-8")) as VitalTrend;
+  } catch {
+    return null;
+  }
+}
+
+export function loadPopulationTrend(): PopulationTrend | null {
+  const p = join(PUBLIC_DATA, "population-trend.json");
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, "utf-8")) as PopulationTrend;
+  } catch {
+    return null;
+  }
 }
 
 /** Aggregate stats for summary cards */

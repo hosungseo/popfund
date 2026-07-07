@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { loadRegions, loadSummaryStats } from "@/lib/data";
+import { loadRegions, loadSummaryStats, loadLifepop } from "@/lib/data";
 import StatCard from "@/components/StatCard";
 import RegionTable from "@/components/RegionTable";
 import KoreaMap from "@/components/KoreaMap";
@@ -14,6 +14,19 @@ export default function HomePage() {
   const regions = loadRegions();
   const { decreaseCount, interestCount, totalPopulation, totalFund, latestYear } =
     loadSummaryStats(regions);
+
+  // Top 3 stay ratio (체류 배율)
+  const lifepop = loadLifepop();
+  const top3StayRatio = lifepop
+    ? [...regions]
+        .filter((r) => {
+          const s = lifepop.series[r.id];
+          return s && s.stayRatio != null;
+        })
+        .map((r) => ({ ...r, stayRatio: lifepop.series[r.id].stayRatio! }))
+        .sort((a, b) => b.stayRatio - a.stayRatio)
+        .slice(0, 3)
+    : [];
 
   // Top 3 per-capita fund (latest year fund ÷ population)
   const top3PerCapita = [...regions]
@@ -164,6 +177,37 @@ export default function HomePage() {
                 ))}
               </ol>
             </div>
+
+            {/* Top 3 stay ratio */}
+            {top3StayRatio.length > 0 && (
+              <div className="bg-white rounded-2xl border border-stone-200 p-4 flex flex-col gap-3">
+                <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400">
+                  체류 배율 상위
+                </span>
+                <ol className="flex flex-col gap-2">
+                  {top3StayRatio.map((r, i) => (
+                    <li key={r.id}>
+                      <Link
+                        href={`/region/${encodeURIComponent(r.id)}`}
+                        className="flex items-center justify-between gap-2 hover:text-stone-900 transition-colors group"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-4 text-[10px] font-mono text-stone-400">
+                            {i + 1}
+                          </span>
+                          <span className="text-sm font-medium text-stone-700 group-hover:text-stone-900 transition-colors">
+                            {r.sigungu}
+                          </span>
+                        </div>
+                        <span className="font-mono text-xs text-teal-600 tabular-nums">
+                          {r.stayRatio.toFixed(1)}×
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
           </div>
         </div>
       </section>

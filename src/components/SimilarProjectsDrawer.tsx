@@ -30,17 +30,23 @@ export default function SimilarProjectsDrawer({
     const norm = normName(project.dbizNm);
     const shard = shardOf(norm);
     setClusterLoading(true);
+    // 빠르게 다른 사업을 연달아 열면 늦게 도착한 이전 응답이 덮어쓰지 않도록 취소 플래그 사용
+    let cancelled = false;
     fetch(`/data/similar/${shard}.json`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data: Record<string, ClusterEntry[]> | null) => {
-        if (!data) {
-          setCluster([]);
-          return;
-        }
-        setCluster(data[norm] ?? []);
+        if (cancelled) return;
+        setCluster(data ? (data[norm] ?? []) : []);
       })
-      .catch(() => setCluster([]))
-      .finally(() => setClusterLoading(false));
+      .catch(() => {
+        if (!cancelled) setCluster([]);
+      })
+      .finally(() => {
+        if (!cancelled) setClusterLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [project]);
 
   const others = (cluster ?? [])

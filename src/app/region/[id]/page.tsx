@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { loadRegions, loadMeta } from "@/lib/data";
+import { loadRegions, loadMeta, loadPolicy, loadLifepop, loadVitalTrend, loadPopulationTrend } from "@/lib/data";
 import RegionBadge from "@/components/RegionBadge";
 import PopulationCards from "@/components/PopulationCards";
 import PopulationTrendChart from "@/components/PopulationTrendChart";
@@ -11,7 +11,8 @@ import FundBarChart from "@/components/FundBarChart";
 import ProjectsTable from "@/components/ProjectsTable";
 import KoreaMap from "@/components/KoreaMap";
 import VitalDecomposition from "@/components/VitalDecomposition";
-import { formatWon, totalFund } from "@/lib/utils";
+import { formatWon, totalFund, computeDeclineType } from "@/lib/utils";
+import type { DeclineType } from "@/lib/types";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -43,6 +44,26 @@ export default async function RegionPage({ params }: Props) {
   const meta = loadMeta();
   const tf = totalFund(region.fund);
 
+  // v2.0 summary badge data (loaded server-side; null if files not yet built)
+  const policy = loadPolicy();
+  const lifepop = loadLifepop();
+  const vitalTrend = loadVitalTrend();
+  const popTrend = loadPopulationTrend();
+
+  const policyRegion = policy.regions.find((r) => r.id === region.id) ?? null;
+  const stayRatio = lifepop?.series[region.id]?.stayRatio ?? null;
+  const declineType: DeclineType | null =
+    vitalTrend && popTrend
+      ? computeDeclineType(region.id, vitalTrend, popTrend)
+      : null;
+
+  const DECLINE_TYPE_COLORS: Record<DeclineType, string> = {
+    "이중감소형":     "bg-rose-50 text-rose-700 ring-rose-200",
+    "자연감소주도형": "bg-amber-50 text-amber-700 ring-amber-200",
+    "유출주도형":     "bg-violet-50 text-violet-700 ring-violet-200",
+    "회복형":         "bg-emerald-50 text-emerald-700 ring-emerald-200",
+  };
+
   // Build lafCd → "시도 시군구" map for the drawer's region name lookup
   const lafCdToName: Record<string, string> = Object.fromEntries(
     allRegions.map((r) => [r.lafCd, `${r.sido} ${r.sigungu}`])
@@ -71,6 +92,58 @@ export default async function RegionPage({ params }: Props) {
             <RegionBadge type={region.type} />
             <span className="text-sm text-stone-500">{region.sido}</span>
           </div>
+
+          {/* v2.0 summary badges */}
+          <div className="flex flex-wrap items-center gap-2">
+            {/* ① 위기 순위 */}
+            {policyRegion && (
+              <span
+                className={`inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 ${
+                  policyRegion.riskRank <= 20
+                    ? "bg-rose-50 text-rose-700 ring-rose-200"
+                    : "bg-stone-50 text-stone-600 ring-stone-200"
+                }`}
+              >
+                위기 {policyRegion.riskRank}위/107
+              </span>
+            )}
+
+            {/* ② 감소 유형 */}
+            {declineType && (
+              <span
+                className={`inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 ${DECLINE_TYPE_COLORS[declineType]}`}
+              >
+                {declineType}
+              </span>
+            )}
+
+            {/* ③ 체류 배율 */}
+            {stayRatio != null && (
+              <span
+                className={`inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 ${
+                  stayRatio >= 5
+                    ? "bg-blue-50 text-blue-700 ring-blue-200"
+                    : "bg-stone-50 text-stone-600 ring-stone-200"
+                }`}
+              >
+                체류 {stayRatio.toFixed(1)}×
+              </span>
+            )}
+
+            {/* ④ 기금사업 집행률 */}
+            {policyRegion && policyRegion.fundExecRate != null && (
+              <span
+                className={`inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 ${
+                  policyRegion.fundExecRate < 30
+                    ? "bg-rose-50 text-rose-700 ring-rose-200"
+                    : "bg-stone-50 text-stone-600 ring-stone-200"
+                }`}
+              >
+                집행 {policyRegion.fundExecRate.toFixed(1)}%
+              </span>
+            )}
+          </div>
+
           <p className="text-sm text-stone-500">
             {meta.fundYears[0]}~{meta.fundYears[meta.fundYears.length - 1]}년 누계
             기금 총액:{" "}

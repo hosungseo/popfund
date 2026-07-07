@@ -12,14 +12,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { PopulationTrend, VitalTrend } from "@/lib/types";
+import { fmtYm } from "@/lib/utils";
 
 interface Props {
   regionId: string;
 }
 
-function fmtYm(ym: string): string {
-  return `${ym.slice(2, 4)}.${ym.slice(4, 6)}`;
-}
 
 function fmtSigned(n: number): string {
   return `${n >= 0 ? "+" : ""}${n.toLocaleString("ko-KR")}`;
@@ -128,15 +126,17 @@ export default function VitalDecomposition({ regionId }: Props) {
     let social = 0;
     let hasNatural = false;
 
+    // 흐름(자연증감)과 저량 변화(총증감)의 창을 일치시키기 위해
+    // totalChange가 계산되는 행(전월 인구가 있는 행)만 누계에 포함한다.
+    // 이렇게 해야 총증감 = 자연증감 + 사회적 증감이 항상 성립한다.
     for (const row of chartData) {
-      if (row.natural !== null) {
-        natural += row.natural;
-        births += row.births ?? 0;
-        deaths += row.deaths ?? 0;
-        hasNatural = true;
-      }
+      if (row.totalChange === null || row.natural === null) continue;
+      natural += row.natural;
+      births += row.births ?? 0;
+      deaths += row.deaths ?? 0;
+      hasNatural = true;
       if (row.social !== null) social += row.social;
-      if (row.totalChange !== null) totalChange += row.totalChange;
+      totalChange += row.totalChange;
     }
     if (!hasNatural) return null;
     return { totalChange, natural, births, deaths, social };

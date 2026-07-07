@@ -26,9 +26,12 @@ const median = (arr) => {
 
 // per-region metrics
 const rows = regions.map((r) => {
-  const series = trend.series[r.id];
+  const series = trend.series[r.id] ?? [];
   const first = series.find((v) => v != null);
   const last = [...series].reverse().find((v) => v != null);
+  if (first == null || last == null || first === 0) {
+    throw new Error(`population trend missing for ${r.id} — run scripts/build-trend.mjs first`);
+  }
   const declinePct = ((last - first) / first) * 100;
 
   const fundCum = Object.values(r.fund).reduce((a, b) => a + b, 0);

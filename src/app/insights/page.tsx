@@ -35,7 +35,7 @@ export default function InsightsPage() {
           {latestYear}년 기준 지방소멸대응기금 집행 패턴 분석
         </p>
       </div>
-      <InsightsView perCapitaData={perCapitaData} latestYear={latestYear} />
+      <InsightsView perCapitaData={perCapitaData} latestYear={latestYear} censusYear={meta.censusYear} />
     </div>
   );
 }
