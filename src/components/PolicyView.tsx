@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   BarChart,
   Bar,
@@ -15,7 +15,7 @@ import {
   ReferenceLine,
   LabelList,
 } from "recharts";
-import type { Policy, PolicyRegion } from "@/lib/types";
+import type { Policy, PolicyRegion, Lifepop } from "@/lib/types";
 import { formatWon } from "@/lib/utils";
 
 interface Props {
@@ -110,6 +110,70 @@ function TypeBadge({ type }: { type: "감소" | "관심" }) {
   );
 }
 
+// ---- StayRatio types + tooltip ----
+interface StayRatioEntry {
+  id: string;
+  sido: string;
+  sigungu: string;
+  type: "감소" | "관심";
+  stayRatio: number;
+  registered: number | null;
+  staying: number | null;
+}
+
+interface StayRatioPayloadItem {
+  payload: StayRatioEntry;
+}
+
+function StayRatioTip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: StayRatioPayloadItem[];
+}) {
+  if (!active || !payload?.length) return null;
+  const d = payload[0].payload;
+  return (
+    <div className="bg-white border border-stone-200 rounded-lg p-3 shadow-md text-xs min-w-[168px]">
+      <p className="font-semibold text-stone-800 mb-1.5">
+        {d.sido} {d.sigungu}
+      </p>
+      <p className="text-stone-500">
+        체류 배율:{" "}
+        <span className="font-mono font-semibold text-stone-700">
+          {d.stayRatio.toFixed(2)}×
+        </span>
+      </p>
+      {d.registered !== null && (
+        <p className="text-stone-500">
+          주민등록:{" "}
+          <span className="font-mono text-stone-700">
+            {d.registered.toLocaleString("ko-KR")}명
+          </span>
+        </p>
+      )}
+      {d.staying !== null && (
+        <p className="text-stone-500">
+          체류인구:{" "}
+          <span className="font-mono text-stone-700">
+            {d.staying.toLocaleString("ko-KR")}명
+          </span>
+        </p>
+      )}
+      <span
+        className={`inline-flex mt-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ring-1 ${
+          d.type === "감소"
+            ? "bg-rose-50 text-rose-700 ring-rose-200"
+            : "bg-amber-50 text-amber-700 ring-amber-200"
+        }`}
+      >
+        {d.type}지역
+      </span>
+    </div>
+  );
+}
+
 // ---- Field exec-rate color ----
 function fieldColor(rate: number): string {
   if (rate >= 60) return "#10b981";
@@ -124,6 +188,49 @@ type RegionWithExec = PolicyRegion & { fundExecRate: number };
 export default function PolicyView({ policy }: Props) {
   const medX = policy.medians.perCapitaFundCum / 10000;
   const medY = policy.medians.declinePct;
+
+  // ===== Lifepop (section 5) =====
+  const [lifepop, setLifepop] = useState<Lifepop | null>(null);
+  const [lifepopLoading, setLifepopLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/data/lifepop.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: Lifepop | null) => setLifepop(d ?? null))
+      .catch(() => setLifepop(null))
+      .finally(() => setLifepopLoading(false));
+  }, []);
+
+  const stayRatioTop15 = useMemo((): StayRatioEntry[] => {
+    if (!lifepop) return [];
+    const lastYm = lifepop.months[lifepop.months.length - 1];
+    return Object.entries(lifepop.series)
+      .filter(([, s]) => s.stayRatio !== null)
+      .map(([id, s]) => {
+        const pr = policy.regions.find((r) => r.id === id);
+        const m = s.monthly[lastYm] ?? {};
+        return {
+          id,
+          sido: pr?.sido ?? id.split("-")[0],
+          sigungu: pr?.sigungu ?? id.split("-")[1] ?? id,
+          type: (pr?.type ?? "감소") as "감소" | "관심",
+          stayRatio: s.stayRatio!,
+          registered: m.registered ?? null,
+          staying: m.staying ?? null,
+        };
+      })
+      .sort((a, b) => b.stayRatio - a.stayRatio)
+      .slice(0, 15);
+  }, [lifepop, policy.regions]);
+
+  const stayRatioChartData = useMemo(
+    () =>
+      stayRatioTop15.map((r) => ({
+        ...r,
+        name: `${r.sido} ${r.sigungu}`,
+      })),
+    [stayRatioTop15]
+  );
 
   // ===== Section 1: Scatter =====
   const scatterDecrease = useMemo(
@@ -676,6 +783,104 @@ export default function PolicyView({ policy }: Props) {
         </div>
 
         <ReadingGuide text="예산이 몰린 분야와 집행이 더딘 분야가 다를 수 있습니다. 특정 분야의 낮은 집행률은 해당 유형 사업의 절차적 병목(부지, 인허가, 위탁계약)을 시사합니다." />
+      </section>
+
+      {/* ===== 5. 체류인구 배율 ===== */}
+      <section className="flex flex-col gap-4">
+        <SectionHeader
+          title="체류인구 배율 — 생활인구 기반 지역 활동성"
+          sub="stayRatio 상위 15 · 분기 평균 체류인구 ÷ 주민등록인구 배율 · 막대 색 = 지역 유형"
+        />
+
+        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          {lifepopLoading ? (
+            <p className="text-sm text-stone-400 text-center py-10">
+              데이터를 불러오는 중...
+            </p>
+          ) : stayRatioChartData.length === 0 ? (
+            <div className="flex flex-col items-center gap-3 py-10 text-center">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+                준비 중
+              </span>
+              <p className="text-sm text-stone-500 max-w-sm">
+                생활인구 데이터를 준비 중입니다. 파이프라인 실행 후 자동으로
+                표시됩니다.
+              </p>
+            </div>
+          ) : (
+            <div
+              style={{
+                height: Math.min(stayRatioChartData.length * 38 + 32, 580),
+              }}
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  layout="vertical"
+                  data={stayRatioChartData}
+                  margin={{ top: 4, right: 64, left: 8, bottom: 4 }}
+                  barSize={18}
+                >
+                  <CartesianGrid
+                    horizontal={false}
+                    strokeDasharray="3 3"
+                    stroke="#e7e5e4"
+                  />
+                  <XAxis
+                    type="number"
+                    tickFormatter={(v: number) => `${v.toFixed(0)}×`}
+                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    width={112}
+                    tick={{ fontSize: 11, fill: "#44403c" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    content={<StayRatioTip />}
+                    cursor={{ fill: "rgba(0,0,0,0.03)" }}
+                  />
+                  <Bar dataKey="stayRatio" radius={[0, 4, 4, 0]}>
+                    {stayRatioChartData.map((d, i) => (
+                      <Cell
+                        key={i}
+                        fill={d.type === "감소" ? "#f43f5e" : "#f59e0b"}
+                      />
+                    ))}
+                    <LabelList
+                      dataKey="stayRatio"
+                      position="right"
+                      formatter={(v: unknown) =>
+                        typeof v === "number" ? `${v.toFixed(1)}×` : ""
+                      }
+                      style={{ fontSize: 10, fill: "#78716c" }}
+                    />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+
+          {/* Legend */}
+          {stayRatioChartData.length > 0 && (
+            <div className="flex items-center gap-5 mt-3 px-1">
+              <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0" />
+                감소지역
+              </span>
+              <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                <span className="w-3 h-3 rounded-full bg-amber-400 shrink-0" />
+                관심지역
+              </span>
+            </div>
+          )}
+        </div>
+
+        <ReadingGuide text="체류 배율이 높은 지역은 등록인구 대비 실제 활동 인구가 크다는 뜻으로, 관광·통근형 수요 기반이 있다는 신호입니다. 등록인구 유치(정주)와 체류인구 활용(생활인구 경제)은 다른 정책 수단을 요구합니다." />
       </section>
     </div>
   );

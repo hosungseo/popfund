@@ -249,5 +249,25 @@ interface VitalTrend {
 별도: 행정안전부_생활인구(15130539, FILE·분기)는 인구감소지역 89곳 공식 생활인구(체류인구).
 신청 후 CSV를 data/raw/에 넣고 파싱 스크립트 추가 예정 — "등록인구 대비 체류 배율" 지표.
 
+## v2.0 산출물 (생활인구 — 생성 완료)
+
+### 12. `public/data/lifepop.json` — 인구감소지역·관심지역 생활인구 (분기 공표)
+출처: 행안부 생활인구 산정 결과 공표 (2025년 4분기, 월별 3개월치). scripts/parse_lifepop.py 로 생성.
+
+```ts
+interface Lifepop {
+  quarter: string;   // "2025Q4"
+  months: string[];  // ["202510","202511","202512"]
+  source: string;
+  series: Record<string, {
+    monthly: Record<string, { living?: number; registered?: number; staying?: number }>;
+    // living=생활인구 계, registered=주민등록인구, staying=체류인구 (해당월 기준)
+    stayRatio: number | null; // 분기 평균 체류인구÷주민등록인구 배율
+  }>;
+}
+```
+생활인구 = 주민등록인구 + 체류인구(월 1회 이상, 하루 3시간 이상 체류 등 산정 기준) + 외국인.
+주민등록 총인구(population-trend)와 기준이 다르므로 배율 계산 시 이 파일 내부의 registered 값을 사용.
+
 ## 회의록 연계 (v2 슬롯)
 향후 국회도서관 지방의정포털 회의록 연계 예정. Region.id 기준으로 `public/data/minutes/{id}.json`을 추가하는 구조를 가정만 하고 v1에서는 구현하지 않음. UI에는 "지방의회 논의" 탭 자리(준비 중)만 둔다.

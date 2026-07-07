@@ -6,6 +6,7 @@ import RegionBadge from "@/components/RegionBadge";
 import PopulationCards from "@/components/PopulationCards";
 import PopulationTrendChart from "@/components/PopulationTrendChart";
 import AgePyramidChart from "@/components/AgePyramid";
+import LifepopCard from "@/components/LifepopCard";
 import FundBarChart from "@/components/FundBarChart";
 import ProjectsTable from "@/components/ProjectsTable";
 import KoreaMap from "@/components/KoreaMap";
@@ -118,6 +119,17 @@ export default async function RegionPage({ params }: Props) {
             <h2 className="text-base font-semibold text-stone-800">인구 구조</h2>
           </div>
           <AgePyramidChart regionId={region.id} />
+        </section>
+
+        {/* Lifepop section */}
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-semibold text-stone-800">생활인구</h2>
+            <span className="text-xs text-stone-400">
+              행안부 생활인구 공표 (2025년 4분기)
+            </span>
+          </div>
+          <LifepopCard regionId={region.id} />
         </section>
 
         {/* Fund chart section */}

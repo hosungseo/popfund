@@ -130,3 +130,22 @@ export interface Policy {
   fields: FieldPortfolio[];
   medians: { perCapitaFundCum: number; declinePct: number };
 }
+
+// v2.0 types
+export interface LifepopMonthly {
+  living?: number;
+  registered?: number;
+  staying?: number;
+}
+
+export interface LifepopSeries {
+  monthly: Record<string, LifepopMonthly>;
+  stayRatio: number | null;
+}
+
+export interface Lifepop {
+  quarter: string;
+  months: string[];
+  source: string;
+  series: Record<string, LifepopSeries>;
+}
