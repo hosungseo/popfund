@@ -230,5 +230,24 @@ interface FieldPortfolio {
 
 해석 원칙: 상관≠인과. 기금-인구 산점도는 "효과 평가"가 아니라 배분·성과 관찰용임을 UI에 명시.
 
+## v2.0 예정 산출물 (자연증감 — 활용신청 대기)
+
+### 11. `public/data/vital-trend.json` — 월별 출생·사망 (scripts/build-vital.mjs 준비 완료)
+data.go.kr **활용신청 필요** (자동승인): 출생등록자수 15108075(admmSexdBrthReg), 사망말소자수 15108077(admmSexdAgeErsr).
+신청 완료 후 `npm run data:vital` 실행하면 생성.
+
+```ts
+interface VitalTrend {
+  firstYm: "202210";
+  months: string[];
+  series: Record<string, { births: (number|null)[]; deaths: (number|null)[] }>;
+}
+```
+자연증감 = births - deaths. population-trend의 월간 증감에서 자연증감을 빼면 사회적 증감(순이동) 근사 가능
+→ "인구 감소가 자연감소 때문인지 유출 때문인지" 분해가 핵심 정책 시사점.
+
+별도: 행정안전부_생활인구(15130539, FILE·분기)는 인구감소지역 89곳 공식 생활인구(체류인구).
+신청 후 CSV를 data/raw/에 넣고 파싱 스크립트 추가 예정 — "등록인구 대비 체류 배율" 지표.
+
 ## 회의록 연계 (v2 슬롯)
 향후 국회도서관 지방의정포털 회의록 연계 예정. Region.id 기준으로 `public/data/minutes/{id}.json`을 추가하는 구조를 가정만 하고 v1에서는 구현하지 않음. UI에는 "지방의회 논의" 탭 자리(준비 중)만 둔다.
