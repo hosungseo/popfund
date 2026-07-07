@@ -20,7 +20,10 @@ interface Props {
 
 export async function generateStaticParams() {
   const regions = loadRegions();
-  return regions.map((r) => ({ id: encodeURIComponent(r.id) }));
+  // 원본 id 그대로 반환해야 정적 export 폴더가 UTF-8 이름(경북-의성군/)으로 생성된다.
+  // encodeURIComponent를 반환하면 퍼센트 문자열이 리터럴 폴더명이 되어 GitHub Pages에서 404.
+  // (브라우저 요청의 %인코딩은 서버가 UTF-8로 디코드해 매칭하므로 Link href의 encode는 유지)
+  return regions.map((r) => ({ id: r.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
