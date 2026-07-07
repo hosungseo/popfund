@@ -131,6 +131,13 @@ export interface Policy {
   medians: { perCapitaFundCum: number; declinePct: number };
 }
 
+// v2.0 vital trend type
+export interface VitalTrend {
+  firstYm: string;
+  months: string[];
+  series: Record<string, { births: (number | null)[]; deaths: (number | null)[] }>;
+}
+
 // v2.0 types
 export interface LifepopMonthly {
   living?: number;

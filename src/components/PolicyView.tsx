@@ -15,7 +15,7 @@ import {
   ReferenceLine,
   LabelList,
 } from "recharts";
-import type { Policy, PolicyRegion, Lifepop } from "@/lib/types";
+import type { Policy, PolicyRegion, Lifepop, PopulationTrend, VitalTrend } from "@/lib/types";
 import { formatWon } from "@/lib/utils";
 
 interface Props {
@@ -182,6 +182,69 @@ function fieldColor(rate: number): string {
   return "#f43f5e";
 }
 
+// ---- Vital decomposition scatter types ----
+interface VitalScatterPoint {
+  id: string;
+  sido: string;
+  sigungu: string;
+  type: "감소" | "관심";
+  xNat: number;
+  ySoc: number;
+}
+
+interface VitalScatterPayloadItem {
+  payload: VitalScatterPoint;
+}
+
+function VitalScatterTip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: VitalScatterPayloadItem[];
+}) {
+  if (!active || !payload?.length) return null;
+  const d = payload[0].payload;
+  return (
+    <div className="bg-white border border-stone-200 rounded-lg p-3 shadow-md text-xs min-w-[172px]">
+      <p className="font-semibold text-stone-800 mb-1.5">
+        {d.sido} {d.sigungu}
+      </p>
+      <p className="text-stone-500">
+        자연증감률:{" "}
+        <span
+          className={`font-mono font-semibold ${
+            d.xNat < 0 ? "text-rose-600" : "text-emerald-600"
+          }`}
+        >
+          {d.xNat >= 0 ? "+" : ""}
+          {d.xNat.toFixed(2)}%
+        </span>
+      </p>
+      <p className="text-stone-500">
+        사회적 증감률:{" "}
+        <span
+          className={`font-mono font-semibold ${
+            d.ySoc < 0 ? "text-rose-600" : "text-emerald-600"
+          }`}
+        >
+          {d.ySoc >= 0 ? "+" : ""}
+          {d.ySoc.toFixed(2)}%
+        </span>
+      </p>
+      <span
+        className={`inline-flex mt-1.5 px-1.5 py-0.5 rounded-full text-[10px] font-semibold ring-1 ${
+          d.type === "감소"
+            ? "bg-rose-50 text-rose-700 ring-rose-200"
+            : "bg-amber-50 text-amber-700 ring-amber-200"
+        }`}
+      >
+        {d.type}지역
+      </span>
+    </div>
+  );
+}
+
 // ---- Narrowed type for regions with non-null fundExecRate ----
 type RegionWithExec = PolicyRegion & { fundExecRate: number };
 
@@ -313,6 +376,119 @@ export default function PolicyView({ policy }: Props) {
         })),
     [policy.fields]
   );
+
+  // ===== Section 6: Vital decomposition scatter =====
+  const [vitalData, setVitalData] = useState<VitalTrend | null>(null);
+  const [popTrendData, setPopTrendData] = useState<PopulationTrend | null>(null);
+  const [vitalLoading, setVitalLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([
+      fetch("/data/vital-trend.json")
+        .then((r) => (r.ok ? (r.json() as Promise<VitalTrend>) : Promise.resolve(null)))
+        .catch(() => null as VitalTrend | null),
+      fetch("/data/population-trend.json")
+        .then((r) => (r.ok ? (r.json() as Promise<PopulationTrend>) : Promise.resolve(null)))
+        .catch(() => null as PopulationTrend | null),
+    ]).then(([vit, pop]) => {
+      if (!cancelled) {
+        setVitalData(vit);
+        setPopTrendData(pop);
+        setVitalLoading(false);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const vitalScatterDecrease = useMemo((): VitalScatterPoint[] => {
+    if (!vitalData || !popTrendData) return [];
+    return policy.regions
+      .filter((r) => r.type === "감소")
+      .flatMap((r) => {
+        const vSeries = vitalData.series[r.id];
+        const pVals = popTrendData.series[r.id];
+        if (!vSeries || !pVals) return [];
+
+        const firstIdx = pVals.findIndex((v) => v !== null);
+        const lastIdx = [...pVals].reverse().findIndex((v) => v !== null);
+        if (firstIdx === -1 || lastIdx === -1) return [];
+        const firstPop = pVals[firstIdx] as number;
+        if (firstPop === 0) return [];
+        const lastPop = (
+          [...pVals].reverse().find((v) => v !== null)
+        ) as number;
+
+        const totalChange = lastPop - firstPop;
+        let cumNatural = 0;
+        let hasNatural = false;
+        for (let i = 0; i < vitalData.months.length; i++) {
+          const b = vSeries.births[i];
+          const d = vSeries.deaths[i];
+          if (b !== null && d !== null) {
+            cumNatural += b - d;
+            hasNatural = true;
+          }
+        }
+        if (!hasNatural) return [];
+        const cumSocial = totalChange - cumNatural;
+        return [
+          {
+            id: r.id,
+            sido: r.sido,
+            sigungu: r.sigungu,
+            type: "감소" as const,
+            xNat: (cumNatural / firstPop) * 100,
+            ySoc: (cumSocial / firstPop) * 100,
+          },
+        ];
+      });
+  }, [vitalData, popTrendData, policy.regions]);
+
+  const vitalScatterInterest = useMemo((): VitalScatterPoint[] => {
+    if (!vitalData || !popTrendData) return [];
+    return policy.regions
+      .filter((r) => r.type === "관심")
+      .flatMap((r) => {
+        const vSeries = vitalData.series[r.id];
+        const pVals = popTrendData.series[r.id];
+        if (!vSeries || !pVals) return [];
+
+        const firstIdx = pVals.findIndex((v) => v !== null);
+        if (firstIdx === -1) return [];
+        const firstPop = pVals[firstIdx] as number;
+        if (firstPop === 0) return [];
+        const lastPop = (
+          [...pVals].reverse().find((v) => v !== null)
+        ) as number;
+
+        const totalChange = lastPop - firstPop;
+        let cumNatural = 0;
+        let hasNatural = false;
+        for (let i = 0; i < vitalData.months.length; i++) {
+          const b = vSeries.births[i];
+          const d = vSeries.deaths[i];
+          if (b !== null && d !== null) {
+            cumNatural += b - d;
+            hasNatural = true;
+          }
+        }
+        if (!hasNatural) return [];
+        const cumSocial = totalChange - cumNatural;
+        return [
+          {
+            id: r.id,
+            sido: r.sido,
+            sigungu: r.sigungu,
+            type: "관심" as const,
+            xNat: (cumNatural / firstPop) * 100,
+            ySoc: (cumSocial / firstPop) * 100,
+          },
+        ];
+      });
+  }, [vitalData, popTrendData, policy.regions]);
 
   return (
     <div className="flex flex-col gap-12">
@@ -881,6 +1057,166 @@ export default function PolicyView({ policy }: Props) {
         </div>
 
         <ReadingGuide text="체류 배율이 높은 지역은 등록인구 대비 실제 활동 인구가 크다는 뜻으로, 관광·통근형 수요 기반이 있다는 신호입니다. 등록인구 유치(정주)와 체류인구 활용(생활인구 경제)은 다른 정책 수단을 요구합니다." />
+      </section>
+
+      {/* ===== 6. 감소 원인 분해 ===== */}
+      <section className="flex flex-col gap-4">
+        <SectionHeader
+          title="감소 원인 분해 — 자연증감 vs 사회적 증감"
+          sub="x = 누계 자연증감률(%) · y = 누계 사회적 증감률(%) · 최초월 인구 대비"
+        />
+
+        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          {vitalLoading ? (
+            <p className="text-sm text-stone-400 text-center py-10">
+              데이터를 불러오는 중...
+            </p>
+          ) : vitalScatterDecrease.length === 0 &&
+            vitalScatterInterest.length === 0 ? (
+            <div className="flex flex-col items-center gap-3 py-10 text-center">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+                준비 중
+              </span>
+              <p className="text-sm text-stone-500 max-w-sm">
+                출생·사망 데이터를 준비 중입니다. data.go.kr 활용신청 승인 후
+                파이프라인 실행 시 자동으로 표시됩니다.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div style={{ height: 420 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <ScatterChart
+                    margin={{ top: 12, right: 24, left: 8, bottom: 28 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
+                    <XAxis
+                      type="number"
+                      dataKey="xNat"
+                      name="자연증감률"
+                      tickFormatter={(v: number) => `${v.toFixed(1)}%`}
+                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      axisLine={false}
+                      tickLine={false}
+                      label={{
+                        value: "누계 자연증감률 (%)",
+                        position: "insideBottom",
+                        offset: -18,
+                        fontSize: 11,
+                        fill: "#a8a29e",
+                      }}
+                    />
+                    <YAxis
+                      type="number"
+                      dataKey="ySoc"
+                      name="사회적 증감률"
+                      tickFormatter={(v: number) => `${v.toFixed(1)}%`}
+                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      axisLine={false}
+                      tickLine={false}
+                      width={56}
+                      label={{
+                        value: "누계 사회적 증감률 (%)",
+                        angle: -90,
+                        position: "insideLeft",
+                        fontSize: 11,
+                        fill: "#a8a29e",
+                        offset: 8,
+                      }}
+                    />
+                    <Tooltip
+                      content={<VitalScatterTip />}
+                      cursor={{ strokeDasharray: "3 3" }}
+                    />
+                    <ReferenceLine
+                      x={0}
+                      stroke="#a8a29e"
+                      strokeDasharray="6 3"
+                      strokeWidth={1.5}
+                    />
+                    <ReferenceLine
+                      y={0}
+                      stroke="#a8a29e"
+                      strokeDasharray="6 3"
+                      strokeWidth={1.5}
+                    />
+                    <Scatter
+                      name="감소지역"
+                      data={vitalScatterDecrease}
+                      fill="#f43f5e"
+                      fillOpacity={0.7}
+                      r={5}
+                    />
+                    <Scatter
+                      name="관심지역"
+                      data={vitalScatterInterest}
+                      fill="#f59e0b"
+                      fillOpacity={0.7}
+                      r={5}
+                    />
+                  </ScatterChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Legend */}
+              <div className="flex items-center gap-5 mt-2 px-1">
+                <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                  <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0" />
+                  감소지역
+                </span>
+                <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                  <span className="w-3 h-3 rounded-full bg-amber-400 shrink-0" />
+                  관심지역
+                </span>
+                <span className="flex items-center gap-1.5 text-xs text-stone-400">
+                  <span
+                    className="w-5 shrink-0 border-b border-dashed border-stone-300"
+                    style={{ borderBottomWidth: "1.5px" }}
+                  />
+                  0 기준선
+                </span>
+              </div>
+
+              {/* Quadrant labels */}
+              <div className="grid grid-cols-2 gap-2 mt-3">
+                {[
+                  {
+                    pos: "좌상",
+                    name: "자연감소 주도형(유입 있음)",
+                    cls: "bg-amber-50 border-amber-100 text-amber-700",
+                  },
+                  {
+                    pos: "우상",
+                    name: "회복형",
+                    cls: "bg-emerald-50 border-emerald-100 text-emerald-700",
+                  },
+                  {
+                    pos: "좌하",
+                    name: "이중 감소형",
+                    cls: "bg-rose-50 border-rose-100 text-rose-700",
+                  },
+                  {
+                    pos: "우하",
+                    name: "유출 주도형",
+                    cls: "bg-stone-50 border-stone-100 text-stone-500",
+                  },
+                ].map((q) => (
+                  <div
+                    key={q.pos}
+                    className={`flex items-baseline gap-1.5 rounded-lg border px-3 py-2 ${q.cls}`}
+                  >
+                    <span className="text-[10px] font-mono opacity-50 shrink-0">
+                      {q.pos}
+                    </span>
+                    <span className="text-[11px] font-medium">{q.name}</span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        <ReadingGuide text="자연감소가 주도하는 지역은 출산·정착 지원보다 고령사회 적응(돌봄·의료 접근성)이, 유출이 주도하는 지역은 일자리·주거 등 정주여건이 우선 처방입니다. 두 값이 모두 음수인 이중 감소형은 단일 수단으로 대응하기 어렵습니다." />
       </section>
     </div>
   );

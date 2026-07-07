@@ -291,6 +291,25 @@ if (!existsSync(policyPath)) {
   pol.fields.length > 0 ? ok(`field portfolio: ${pol.fields.length} fields`) : fail('fields empty');
 }
 
+// --- v2.0: vital-trend.json / lifepop.json ---
+console.log('\n=== public/data/vital-trend.json & lifepop.json (v2.0) ===');
+const vitalPath = join(PUBLIC_DATA_DIR, 'vital-trend.json');
+if (!existsSync(vitalPath)) {
+  warn('vital-trend.json missing (run scripts/build-vital.mjs — data.go.kr 활용신청 필요)');
+} else {
+  const vital = JSON.parse(readFileSync(vitalPath, 'utf-8'));
+  const nV = Object.keys(vital.series).length;
+  nV === 107 ? ok(`vital series: ${nV} regions x ${vital.months.length} months`) : fail(`vital series count: ${nV}`);
+}
+const lifepopPath = join(PUBLIC_DATA_DIR, 'lifepop.json');
+if (!existsSync(lifepopPath)) {
+  warn('lifepop.json missing (run scripts/parse_lifepop.py)');
+} else {
+  const lp = JSON.parse(readFileSync(lifepopPath, 'utf-8'));
+  const nL = Object.keys(lp.series).length;
+  nL === 107 ? ok(`lifepop series: ${nL} regions (${lp.quarter})`) : fail(`lifepop series count: ${nL}`);
+}
+
 // --- Final result ---
 console.log('\n========== Validation Result ==========');
 if (errors === 0) {

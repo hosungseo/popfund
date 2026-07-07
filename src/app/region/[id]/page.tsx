@@ -10,6 +10,7 @@ import LifepopCard from "@/components/LifepopCard";
 import FundBarChart from "@/components/FundBarChart";
 import ProjectsTable from "@/components/ProjectsTable";
 import KoreaMap from "@/components/KoreaMap";
+import VitalDecomposition from "@/components/VitalDecomposition";
 import { formatWon, totalFund } from "@/lib/utils";
 
 interface Props {
@@ -111,6 +112,19 @@ export default async function RegionPage({ params }: Props) {
             </span>
           </div>
           <PopulationTrendChart regionId={region.id} />
+        </section>
+
+        {/* Vital decomposition section */}
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-semibold text-stone-800">
+              인구 증감 분해
+            </h2>
+            <span className="text-xs text-stone-400">
+              자연증감 · 사회적 증감 분해
+            </span>
+          </div>
+          <VitalDecomposition regionId={region.id} />
         </section>
 
         {/* Age pyramid section */}
