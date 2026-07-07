@@ -147,5 +147,22 @@ interface Insights {
 ```
 1인당 기금액은 regions.json(population.total, fund)에서 UI가 직접 계산 — 별도 산출물 없음.
 
+## v1.6 산출물 (지도)
+
+### 7. `public/data/korea-sigungu.json` — 전국 시군구 경계 GeoJSON (생성 완료)
+전국 251개 시군구 폴리곤 (southkorea-maps KOSTAT 2013 simplified, 366KB).
+
+```ts
+// FeatureCollection. 각 feature.properties:
+interface SigunguProps {
+  code: string;      // 2013 KOSTAT 코드 (현행 censusCode와 다름 — 조인에 쓰지 말 것)
+  name: string;      // "홍천군"
+  sido: string;      // 짧은 시도명 ("강원")
+  regionId?: string; // 107개 지정 지역이면 Region.id ("강원-홍천군"), 아니면 없음
+}
+```
+regionId로 regions.json과 조인. regionId 없는 폴리곤 = 비지정 지역 (연한 회색 배경 처리).
+주의: 군위군 폴리곤은 2013 당시 경북 위치 그대로이나 regionId="대구-군위군"로 이미 매핑됨.
+
 ## 회의록 연계 (v2 슬롯)
 향후 국회도서관 지방의정포털 회의록 연계 예정. Region.id 기준으로 `public/data/minutes/{id}.json`을 추가하는 구조를 가정만 하고 v1에서는 구현하지 않음. UI에는 "지방의회 논의" 탭 자리(준비 중)만 둔다.

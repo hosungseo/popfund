@@ -6,6 +6,7 @@ import RegionBadge from "@/components/RegionBadge";
 import PopulationCards from "@/components/PopulationCards";
 import FundBarChart from "@/components/FundBarChart";
 import ProjectsTable from "@/components/ProjectsTable";
+import KoreaMap from "@/components/KoreaMap";
 import { formatWon, totalFund } from "@/lib/utils";
 
 interface Props {
@@ -56,21 +57,33 @@ export default async function RegionPage({ params }: Props) {
         <span className="text-stone-900 font-medium">{region.sigungu}</span>
       </nav>
 
-      {/* Region header */}
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-3xl font-bold tracking-tight text-stone-900">
-            {region.sigungu}
-          </h1>
-          <RegionBadge type={region.type} />
-          <span className="text-sm text-stone-500">{region.sido}</span>
+      {/* Region header — title left, mini map right */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-3xl font-bold tracking-tight text-stone-900">
+              {region.sigungu}
+            </h1>
+            <RegionBadge type={region.type} />
+            <span className="text-sm text-stone-500">{region.sido}</span>
+          </div>
+          <p className="text-sm text-stone-500">
+            {meta.fundYears[0]}~{meta.fundYears[meta.fundYears.length - 1]}년 누계
+            기금 총액:{" "}
+            <span className="font-mono font-semibold text-stone-800">
+              {formatWon(tf)}원
+            </span>
+          </p>
         </div>
-        <p className="text-sm text-stone-500">
-          {meta.fundYears[0]}~{meta.fundYears[meta.fundYears.length - 1]}년 누계 기금 총액:{" "}
-          <span className="font-mono font-semibold text-stone-800">
-            {formatWon(tf)}원
-          </span>
-        </p>
+
+        {/* Mini choropleth — highlight this region, no interaction */}
+        <div className="w-24 sm:w-32 shrink-0">
+          <KoreaMap
+            regions={allRegions}
+            highlightId={region.id}
+            mini
+          />
+        </div>
       </div>
 
       {/* Tabs */}
@@ -116,9 +129,12 @@ export default async function RegionPage({ params }: Props) {
         {/* Projects section */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-stone-800">세부사업 현황</h2>
+            <h2 className="text-base font-semibold text-stone-800">
+              세부사업 현황
+            </h2>
             <span className="text-xs text-stone-400">
-              집행일자 기준 {meta.exeYmd.replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3")}
+              집행일자 기준{" "}
+              {meta.exeYmd.replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3")}
             </span>
           </div>
           <div className="bg-white rounded-2xl border border-stone-200 p-5">
@@ -132,14 +148,17 @@ export default async function RegionPage({ params }: Props) {
 
         {/* v2 placeholder tab */}
         <section className="flex flex-col gap-4">
-          <h2 className="text-base font-semibold text-stone-800">지방의회 논의</h2>
+          <h2 className="text-base font-semibold text-stone-800">
+            지방의회 논의
+          </h2>
           <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
             <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
               준비 중
             </span>
             <p className="text-sm text-stone-500 max-w-sm">
-              지방의회 회의록 연계 기능은 v2에서 제공 예정입니다.
-              국회도서관 지방의정포털 데이터를 기반으로 해당 지역 의회의 소멸 관련 논의를 확인할 수 있습니다.
+              지방의회 회의록 연계 기능은 v2에서 제공 예정입니다. 국회도서관
+              지방의정포털 데이터를 기반으로 해당 지역 의회의 소멸 관련 논의를
+              확인할 수 있습니다.
             </p>
           </div>
         </section>
