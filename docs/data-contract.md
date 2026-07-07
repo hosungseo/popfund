@@ -164,5 +164,35 @@ interface SigunguProps {
 regionId로 regions.json과 조인. regionId 없는 폴리곤 = 비지정 지역 (연한 회색 배경 처리).
 주의: 군위군 폴리곤은 2013 당시 경북 위치 그대로이나 regionId="대구-군위군"로 이미 매핑됨.
 
+## v1.7 산출물 (인구 추이)
+
+### 8. `public/data/population-trend.json` — 월별 주민등록인구 추이
+출처: 행안부 주민등록 인구 및 세대현황 OpenAPI (매월 말일 집계, 거주자+거주불명자+재외국민).
+**주의: 원천 API가 2022-10부터만 제공.** 인구감소지역 최초 지정은 2021-10 (고시) — 지정 직후 1년은 데이터 없음. UI는 이를 명시할 것 ("데이터 없음"이지 "변화 없음"이 아님).
+
+```ts
+interface PopulationTrend {
+  designatedYm: "202110"; // 최초 지정 고시 연월
+  firstYm: "202210";      // 원천 제공 시작 연월
+  months: string[];       // ["202210", "202211", ..., 최신 완결월]
+  series: Record<string, (number | null)[]>; // regionId → months와 정렬된 총인구 배열
+}
+```
+값은 주민등록 총인구수(totNmprCnt). regions.json의 population(2024 인구총조사)과 출처가 다르므로
+같은 화면에서 혼용 시 출처 라벨을 구분할 것.
+
+## v1.8 산출물 (인구 피라미드)
+
+### 9. `public/data/age-pyramid.json` — 성·연령별 주민등록 인구 (최신월)
+출처: 행안부 행정동별 성/연령별 주민등록 인구수 OpenAPI. 10세 단위 11개 버킷.
+
+```ts
+interface AgePyramid {
+  statsYm: string;    // "202506" 등 최신 완결월
+  buckets: string[];  // ["0-9","10-19",...,"90-99","100+"] 11개
+  series: Record<string, { male: number[]; female: number[] }>; // regionId → 버킷 정렬 배열
+}
+```
+
 ## 회의록 연계 (v2 슬롯)
 향후 국회도서관 지방의정포털 회의록 연계 예정. Region.id 기준으로 `public/data/minutes/{id}.json`을 추가하는 구조를 가정만 하고 v1에서는 구현하지 않음. UI에는 "지방의회 논의" 탭 자리(준비 중)만 둔다.

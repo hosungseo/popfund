@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -13,9 +13,18 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import type { Region } from "@/lib/types";
+import type { Region, PopulationTrend } from "@/lib/types";
 import RegionBadge from "./RegionBadge";
 import { formatNumber, formatWon } from "@/lib/utils";
+
+function fmtYm(ym: string): string {
+  return `${ym.slice(2, 4)}.${ym.slice(4, 6)}`;
+}
+
+function fmtPopShort(n: number): string {
+  if (n >= 10_000) return `${(n / 10_000).toFixed(0)}만`;
+  return n.toLocaleString("ko-KR");
+}
 
 const PALETTE = [
   "#1d4ed8", // blue
@@ -37,6 +46,17 @@ export default function CompareView({ regions, fundYears }: Props) {
   const [selected, setSelected] = useState<string[]>([]);
   const [search, setSearch] = useState("");
   const [sidoFilter, setSidoFilter] = useState("전체");
+  const [trendData, setTrendData] = useState<PopulationTrend | null>(null);
+  const [trendLoading, setTrendLoading] = useState(true);
+  const [trendMode, setTrendMode] = useState<"absolute" | "index">("absolute");
+
+  useEffect(() => {
+    fetch("/data/population-trend.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: PopulationTrend | null) => setTrendData(d ?? null))
+      .catch(() => setTrendData(null))
+      .finally(() => setTrendLoading(false));
+  }, []);
 
   const sidos = useMemo(() => {
     const s = Array.from(new Set(regions.map((r) => r.sido))).sort();
@@ -82,6 +102,34 @@ export default function CompareView({ regions, fundYears }: Props) {
     year,
     ...Object.fromEntries(selectedRegions.map((r) => [r.id, r.fund[year] ?? 0])),
   }));
+
+  // Population trend chart data
+  const popTrendChartData = useMemo(() => {
+    if (!trendData || selectedRegions.length === 0) return [];
+    return trendData.months.map((ym, i) => {
+      const entry: Record<string, string | number | null> = { label: fmtYm(ym) };
+      for (const r of selectedRegions) {
+        const vals = trendData.series[r.id];
+        if (!vals) { entry[r.id] = null; continue; }
+        const raw = vals[i] ?? null;
+        if (trendMode === "index") {
+          const firstNonNull = vals.find((v) => v !== null);
+          entry[r.id] =
+            raw !== null && firstNonNull != null
+              ? parseFloat(((raw / firstNonNull) * 100).toFixed(2))
+              : null;
+        } else {
+          entry[r.id] = raw;
+        }
+      }
+      return entry;
+    });
+  }, [trendData, selectedRegions, trendMode]);
+
+  const popTrendTicks = useMemo(() => {
+    if (!trendData) return [];
+    return trendData.months.filter((_, i) => i % 6 === 0).map(fmtYm);
+  }, [trendData]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -297,6 +345,115 @@ export default function CompareView({ regions, fundYears }: Props) {
                 </LineChart>
               </ResponsiveContainer>
             </div>
+          </div>
+
+          {/* Population trend multi-line chart */}
+          <div className="bg-white rounded-2xl border border-stone-200 p-5 flex flex-col gap-4">
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <h3 className="text-sm font-semibold text-stone-800">
+                월별 주민등록 인구 추이
+              </h3>
+              <div className="flex gap-1">
+                {(["absolute", "index"] as const).map((mode) => (
+                  <button
+                    key={mode}
+                    onClick={() => setTrendMode(mode)}
+                    className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
+                      trendMode === mode
+                        ? "bg-stone-900 text-white"
+                        : "text-stone-500 hover:text-stone-800"
+                    }`}
+                  >
+                    {mode === "absolute" ? "절대값" : "지수 (첫 관측=100)"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {trendLoading ? (
+              <div className="h-64 flex items-center justify-center">
+                <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+              </div>
+            ) : !trendData ? (
+              <div className="h-64 flex flex-col items-center justify-center gap-3">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+                  준비 중
+                </span>
+                <p className="text-xs text-stone-400">
+                  인구 추이 데이터 준비 후 자동으로 표시됩니다.
+                </p>
+              </div>
+            ) : (
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    data={popTrendChartData}
+                    margin={{ top: 4, right: 16, left: 8, bottom: 4 }}
+                  >
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      vertical={false}
+                      stroke="#e7e5e4"
+                    />
+                    <XAxis
+                      dataKey="label"
+                      ticks={popTrendTicks}
+                      interval={0}
+                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tickFormatter={(v: number) =>
+                        trendMode === "index"
+                          ? `${v.toFixed(0)}`
+                          : fmtPopShort(v)
+                      }
+                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      axisLine={false}
+                      tickLine={false}
+                      width={52}
+                    />
+                    <Tooltip
+                      formatter={(v, name) => [
+                        trendMode === "index"
+                          ? `${typeof v === "number" ? v.toFixed(1) : "—"}`
+                          : `${typeof v === "number" ? v.toLocaleString("ko-KR") + "명" : "—"}`,
+                        String(name ?? ""),
+                      ]}
+                      contentStyle={{
+                        border: "1px solid #e7e5e4",
+                        borderRadius: "8px",
+                        fontSize: "12px",
+                      }}
+                    />
+                    <Legend
+                      iconType="circle"
+                      iconSize={8}
+                      wrapperStyle={{ fontSize: "12px" }}
+                    />
+                    {selectedRegions.map((r, i) => (
+                      <Line
+                        key={r.id}
+                        type="monotone"
+                        dataKey={r.id}
+                        name={`${r.sido} ${r.sigungu}`}
+                        stroke={PALETTE[i]}
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 4 }}
+                        connectNulls={false}
+                      />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+            <p className="text-[11px] text-stone-400 leading-relaxed">
+              행정안전부 주민등록 인구 (매월 말일 기준, 2022.10~). 지수 모드는
+              첫 관측월 인구를 100으로 환산하여 규모가 다른 지역 간 추이를
+              비교합니다.
+            </p>
           </div>
         </>
       )}

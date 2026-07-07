@@ -247,6 +247,35 @@ if (!existsSync(insightsPath)) {
   }
 }
 
+// --- v1.7: population-trend.json ---
+console.log('\n=== public/data/population-trend.json (v1.7) ===');
+const trendPath = join(PUBLIC_DATA_DIR, 'population-trend.json');
+if (!existsSync(trendPath)) {
+  warn('population-trend.json missing (run scripts/build-trend.mjs)');
+} else {
+  const trend = JSON.parse(readFileSync(trendPath, 'utf-8'));
+  const nTrend = Object.keys(trend.series).length;
+  nTrend === 107
+    ? ok(`trend series: ${nTrend} regions x ${trend.months.length} months`)
+    : fail(`trend series count: ${nTrend} (expected 107)`);
+  const gaps = Object.values(trend.series).filter((arr) => arr.some((v) => v == null)).length;
+  gaps === 0 ? ok('no missing months') : warn(`${gaps} regions with missing months`);
+}
+
+// --- v1.8: age-pyramid.json ---
+console.log('\n=== public/data/age-pyramid.json (v1.8) ===');
+const pyramidPath = join(PUBLIC_DATA_DIR, 'age-pyramid.json');
+if (!existsSync(pyramidPath)) {
+  warn('age-pyramid.json missing (run scripts/build-pyramid.mjs)');
+} else {
+  const pyr = JSON.parse(readFileSync(pyramidPath, 'utf-8'));
+  const nPyr = Object.keys(pyr.series).length;
+  nPyr === 107
+    ? ok(`pyramid series: ${nPyr} regions (statsYm=${pyr.statsYm})`)
+    : fail(`pyramid series count: ${nPyr} (expected 107)`);
+  pyr.buckets.length === 11 ? ok('11 age buckets') : fail(`bucket count: ${pyr.buckets.length}`);
+}
+
 // --- Final result ---
 console.log('\n========== Validation Result ==========');
 if (errors === 0) {

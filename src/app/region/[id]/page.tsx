@@ -4,6 +4,8 @@ import Link from "next/link";
 import { loadRegions, loadMeta } from "@/lib/data";
 import RegionBadge from "@/components/RegionBadge";
 import PopulationCards from "@/components/PopulationCards";
+import PopulationTrendChart from "@/components/PopulationTrendChart";
+import AgePyramidChart from "@/components/AgePyramid";
 import FundBarChart from "@/components/FundBarChart";
 import ProjectsTable from "@/components/ProjectsTable";
 import KoreaMap from "@/components/KoreaMap";
@@ -97,6 +99,25 @@ export default async function RegionPage({ params }: Props) {
             </span>
           </div>
           <PopulationCards population={region.population} />
+        </section>
+
+        {/* Population trend section */}
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-semibold text-stone-800">인구 추이</h2>
+            <span className="text-xs text-stone-400">
+              행정안전부 주민등록 인구 (2022.10~)
+            </span>
+          </div>
+          <PopulationTrendChart regionId={region.id} />
+        </section>
+
+        {/* Age pyramid section */}
+        <section className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-semibold text-stone-800">인구 구조</h2>
+          </div>
+          <AgePyramidChart regionId={region.id} />
         </section>
 
         {/* Fund chart section */}

@@ -54,6 +54,21 @@ export type SortKey = "population" | "fund" | "agingIndex" | "perCapitaFund";
 export type RegionType = "감소" | "관심" | "전체";
 export type FundRelatedFilter = "confirmed" | "candidate" | "all";
 
+// v1.8 types
+export interface AgePyramid {
+  statsYm: string;
+  buckets: string[];
+  series: Record<string, { male: number[]; female: number[] }>;
+}
+
+// v1.7 types
+export interface PopulationTrend {
+  designatedYm: string;
+  firstYm: string;
+  months: string[];
+  series: Record<string, (number | null)[]>;
+}
+
 // v1.5 types
 
 export interface FundProject extends Project {

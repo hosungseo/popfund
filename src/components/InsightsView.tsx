@@ -15,7 +15,7 @@ import {
   Scatter,
   Legend,
 } from "recharts";
-import type { Insights } from "@/lib/types";
+import type { Insights, PopulationTrend } from "@/lib/types";
 import { formatWon, formatRate, rateColorClass } from "@/lib/utils";
 
 // PerCapitaPoint matches the shape computed in insights/page.tsx
@@ -69,6 +69,8 @@ export default function InsightsView({ perCapitaData, latestYear }: Props) {
   const [showAllTable, setShowAllTable] = useState(false);
   const [insights, setInsights] = useState<Insights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(true);
+  const [trendData, setTrendData] = useState<PopulationTrend | null>(null);
+  const [trendLoading, setTrendLoading] = useState(true);
 
   useEffect(() => {
     fetch("/data/insights.json")
@@ -76,6 +78,14 @@ export default function InsightsView({ perCapitaData, latestYear }: Props) {
       .then((d) => setInsights(d ?? null))
       .catch(() => setInsights(null))
       .finally(() => setInsightsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetch("/data/population-trend.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: PopulationTrend | null) => setTrendData(d ?? null))
+      .catch(() => setTrendData(null))
+      .finally(() => setTrendLoading(false));
   }, []);
 
   const top15 = useMemo(() => perCapitaData.slice(0, 15), [perCapitaData]);
@@ -88,6 +98,33 @@ export default function InsightsView({ perCapitaData, latestYear }: Props) {
     () => perCapitaData.filter((d) => d.type === "관심" && d.population > 0 && d.fund > 0),
     [perCapitaData]
   );
+
+  // 인구 감소 속도: 22.10 대비 최신월 감소율 상위 15
+  const declineTop15 = useMemo(() => {
+    if (!trendData) return [];
+    const nameById = Object.fromEntries(
+      perCapitaData.map((d) => [d.id, d.name])
+    );
+    const rows: { id: string; name: string; declineRate: number; absRate: number }[] = [];
+
+    for (const [regionId, vals] of Object.entries(trendData.series)) {
+      const name = nameById[regionId];
+      if (!name) continue;
+      const firstIdx = vals.findIndex((v) => v !== null);
+      if (firstIdx === -1) continue;
+      const firstVal = vals[firstIdx]!;
+      if (firstVal === 0) continue;
+      const lastIdx =
+        vals.length - 1 - [...vals].reverse().findIndex((v) => v !== null);
+      const lastVal = vals[lastIdx];
+      if (lastVal == null) continue;
+      const declineRate = ((lastVal - firstVal) / firstVal) * 100;
+      rows.push({ id: regionId, name, declineRate, absRate: Math.abs(declineRate) });
+    }
+
+    // 감소율 내림차순 (가장 많이 줄어든 = 가장 음수 = ascending)
+    return rows.sort((a, b) => a.declineRate - b.declineRate).slice(0, 15);
+  }, [trendData, perCapitaData]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -424,6 +461,112 @@ export default function InsightsView({ perCapitaData, latestYear }: Props) {
                 </ScatterChart>
               </ResponsiveContainer>
             </div>
+          </div>
+        )}
+      </section>
+
+      {/* ===== Section 4: 인구 감소 속도 ===== */}
+      <section className="flex flex-col gap-4">
+        <div>
+          <h2 className="text-base font-semibold text-stone-800">
+            인구 감소 속도
+          </h2>
+          <p className="text-xs text-stone-400 mt-0.5">
+            2022.10 대비 최신월 주민등록 인구 감소율 상위 15개 지역
+          </p>
+        </div>
+
+        {trendLoading ? (
+          <div className="bg-white rounded-2xl border border-stone-200 p-10 text-center">
+            <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+          </div>
+        ) : !trendData ? (
+          <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-10 text-center">
+            <p className="text-sm text-stone-400">
+              인구 추이 데이터를 준비 중입니다.
+            </p>
+            <p className="text-xs text-stone-300 mt-1">
+              파이프라인 실행 후 public/data/population-trend.json 생성 시
+              자동으로 표시됩니다.
+            </p>
+          </div>
+        ) : declineTop15.length === 0 ? (
+          <div className="bg-white rounded-2xl border border-stone-200 p-6 text-center">
+            <p className="text-sm text-stone-400">
+              감소율 데이터를 계산할 수 없습니다.
+            </p>
+          </div>
+        ) : (
+          <div className="bg-white rounded-2xl border border-stone-200 p-5">
+            <div style={{ height: 420 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  layout="vertical"
+                  data={declineTop15}
+                  margin={{ top: 4, right: 72, left: 8, bottom: 4 }}
+                  barSize={18}
+                >
+                  <CartesianGrid
+                    horizontal={false}
+                    strokeDasharray="3 3"
+                    stroke="#e7e5e4"
+                  />
+                  <XAxis
+                    type="number"
+                    tickFormatter={(v: number) => `${v.toFixed(1)}%`}
+                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    width={96}
+                    tick={{ fontSize: 11, fill: "#44403c" }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Tooltip
+                    formatter={(v, _name, item) => {
+                      const row = item.payload as {
+                        declineRate: number;
+                        absRate: number;
+                      };
+                      return [
+                        `${row.declineRate.toFixed(1)}%`,
+                        "감소율 (22.10 대비)",
+                      ];
+                    }}
+                    contentStyle={{
+                      border: "1px solid #e7e5e4",
+                      borderRadius: "8px",
+                      fontSize: "12px",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                    }}
+                  />
+                  <Bar dataKey="absRate" radius={[0, 4, 4, 0]}>
+                    {declineTop15.map((entry, i) => (
+                      <Cell
+                        key={i}
+                        fill={
+                          entry.absRate >= 8
+                            ? "#be123c"
+                            : entry.absRate >= 5
+                            ? "#f43f5e"
+                            : entry.absRate >= 3
+                            ? "#fb7185"
+                            : "#fda4af"
+                        }
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="text-[11px] text-stone-400 mt-3 leading-relaxed">
+              행정안전부 주민등록 인구 (매월 말일 기준). 2022.10 첫 관측 대비
+              최신 완결월 감소율. 색이 진할수록 감소 속도가 빠릅니다.
+            </p>
           </div>
         )}
       </section>
