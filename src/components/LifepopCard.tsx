@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { Lifepop } from "@/lib/types";
+import { dataUrl } from "@/lib/utils";
 
 interface Props {
   regionId: string;
@@ -30,7 +31,7 @@ export default function LifepopCard({ regionId }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/lifepop.json")
+    fetch(dataUrl("/data/lifepop.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: Lifepop | null) => setData(d ?? null))
       .catch(() => setData(null))

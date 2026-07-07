@@ -16,7 +16,7 @@ import {
   Legend,
 } from "recharts";
 import type { Insights, PopulationTrend } from "@/lib/types";
-import { formatWon, formatRate, rateColorClass } from "@/lib/utils";
+import { formatWon, formatRate, rateColorClass, dataUrl } from "@/lib/utils";
 
 // PerCapitaPoint matches the shape computed in insights/page.tsx
 export interface PerCapitaPoint {
@@ -74,7 +74,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
   const [trendLoading, setTrendLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/insights.json")
+    fetch(dataUrl("/data/insights.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => setInsights(d ?? null))
       .catch(() => setInsights(null))
@@ -82,7 +82,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
   }, []);
 
   useEffect(() => {
-    fetch("/data/population-trend.json")
+    fetch(dataUrl("/data/population-trend.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: PopulationTrend | null) => setTrendData(d ?? null))
       .catch(() => setTrendData(null))

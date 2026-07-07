@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { Project, ClusterEntry } from "@/lib/types";
-import { normName, shardOf, formatWon, executionRate, formatRate, rateColorClass } from "@/lib/utils";
+import { normName, shardOf, formatWon, executionRate, formatRate, rateColorClass, dataUrl } from "@/lib/utils";
 
 interface Props {
   project: Project | null;
@@ -32,7 +32,7 @@ export default function SimilarProjectsDrawer({
     setClusterLoading(true);
     // 빠르게 다른 사업을 연달아 열면 늦게 도착한 이전 응답이 덮어쓰지 않도록 취소 플래그 사용
     let cancelled = false;
-    fetch(`/data/similar/${shard}.json`)
+    fetch(dataUrl(`/data/similar/${shard}.json`))
       .then((r) => (r.ok ? r.json() : null))
       .then((data: Record<string, ClusterEntry[]> | null) => {
         if (cancelled) return;

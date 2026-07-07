@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { PopulationTrend } from "@/lib/types";
-import { fmtYm } from "@/lib/utils";
+import { fmtYm, dataUrl } from "@/lib/utils";
 
 interface Props {
   regionId: string;
@@ -30,7 +30,7 @@ export default function PopulationTrendChart({ regionId }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/population-trend.json")
+    fetch(dataUrl("/data/population-trend.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: PopulationTrend | null) => setTrend(d ?? null))
       .catch(() => setTrend(null))

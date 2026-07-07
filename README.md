@@ -1,5 +1,7 @@
 # 지방소멸대응기금 워치
 
+**Live: https://hosungseo.github.io/popfund/** (GitHub Pages — main 푸시 시 자동 배포)
+
 행정안전부 지정 **인구감소지역 89곳 + 관심지역 18곳**의 인구 현황과 **지방소멸대응기금** 예산·사업 집행을 한눈에 보는 대시보드.
 
 - `/` 전국 개요 — 107개 지역 인구·기금·1인당 기금 테이블 (시도/유형 필터, 정렬)
@@ -33,6 +35,9 @@ npm run dev
 ```
 
 스키마 계약: `docs/data-contract.md` · 검증: `node scripts/validate-data.mjs`
+
+주의: `output: "export"`(정적 export) 설정이라 `npm run start`는 동작하지 않는다.
+로컬 확인은 `npm run dev`, 배포 산출물 확인은 `npm run build && npx serve out`.
 
 ## 기금사업 확정 매핑
 

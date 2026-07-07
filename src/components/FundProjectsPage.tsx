@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import type { FundProject } from "@/lib/types";
-import { formatWon, executionRate, formatRate, rateColorClass } from "@/lib/utils";
+import { formatWon, executionRate, formatRate, rateColorClass, dataUrl } from "@/lib/utils";
 
 const PAGE_SIZE = 50;
 
@@ -31,7 +31,7 @@ export default function FundProjectsPage() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetch("/data/fund-projects.json")
+    fetch(dataUrl("/data/fund-projects.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => setData(d ?? []))
       .catch(() => setData([]))

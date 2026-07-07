@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import type { PopulationTrend, VitalTrend } from "@/lib/types";
-import { fmtYm } from "@/lib/utils";
+import { fmtYm, dataUrl } from "@/lib/utils";
 
 interface Props {
   regionId: string;
@@ -70,10 +70,10 @@ export default function VitalDecomposition({ regionId }: Props) {
     let cancelled = false;
     setLoading(true);
     Promise.all([
-      fetch("/data/population-trend.json")
+      fetch(dataUrl("/data/population-trend.json"))
         .then((r) => (r.ok ? (r.json() as Promise<PopulationTrend>) : Promise.resolve(null)))
         .catch(() => null as PopulationTrend | null),
-      fetch("/data/vital-trend.json")
+      fetch(dataUrl("/data/vital-trend.json"))
         .then((r) => (r.ok ? (r.json() as Promise<VitalTrend>) : Promise.resolve(null)))
         .catch(() => null as VitalTrend | null),
     ]).then(([pop, vit]) => {

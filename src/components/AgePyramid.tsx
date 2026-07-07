@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import type { AgePyramid } from "@/lib/types";
+import { dataUrl } from "@/lib/utils";
 
 interface Props {
   regionId: string;
@@ -17,7 +18,7 @@ export default function AgePyramidChart({ regionId }: Props) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/data/age-pyramid.json")
+    fetch(dataUrl("/data/age-pyramid.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: AgePyramid | null) => setData(d ?? null))
       .catch(() => setData(null))

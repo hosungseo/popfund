@@ -15,7 +15,7 @@ import {
 } from "recharts";
 import type { Region, PopulationTrend } from "@/lib/types";
 import RegionBadge from "./RegionBadge";
-import { formatNumber, formatWon, fmtYm } from "@/lib/utils";
+import { formatNumber, formatWon, fmtYm, dataUrl } from "@/lib/utils";
 
 
 function fmtPopShort(n: number): string {
@@ -48,7 +48,7 @@ export default function CompareView({ regions, fundYears }: Props) {
   const [trendMode, setTrendMode] = useState<"absolute" | "index">("absolute");
 
   useEffect(() => {
-    fetch("/data/population-trend.json")
+    fetch(dataUrl("/data/population-trend.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: PopulationTrend | null) => setTrendData(d ?? null))
       .catch(() => setTrendData(null))

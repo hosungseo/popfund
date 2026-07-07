@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import type { RegionProjects, Project, FundRelatedFilter } from "@/lib/types";
-import { formatWon, executionRate, formatRate, rateColorClass } from "@/lib/utils";
+import { formatWon, executionRate, formatRate, rateColorClass, dataUrl } from "@/lib/utils";
 import SimilarProjectsDrawer from "./SimilarProjectsDrawer";
 
 const FUND_LABELS: Record<string, string> = {
@@ -43,7 +43,7 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
   useEffect(() => {
     setLoading(true);
     setError(false);
-    fetch(`/data/projects/${lafCd}.json`)
+    fetch(dataUrl(`/data/projects/${lafCd}.json`))
       .then((r) => {
         if (!r.ok) throw new Error("not found");
         return r.json() as Promise<RegionProjects>;

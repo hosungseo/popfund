@@ -6,7 +6,7 @@ import { geoMercator, geoPath } from "d3-geo";
 import { scaleSequential } from "d3-scale";
 import type { Region, Lifepop, VitalTrend, PopulationTrend, DeclineType } from "@/lib/types";
 import RegionBadge from "./RegionBadge";
-import { latestFund, formatWon, formatNumber, computeDeclineType } from "@/lib/utils";
+import { latestFund, formatWon, formatNumber, computeDeclineType, dataUrl } from "@/lib/utils";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -164,7 +164,7 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
 
   // Fetch GeoJSON once on mount (client-side, ~366 KB)
   useEffect(() => {
-    fetch("/data/korea-sigungu.json")
+    fetch(dataUrl("/data/korea-sigungu.json"))
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
@@ -177,7 +177,7 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
   useEffect(() => {
     if (metric !== "stayRatio" || lifepopFetched) return;
     setLifepopFetched(true);
-    fetch("/data/lifepop.json")
+    fetch(dataUrl("/data/lifepop.json"))
       .then((r) => (r.ok ? (r.json() as Promise<Lifepop>) : Promise.resolve(null)))
       .then((d) => setLifepopData(d ?? null))
       .catch(() => {});
@@ -188,10 +188,10 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
     if (metric !== "declineType" || vitalPopFetched) return;
     setVitalPopFetched(true);
     Promise.all([
-      fetch("/data/vital-trend.json")
+      fetch(dataUrl("/data/vital-trend.json"))
         .then((r) => (r.ok ? (r.json() as Promise<VitalTrend>) : Promise.resolve(null)))
         .catch(() => null as VitalTrend | null),
-      fetch("/data/population-trend.json")
+      fetch(dataUrl("/data/population-trend.json"))
         .then((r) => (r.ok ? (r.json() as Promise<PopulationTrend>) : Promise.resolve(null)))
         .catch(() => null as PopulationTrend | null),
     ]).then(([vit, pop]) => {

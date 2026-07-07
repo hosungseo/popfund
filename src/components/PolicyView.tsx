@@ -16,7 +16,7 @@ import {
   LabelList,
 } from "recharts";
 import type { Policy, PolicyRegion, Lifepop, PopulationTrend, VitalTrend } from "@/lib/types";
-import { formatWon } from "@/lib/utils";
+import { formatWon, dataUrl } from "@/lib/utils";
 
 interface Props {
   policy: Policy;
@@ -257,7 +257,7 @@ export default function PolicyView({ policy }: Props) {
   const [lifepopLoading, setLifepopLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/lifepop.json")
+    fetch(dataUrl("/data/lifepop.json"))
       .then((r) => (r.ok ? r.json() : null))
       .then((d: Lifepop | null) => setLifepop(d ?? null))
       .catch(() => setLifepop(null))
@@ -385,10 +385,10 @@ export default function PolicyView({ policy }: Props) {
   useEffect(() => {
     let cancelled = false;
     Promise.all([
-      fetch("/data/vital-trend.json")
+      fetch(dataUrl("/data/vital-trend.json"))
         .then((r) => (r.ok ? (r.json() as Promise<VitalTrend>) : Promise.resolve(null)))
         .catch(() => null as VitalTrend | null),
-      fetch("/data/population-trend.json")
+      fetch(dataUrl("/data/population-trend.json"))
         .then((r) => (r.ok ? (r.json() as Promise<PopulationTrend>) : Promise.resolve(null)))
         .catch(() => null as PopulationTrend | null),
     ]).then(([vit, pop]) => {

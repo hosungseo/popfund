@@ -118,3 +118,9 @@ export function shardOf(norm: string): string {
 export function fmtYm(ym: string): string {
   return `${ym.slice(2, 4)}.${ym.slice(4, 6)}`;
 }
+
+/** GitHub Pages 등 서브경로 배포 대응 — 클라이언트 fetch 경로에 basePath를 붙인다.
+ * NEXT_PUBLIC_BASE_PATH는 빌드 시 인라인됨 (루트 배포에서는 빈 문자열). */
+export function dataUrl(path: string): string {
+  return `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
+}
