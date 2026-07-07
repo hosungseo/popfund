@@ -9,7 +9,8 @@
     "lint": "eslint",
     "data:build": "node --env-file=.env.local scripts/build-data.mjs",
     "data:derived": "node scripts/build-derived.mjs",
-    "data:validate": "node scripts/validate-data.mjs"
+    "data:validate": "node scripts/validate-data.mjs",
+    "data:policy": "node scripts/build-policy.mjs"
   },
   "dependencies": {
     "@types/d3-geo": "^3.1.0",

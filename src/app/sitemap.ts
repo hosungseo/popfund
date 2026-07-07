@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/compare`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/projects`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/insights`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE_URL}/policy`, changeFrequency: "weekly", priority: 0.8 },
   ];
   const regionPages: MetadataRoute.Sitemap = regions.map((r) => ({
     url: `${SITE_URL}/region/${encodeURIComponent(r.id)}`,

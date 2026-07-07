@@ -276,6 +276,21 @@ if (!existsSync(pyramidPath)) {
   pyr.buckets.length === 11 ? ok('11 age buckets') : fail(`bucket count: ${pyr.buckets.length}`);
 }
 
+// --- v1.9: policy.json ---
+console.log('\n=== public/data/policy.json (v1.9) ===');
+const policyPath = join(PUBLIC_DATA_DIR, 'policy.json');
+if (!existsSync(policyPath)) {
+  warn('policy.json missing (run scripts/build-policy.mjs)');
+} else {
+  const pol = JSON.parse(readFileSync(policyPath, 'utf-8'));
+  pol.regions.length === 107
+    ? ok(`policy regions: ${pol.regions.length}`)
+    : fail(`policy regions count: ${pol.regions.length} (expected 107)`);
+  const ranks = new Set(pol.regions.map((r) => r.riskRank));
+  ranks.size === 107 ? ok('riskRank unique 1..107') : fail('riskRank not unique');
+  pol.fields.length > 0 ? ok(`field portfolio: ${pol.fields.length} fields`) : fail('fields empty');
+}
+
 // --- Final result ---
 console.log('\n========== Validation Result ==========');
 if (errors === 0) {

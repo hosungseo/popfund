@@ -92,3 +92,41 @@ export interface Insights {
   underExecution: (FundProject & { rate: number })[];
   stats: { totalProjects: number; clusteredNames: number };
 }
+
+// v1.9 types
+export interface PolicyBasis {
+  trendRange: [string, string];
+  fundYears: string[];
+  pyramidYm: string;
+}
+
+export interface PolicyRegion {
+  id: string;
+  sido: string;
+  sigungu: string;
+  type: "감소" | "관심";
+  latestPop: number;
+  declinePct: number;
+  perCapitaFundCum: number;
+  fundExecRate: number | null;
+  fundProjectCount: number;
+  elderlyPct: number;
+  youthPct: number;
+  riskScore: number;
+  riskRank: number;
+}
+
+export interface FieldPortfolio {
+  fldNm: string;
+  totalBdg: number;
+  totalEp: number;
+  count: number;
+  execRate: number;
+}
+
+export interface Policy {
+  basis: PolicyBasis;
+  regions: PolicyRegion[];
+  fields: FieldPortfolio[];
+  medians: { perCapitaFundCum: number; declinePct: number };
+}

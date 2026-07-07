@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-import type { Region, Meta } from "./types";
+import type { Region, Meta, Policy } from "./types";
 
 const PUBLIC_DATA = join(process.cwd(), "public", "data");
 const FIXTURES = join(process.cwd(), "src", "lib", "fixtures");
@@ -27,6 +27,13 @@ export function loadMeta(): Meta {
 export function loadRegionById(id: string): Region | undefined {
   const regions = loadRegions();
   return regions.find((r) => r.id === id);
+}
+
+export function loadPolicy(): Policy {
+  return readJson<Policy>(
+    join(PUBLIC_DATA, "policy.json"),
+    join(FIXTURES, "policy.json")
+  );
 }
 
 /** Aggregate stats for summary cards */

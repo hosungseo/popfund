@@ -194,5 +194,41 @@ interface AgePyramid {
 }
 ```
 
+## v1.9 산출물 (정책 시사점)
+
+### 10. `public/data/policy.json` — 정책 분석 지표 (기존 산출물에서 파생, API 호출 없음)
+
+```ts
+interface Policy {
+  basis: {
+    trendRange: [string, string]; // ["202210","202606"] 감소율 계산 구간
+    fundYears: string[];          // 누계 기금 연도
+    pyramidYm: string;
+  };
+  regions: PolicyRegion[];        // 107개
+  fields: FieldPortfolio[];       // 분야별 기금사업 집계
+  medians: { perCapitaFundCum: number; declinePct: number };
+}
+interface PolicyRegion {
+  id: string; sido: string; sigungu: string; type: "감소" | "관심";
+  latestPop: number;            // 추이 최신월 주민등록 인구
+  declinePct: number;           // (최신-최초)/최초*100, 음수=감소
+  perCapitaFundCum: number;     // 누계 기금(2024-26) ÷ latestPop (원/인)
+  fundExecRate: number | null;  // 기금(confirmed|candidate) 사업 가중평균 집행률 % (Σep/Σbdg), 사업 없으면 null
+  fundProjectCount: number;
+  elderlyPct: number;           // 60세+ 비율 %
+  youthPct: number;             // 0-19세 비율 %
+  riskScore: number;            // z(-declinePct)+z(elderlyPct)+z(-youthPct) 평균, 높을수록 위기
+  riskRank: number;             // 1 = 최고 위기
+}
+interface FieldPortfolio {
+  fldNm: string;
+  totalBdg: number; totalEp: number; count: number;
+  execRate: number;             // Σep/Σbdg %
+}
+```
+
+해석 원칙: 상관≠인과. 기금-인구 산점도는 "효과 평가"가 아니라 배분·성과 관찰용임을 UI에 명시.
+
 ## 회의록 연계 (v2 슬롯)
 향후 국회도서관 지방의정포털 회의록 연계 예정. Region.id 기준으로 `public/data/minutes/{id}.json`을 추가하는 구조를 가정만 하고 v1에서는 구현하지 않음. UI에는 "지방의회 논의" 탭 자리(준비 중)만 둔다.
