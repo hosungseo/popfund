@@ -89,5 +89,63 @@ interface Meta {
 - UI 에이전트: `src/`
 - 공유: 이 문서(읽기 전용)
 
+## v1.5 산출물 (유사사업·탐색·인사이트)
+
+### 4. `public/data/similar/{shard}.json` — 유사사업 클러스터 인덱스 (256 샤드)
+지역 간 사업명이 겹치는(2개 지역 이상) 클러스터만 수록. 샤드 = normName 해시 하위 1바이트 hex 2자리(`00`~`ff`).
+
+```ts
+// 파일 내용: Record<normName, ClusterEntry[]>
+interface ClusterEntry {
+  lafCd: string;
+  dbizNm: string;       // 원본 사업명 (대표 1개)
+  acntDvNm: string;
+  bdgCashAmt: number;
+  epAmt: number;
+  fundRelated: "confirmed" | "excluded" | "candidate" | null;
+}
+```
+
+**정규화·해시 규칙 (파이프라인과 UI가 반드시 동일 구현):**
+```js
+function normName(name) {
+  return name.replace(/\([^)]*\)/g, "").replace(/\s+/g, "");
+}
+function shardOf(normName) {
+  let h = 5381;
+  for (let i = 0; i < normName.length; i++) {
+    h = ((h * 33) ^ normName.charCodeAt(i)) >>> 0;
+  }
+  return (h & 0xff).toString(16).padStart(2, "0");
+}
+```
+클러스터에 없는 사업명(단일 지역)은 샤드에 키가 없음 → UI는 "다른 지역 동일 사업 없음" 표시.
+동일 지역 내 같은 normName 여러 건(회계 구분 등)은 금액 합산해 지역당 1개 엔트리로 축약.
+
+### 5. `public/data/fund-projects.json` — 전국 기금사업 모음
+fundRelated가 confirmed 또는 candidate인 사업 전체 (현재 493건).
+
+```ts
+interface FundProject extends Project {
+  regionId: string;     // "강원-홍천군"
+  lafCd: string;
+  sido: string;
+  sigungu: string;
+}
+// 파일 내용: FundProject[]
+```
+
+### 6. `public/data/insights.json`
+```ts
+interface Insights {
+  overExecution: (FundProject 동일 필드 + { rate: number })[];
+    // 전국 bdgCashAmt>0 && epAmt>bdgCashAmt 사업 전부, rate 내림차순
+  underExecution: (FundProject 동일 필드 + { rate: number })[];
+    // 기금(confirmed|candidate) 사업 중 bdgCashAmt >= 1억 && rate < 30% , rate 오름차순
+  stats: { totalProjects: number; clusteredNames: number; };
+}
+```
+1인당 기금액은 regions.json(population.total, fund)에서 UI가 직접 계산 — 별도 산출물 없음.
+
 ## 회의록 연계 (v2 슬롯)
 향후 국회도서관 지방의정포털 회의록 연계 예정. Region.id 기준으로 `public/data/minutes/{id}.json`을 추가하는 구조를 가정만 하고 v1에서는 구현하지 않음. UI에는 "지방의회 논의" 탭 자리(준비 중)만 둔다.

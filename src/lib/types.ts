@@ -50,6 +50,30 @@ export interface Meta {
   sources: string[];
 }
 
-export type SortKey = "population" | "fund" | "agingIndex";
+export type SortKey = "population" | "fund" | "agingIndex" | "perCapitaFund";
 export type RegionType = "감소" | "관심" | "전체";
 export type FundRelatedFilter = "confirmed" | "candidate" | "all";
+
+// v1.5 types
+
+export interface FundProject extends Project {
+  regionId: string;
+  lafCd: string;
+  sido: string;
+  sigungu: string;
+}
+
+export interface ClusterEntry {
+  lafCd: string;
+  dbizNm: string;
+  acntDvNm: string;
+  bdgCashAmt: number;
+  epAmt: number;
+  fundRelated: "confirmed" | "excluded" | "candidate" | null;
+}
+
+export interface Insights {
+  overExecution: (FundProject & { rate: number })[];
+  underExecution: (FundProject & { rate: number })[];
+  stats: { totalProjects: number; clusteredNames: number };
+}

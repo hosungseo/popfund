@@ -158,6 +158,95 @@ if (!existsSync(projectsDir)) {
   ok(`fundRelated summary: confirmed=${confirmedCount}, candidate=${candidateCount}`);
 }
 
+// --- v1.5: similar shards ---
+console.log('\n=== public/data/similar/ (v1.5) ===');
+const similarDir = join(PUBLIC_DATA_DIR, 'similar');
+if (!existsSync(similarDir)) {
+  fail('public/data/similar/ directory missing');
+} else {
+  const shardFiles = readdirSync(similarDir).filter((f) => f.endsWith('.json'));
+  if (shardFiles.length !== 256) {
+    fail(`Expected 256 shard files, got ${shardFiles.length}`);
+  } else {
+    ok('Shard count: 256');
+  }
+
+  // Count total keys across all shards
+  let totalShardKeys = 0;
+  for (const file of shardFiles) {
+    const shard = JSON.parse(readFileSync(join(similarDir, file), 'utf-8'));
+    totalShardKeys += Object.keys(shard).length;
+  }
+  ok(`Total shard keys: ${totalShardKeys}`);
+  if (totalShardKeys <= 10000) {
+    fail(`Expected >10000 total shard keys, got ${totalShardKeys}`);
+  } else {
+    ok(`Shard total keys > 10000: ${totalShardKeys}`);
+  }
+}
+
+// --- v1.5: fund-projects.json ---
+console.log('\n=== public/data/fund-projects.json (v1.5) ===');
+const fundProjectsPath = join(PUBLIC_DATA_DIR, 'fund-projects.json');
+if (!existsSync(fundProjectsPath)) {
+  fail('public/data/fund-projects.json missing');
+} else {
+  const fundProjects = JSON.parse(readFileSync(fundProjectsPath, 'utf-8'));
+  ok(`fund-projects count: ${fundProjects.length}`);
+  if (fundProjects.length < 400) {
+    fail(`Expected >= 400 fund projects, got ${fundProjects.length}`);
+  } else {
+    ok(`fund-projects >= 400: ${fundProjects.length}`);
+  }
+  // Spot-check required fields
+  const fpRequired = ['regionId', 'lafCd', 'sido', 'sigungu', 'dbizCd', 'dbizNm', 'fundRelated'];
+  let fpSchemaErrors = 0;
+  for (const fp of fundProjects.slice(0, 5)) {
+    for (const field of fpRequired) {
+      if (!(field in fp)) {
+        fail(`fund-projects entry missing field "${field}"`);
+        fpSchemaErrors++;
+      }
+    }
+  }
+  if (fpSchemaErrors === 0) ok('fund-projects schema spot-check passed');
+}
+
+// --- v1.5: insights.json ---
+console.log('\n=== public/data/insights.json (v1.5) ===');
+const insightsPath = join(PUBLIC_DATA_DIR, 'insights.json');
+if (!existsSync(insightsPath)) {
+  fail('public/data/insights.json missing');
+} else {
+  const insights = JSON.parse(readFileSync(insightsPath, 'utf-8'));
+  if (!Array.isArray(insights.overExecution)) {
+    fail('insights.overExecution is not an array');
+  } else {
+    const oe = insights.overExecution.length;
+    ok(`overExecution count: ${oe}`);
+    if (oe < 10 || oe > 40) {
+      warn(`overExecution count ${oe} is outside expected range 10-40 (reference: ~21)`);
+    } else {
+      ok(`overExecution count in expected range (~21): ${oe}`);
+    }
+  }
+  if (!Array.isArray(insights.underExecution)) {
+    fail('insights.underExecution is not an array');
+  } else {
+    ok(`underExecution count: ${insights.underExecution.length}`);
+  }
+  if (!insights.stats || typeof insights.stats.totalProjects !== 'number') {
+    fail('insights.stats.totalProjects missing or not a number');
+  } else {
+    ok(`stats.totalProjects: ${insights.stats.totalProjects}`);
+  }
+  if (!insights.stats || typeof insights.stats.clusteredNames !== 'number') {
+    fail('insights.stats.clusteredNames missing or not a number');
+  } else {
+    ok(`stats.clusteredNames: ${insights.stats.clusteredNames}`);
+  }
+}
+
 // --- Final result ---
 console.log('\n========== Validation Result ==========');
 if (errors === 0) {

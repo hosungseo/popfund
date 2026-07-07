@@ -48,3 +48,17 @@ export function latestFund(fund: Record<string, number>): number {
   const latest = years[years.length - 1];
   return fund[latest] ?? 0;
 }
+
+/** Normalize a project name for similarity matching (data-contract spec) */
+export function normName(name: string): string {
+  return name.replace(/\([^)]*\)/g, "").replace(/\s+/g, "");
+}
+
+/** Compute 2-digit hex shard key for a normalized project name (data-contract spec) */
+export function shardOf(norm: string): string {
+  let h = 5381;
+  for (let i = 0; i < norm.length; i++) {
+    h = ((h * 33) ^ norm.charCodeAt(i)) >>> 0;
+  }
+  return (h & 0xff).toString(16).padStart(2, "0");
+}

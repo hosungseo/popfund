@@ -14,6 +14,12 @@ interface Props {
   latestYear: string;
 }
 
+function perCapitaFundValue(r: Region): number {
+  const pop = r.population?.total ?? 0;
+  if (pop === 0) return 0;
+  return latestFund(r.fund) / pop;
+}
+
 export default function RegionTable({ regions, latestYear }: Props) {
   const router = useRouter();
   const [sido, setSido] = useState("전체");
@@ -37,6 +43,9 @@ export default function RegionTable({ regions, latestYear }: Props) {
       } else if (sortKey === "agingIndex") {
         va = a.population?.agingIndex ?? 0;
         vb = b.population?.agingIndex ?? 0;
+      } else if (sortKey === "perCapitaFund") {
+        va = perCapitaFundValue(a);
+        vb = perCapitaFundValue(b);
       }
       return sortDir === "desc" ? vb - va : va - vb;
     });
@@ -112,6 +121,7 @@ export default function RegionTable({ regions, latestYear }: Props) {
               ["population", "인구"],
               ["fund", "기금"],
               ["agingIndex", "노령화"],
+              ["perCapitaFund", "1인당"],
             ] as [SortKey, string][]).map(([k, label]) => (
               <button
                 key={k}
@@ -160,79 +170,100 @@ export default function RegionTable({ regions, latestYear }: Props) {
               >
                 {latestYear}년 기금 <SortIcon k="fund" />
               </th>
+              <th
+                className="px-4 py-3 text-right text-xs font-semibold text-stone-500 cursor-pointer hover:text-stone-800"
+                onClick={() => toggleSort("perCapitaFund")}
+              >
+                1인당 기금 <SortIcon k="perCapitaFund" />
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-stone-100">
-            {filtered.map((r) => (
-              <tr
-                key={r.id}
-                className="hover:bg-blue-50/40 transition-colors cursor-pointer"
-                onClick={() => router.push(`/region/${encodeURIComponent(r.id)}`)}
-              >
-                <td className="px-4 py-3 text-stone-500 text-sm">{r.sido}</td>
-                <td className="px-4 py-3">
-                  <Link
-                    href={`/region/${encodeURIComponent(r.id)}`}
-                    className="font-semibold text-stone-900 hover:text-blue-700 transition-colors"
-                  >
-                    {r.sigungu}
-                  </Link>
-                </td>
-                <td className="px-4 py-3">
-                  <RegionBadge type={r.type} size="sm" />
-                </td>
-                <td className="px-4 py-3 text-right font-mono text-sm text-stone-700 tabular-nums">
-                  {formatNumber(r.population?.total ?? 0)}
-                </td>
-                <td className="px-4 py-3 text-right font-mono text-sm text-stone-700 tabular-nums">
-                  {r.population?.agingIndex?.toFixed(1) ?? "—"}
-                </td>
-                <td className="px-4 py-3 text-right font-mono text-sm text-stone-700 tabular-nums">
-                  {formatWon(latestFund(r.fund))}
-                </td>
-              </tr>
-            ))}
+            {filtered.map((r) => {
+              const pcf = perCapitaFundValue(r);
+              return (
+                <tr
+                  key={r.id}
+                  className="hover:bg-blue-50/40 transition-colors cursor-pointer"
+                  onClick={() => router.push(`/region/${encodeURIComponent(r.id)}`)}
+                >
+                  <td className="px-4 py-3 text-stone-500 text-sm">{r.sido}</td>
+                  <td className="px-4 py-3">
+                    <Link
+                      href={`/region/${encodeURIComponent(r.id)}`}
+                      className="font-semibold text-stone-900 hover:text-blue-700 transition-colors"
+                    >
+                      {r.sigungu}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3">
+                    <RegionBadge type={r.type} size="sm" />
+                  </td>
+                  <td className="px-4 py-3 text-right font-mono text-sm text-stone-700 tabular-nums">
+                    {formatNumber(r.population?.total ?? 0)}
+                  </td>
+                  <td className="px-4 py-3 text-right font-mono text-sm text-stone-700 tabular-nums">
+                    {r.population?.agingIndex?.toFixed(1) ?? "—"}
+                  </td>
+                  <td className="px-4 py-3 text-right font-mono text-sm text-stone-700 tabular-nums">
+                    {formatWon(latestFund(r.fund))}
+                  </td>
+                  <td className="px-4 py-3 text-right font-mono text-sm text-stone-700 tabular-nums">
+                    {pcf > 0 ? formatWon(Math.round(pcf)) : "—"}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
       {/* Mobile cards */}
       <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {filtered.map((r) => (
-          <Link
-            key={r.id}
-            href={`/region/${encodeURIComponent(r.id)}`}
-            className="bg-white rounded-xl border border-stone-200 p-4 flex flex-col gap-3 hover:border-blue-300 hover:shadow-sm transition-all"
-          >
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <p className="text-xs text-stone-500">{r.sido}</p>
-                <p className="font-semibold text-stone-900">{r.sigungu}</p>
+        {filtered.map((r) => {
+          const pcf = perCapitaFundValue(r);
+          return (
+            <Link
+              key={r.id}
+              href={`/region/${encodeURIComponent(r.id)}`}
+              className="bg-white rounded-xl border border-stone-200 p-4 flex flex-col gap-3 hover:border-blue-300 hover:shadow-sm transition-all"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <p className="text-xs text-stone-500">{r.sido}</p>
+                  <p className="font-semibold text-stone-900">{r.sigungu}</p>
+                </div>
+                <RegionBadge type={r.type} size="sm" />
               </div>
-              <RegionBadge type={r.type} size="sm" />
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="flex flex-col">
-                <span className="text-[10px] text-stone-400 uppercase tracking-wide">총인구</span>
-                <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
-                  {formatNumber(r.population?.total ?? 0)}
-                </span>
+              <div className="grid grid-cols-4 gap-2">
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-stone-400 uppercase tracking-wide">총인구</span>
+                  <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+                    {formatNumber(r.population?.total ?? 0)}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-stone-400 uppercase tracking-wide">노령화</span>
+                  <span className="font-mono text-sm font-semibold text-stone-800">
+                    {r.population?.agingIndex?.toFixed(0) ?? "—"}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-stone-400 uppercase tracking-wide">{latestYear}기금</span>
+                  <span className="font-mono text-sm font-semibold text-stone-800">
+                    {formatWon(latestFund(r.fund))}
+                  </span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-stone-400 uppercase tracking-wide">1인당</span>
+                  <span className="font-mono text-sm font-semibold text-stone-800">
+                    {pcf > 0 ? formatWon(Math.round(pcf)) : "—"}
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] text-stone-400 uppercase tracking-wide">노령화</span>
-                <span className="font-mono text-sm font-semibold text-stone-800">
-                  {r.population?.agingIndex?.toFixed(0) ?? "—"}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] text-stone-400 uppercase tracking-wide">{latestYear}기금</span>
-                <span className="font-mono text-sm font-semibold text-stone-800">
-                  {formatWon(latestFund(r.fund))}
-                </span>
-              </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

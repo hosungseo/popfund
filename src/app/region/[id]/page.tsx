@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { loadRegions, loadRegionById, loadMeta } from "@/lib/data";
+import { loadRegions, loadMeta } from "@/lib/data";
 import RegionBadge from "@/components/RegionBadge";
 import PopulationCards from "@/components/PopulationCards";
 import FundBarChart from "@/components/FundBarChart";
@@ -19,7 +19,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const region = loadRegionById(decodeURIComponent(id));
+  const regions = loadRegions();
+  const region = regions.find((r) => r.id === decodeURIComponent(id));
   if (!region) return { title: "지역 없음" };
   return {
     title: `${region.sido} ${region.sigungu}`,
@@ -29,11 +30,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function RegionPage({ params }: Props) {
   const { id } = await params;
-  const region = loadRegionById(decodeURIComponent(id));
+
+  const allRegions = loadRegions();
+  const region = allRegions.find((r) => r.id === decodeURIComponent(id));
   if (!region) notFound();
 
   const meta = loadMeta();
   const tf = totalFund(region.fund);
+
+  // Build lafCd → "시도 시군구" map for the drawer's region name lookup
+  const lafCdToName: Record<string, string> = Object.fromEntries(
+    allRegions.map((r) => [r.lafCd, `${r.sido} ${r.sigungu}`])
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col gap-10">
@@ -114,7 +122,11 @@ export default async function RegionPage({ params }: Props) {
             </span>
           </div>
           <div className="bg-white rounded-2xl border border-stone-200 p-5">
-            <ProjectsTable lafCd={region.lafCd} />
+            <ProjectsTable
+              lafCd={region.lafCd}
+              regionName={`${region.sido} ${region.sigungu}`}
+              lafCdToName={lafCdToName}
+            />
           </div>
         </section>
 

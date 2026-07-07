@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 const NAV = [
   { href: "/", label: "전국 개요" },
   { href: "/compare", label: "지역 비교" },
+  { href: "/projects", label: "사업 탐색" },
+  { href: "/insights", label: "인사이트" },
 ];
 
 export default function Header() {
