@@ -1,65 +1,58 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { loadRegions, loadSummaryStats } from "@/lib/data";
+import StatCard from "@/components/StatCard";
+import RegionTable from "@/components/RegionTable";
+import { formatNumber, formatWon } from "@/lib/utils";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "전국 개요",
+};
+
+export default function HomePage() {
+  const regions = loadRegions();
+  const { decreaseCount, interestCount, totalPopulation, totalFund, latestYear } =
+    loadSummaryStats(regions);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col gap-10">
+      {/* Page header */}
+      <div className="flex flex-col gap-2">
+        <h1 className="text-2xl font-bold tracking-tight text-stone-900">
+          전국 개요
+        </h1>
+        <p className="text-sm text-stone-500">
+          행정안전부 지정 인구감소지역·관심지역 {decreaseCount + interestCount}개 기초자치단체의
+          인구 및 지방소멸대응기금 집행 현황
+        </p>
+      </div>
+
+      {/* Summary cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard
+          label="인구감소지역"
+          value={`${decreaseCount}개`}
+          sub="행정안전부 고시"
+          accent
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        <StatCard
+          label="관심지역"
+          value={`${interestCount}개`}
+          sub="행정안전부 고시"
+        />
+        <StatCard
+          label="총인구 합계"
+          value={formatNumber(totalPopulation)}
+          sub="명 (2024 인구총조사)"
+        />
+        <StatCard
+          label={`${latestYear}년 기금 합계`}
+          value={formatWon(totalFund)}
+          sub="지방소멸대응기금 세출예산"
+        />
+      </div>
+
+      {/* Region table */}
+      <RegionTable regions={regions} latestYear={latestYear} />
     </div>
   );
 }

@@ -1,0 +1,2677 @@
+[
+  {
+    "id": "부산-동구",
+    "sido": "부산",
+    "sigungu": "동구",
+    "type": "감소",
+    "lafCd": "2613000",
+    "censusCode": "21030",
+    "population": {
+      "total": 80374,
+      "male": 40963,
+      "female": 39411,
+      "density": 31.9,
+      "avgAge": 49.7,
+      "agingIndex": 288.2,
+      "youthDependency": 11.4,
+      "oldAgeDependency": 32.9
+    },
+    "fund": {
+      "2022": 3258591014,
+      "2023": 2811229063,
+      "2024": 2494904216,
+      "2025": 2352855241,
+      "2026": 2566512123
+    }
+  },
+  {
+    "id": "부산-서구",
+    "sido": "부산",
+    "sigungu": "서구",
+    "type": "감소",
+    "lafCd": "2612000",
+    "censusCode": "21020",
+    "population": {
+      "total": 90036,
+      "male": 45557,
+      "female": 44479,
+      "density": 112.2,
+      "avgAge": 50.6,
+      "agingIndex": 396.2,
+      "youthDependency": 11.9,
+      "oldAgeDependency": 47.1
+    },
+    "fund": {
+      "2022": 3516983102,
+      "2023": 3971573418,
+      "2024": 3916369368,
+      "2025": 3572480022,
+      "2026": 4404457849
+    }
+  },
+  {
+    "id": "부산-영도구",
+    "sido": "부산",
+    "sigungu": "영도구",
+    "type": "감소",
+    "lafCd": "2614000",
+    "censusCode": "21040",
+    "population": {
+      "total": 97263,
+      "male": 48164,
+      "female": 49099,
+      "density": 58.6,
+      "avgAge": 52.1,
+      "agingIndex": 329.2,
+      "youthDependency": 7.3,
+      "oldAgeDependency": 24.0
+    },
+    "fund": {
+      "2022": 2699791395,
+      "2023": 3290824729,
+      "2024": 2900928075,
+      "2025": 2805984506,
+      "2026": 3090668244
+    }
+  },
+  {
+    "id": "대구-남구",
+    "sido": "대구",
+    "sigungu": "남구",
+    "type": "감소",
+    "lafCd": "2714000",
+    "censusCode": "22040",
+    "population": {
+      "total": 156545,
+      "male": 78756,
+      "female": 77789,
+      "density": 52.6,
+      "avgAge": 48.5,
+      "agingIndex": 453.6,
+      "youthDependency": 8.7,
+      "oldAgeDependency": 39.5
+    },
+    "fund": {
+      "2022": 2829349063,
+      "2023": 2519254023,
+      "2024": 2421480366,
+      "2025": 2673977271,
+      "2026": 2663101862
+    }
+  },
+  {
+    "id": "대구-서구",
+    "sido": "대구",
+    "sigungu": "서구",
+    "type": "감소",
+    "lafCd": "2713000",
+    "censusCode": "22030",
+    "population": {
+      "total": 159697,
+      "male": 80935,
+      "female": 78762,
+      "density": 26.8,
+      "avgAge": 56.2,
+      "agingIndex": 452.7,
+      "youthDependency": 10.8,
+      "oldAgeDependency": 48.9
+    },
+    "fund": {
+      "2022": 2843773110,
+      "2023": 2943032407,
+      "2024": 2819363626,
+      "2025": 3440064774,
+      "2026": 3870983742
+    }
+  },
+  {
+    "id": "대구-군위군",
+    "sido": "대구",
+    "sigungu": "군위군",
+    "type": "감소",
+    "lafCd": "2772000",
+    "censusCode": "22520",
+    "population": {
+      "total": 22568,
+      "male": 11593,
+      "female": 10975,
+      "density": 20.3,
+      "avgAge": 50.7,
+      "agingIndex": 479.4,
+      "youthDependency": 8.9,
+      "oldAgeDependency": 42.7
+    },
+    "fund": {
+      "2022": 2803179412,
+      "2023": 3439960539,
+      "2024": 4129834479,
+      "2025": 4030186331,
+      "2026": 4482274361
+    }
+  },
+  {
+    "id": "인천-강화군",
+    "sido": "인천",
+    "sigungu": "강화군",
+    "type": "감소",
+    "lafCd": "2871000",
+    "censusCode": "23510",
+    "population": {
+      "total": 74823,
+      "male": 37839,
+      "female": 36984,
+      "density": 137.9,
+      "avgAge": 49.7,
+      "agingIndex": 251.4,
+      "youthDependency": 10.2,
+      "oldAgeDependency": 25.6
+    },
+    "fund": {
+      "2022": 3064120592,
+      "2023": 3319708603,
+      "2024": 3302441395,
+      "2025": 4124519159,
+      "2026": 3734062057
+    }
+  },
+  {
+    "id": "인천-옹진군",
+    "sido": "인천",
+    "sigungu": "옹진군",
+    "type": "감소",
+    "lafCd": "2872000",
+    "censusCode": "23520",
+    "population": {
+      "total": 20740,
+      "male": 9994,
+      "female": 10746,
+      "density": 145.7,
+      "avgAge": 55.5,
+      "agingIndex": 239.5,
+      "youthDependency": 9.5,
+      "oldAgeDependency": 22.8
+    },
+    "fund": {
+      "2022": 3007943143,
+      "2023": 3755262261,
+      "2024": 3986758174,
+      "2025": 4937326311,
+      "2026": 5896707473
+    }
+  },
+  {
+    "id": "경기-가평군",
+    "sido": "경기",
+    "sigungu": "가평군",
+    "type": "감소",
+    "lafCd": "4177000",
+    "censusCode": "31570",
+    "population": {
+      "total": 64590,
+      "male": 31299,
+      "female": 33291,
+      "density": 141.8,
+      "avgAge": 57.0,
+      "agingIndex": 518.5,
+      "youthDependency": 9.0,
+      "oldAgeDependency": 46.7
+    },
+    "fund": {
+      "2022": 2739789305,
+      "2023": 2332377502,
+      "2024": 2656197387,
+      "2025": 3022413343,
+      "2026": 3744030364
+    }
+  },
+  {
+    "id": "경기-연천군",
+    "sido": "경기",
+    "sigungu": "연천군",
+    "type": "감소",
+    "lafCd": "4175000",
+    "censusCode": "31550",
+    "population": {
+      "total": 39155,
+      "male": 20223,
+      "female": 18932,
+      "density": 120.4,
+      "avgAge": 51.6,
+      "agingIndex": 513.4,
+      "youthDependency": 10.7,
+      "oldAgeDependency": 54.9
+    },
+    "fund": {
+      "2022": 3465012960,
+      "2023": 3692843147,
+      "2024": 4289054857,
+      "2025": 4555583025,
+      "2026": 3873287699
+    }
+  },
+  {
+    "id": "강원-고성군",
+    "sido": "강원",
+    "sigungu": "고성군",
+    "type": "감소",
+    "lafCd": "4280000",
+    "censusCode": "32600",
+    "population": {
+      "total": 25958,
+      "male": 12575,
+      "female": 13383,
+      "density": 148.1,
+      "avgAge": 59.8,
+      "agingIndex": 330.7,
+      "youthDependency": 8.4,
+      "oldAgeDependency": 27.8
+    },
+    "fund": {
+      "2022": 3230828332,
+      "2023": 2847984283,
+      "2024": 3254571171,
+      "2025": 3828707797,
+      "2026": 4752168369
+    }
+  },
+  {
+    "id": "강원-삼척시",
+    "sido": "강원",
+    "sigungu": "삼척시",
+    "type": "감소",
+    "lafCd": "4217000",
+    "censusCode": "32070",
+    "population": {
+      "total": 64307,
+      "male": 31197,
+      "female": 33110,
+      "density": 1280.7,
+      "avgAge": 44.9,
+      "agingIndex": 146.5,
+      "youthDependency": 15.4,
+      "oldAgeDependency": 22.6
+    },
+    "fund": {
+      "2022": 2804157846,
+      "2023": 2988442712,
+      "2024": 3412719178,
+      "2025": 3175400137,
+      "2026": 3095019698
+    }
+  },
+  {
+    "id": "강원-양구군",
+    "sido": "강원",
+    "sigungu": "양구군",
+    "type": "감소",
+    "lafCd": "4278000",
+    "censusCode": "32580",
+    "population": {
+      "total": 23482,
+      "male": 11682,
+      "female": 11800,
+      "density": 52.1,
+      "avgAge": 49.5,
+      "agingIndex": 386.3,
+      "youthDependency": 9.0,
+      "oldAgeDependency": 34.8
+    },
+    "fund": {
+      "2022": 2826137679,
+      "2023": 2651162886,
+      "2024": 2328774147,
+      "2025": 2567336525,
+      "2026": 2417344287
+    }
+  },
+  {
+    "id": "강원-양양군",
+    "sido": "강원",
+    "sigungu": "양양군",
+    "type": "감소",
+    "lafCd": "4281000",
+    "censusCode": "32610",
+    "population": {
+      "total": 27097,
+      "male": 13364,
+      "female": 13733,
+      "density": 95.1,
+      "avgAge": 51.3,
+      "agingIndex": 385.1,
+      "youthDependency": 10.2,
+      "oldAgeDependency": 39.3
+    },
+    "fund": {
+      "2022": 3608859690,
+      "2023": 3899317534,
+      "2024": 3693429267,
+      "2025": 3838171720,
+      "2026": 3887392375
+    }
+  },
+  {
+    "id": "강원-영월군",
+    "sido": "강원",
+    "sigungu": "영월군",
+    "type": "감소",
+    "lafCd": "4273000",
+    "censusCode": "32530",
+    "population": {
+      "total": 34912,
+      "male": 17359,
+      "female": 17553,
+      "density": 135.3,
+      "avgAge": 53.6,
+      "agingIndex": 352.5,
+      "youthDependency": 11.0,
+      "oldAgeDependency": 38.8
+    },
+    "fund": {
+      "2022": 2668101445,
+      "2023": 2697579998,
+      "2024": 2659061366,
+      "2025": 3176698221,
+      "2026": 3016155941
+    }
+  },
+  {
+    "id": "강원-정선군",
+    "sido": "강원",
+    "sigungu": "정선군",
+    "type": "감소",
+    "lafCd": "4275000",
+    "censusCode": "32550",
+    "population": {
+      "total": 35177,
+      "male": 17082,
+      "female": 18095,
+      "density": 159.3,
+      "avgAge": 53.6,
+      "agingIndex": 266.1,
+      "youthDependency": 7.5,
+      "oldAgeDependency": 20.0
+    },
+    "fund": {
+      "2022": 3577160270,
+      "2023": 3180680314,
+      "2024": 3533284037,
+      "2025": 3767311724,
+      "2026": 3224453943
+    }
+  },
+  {
+    "id": "강원-철원군",
+    "sido": "강원",
+    "sigungu": "철원군",
+    "type": "감소",
+    "lafCd": "4276000",
+    "censusCode": "32560",
+    "population": {
+      "total": 45566,
+      "male": 23418,
+      "female": 22148,
+      "density": 50.3,
+      "avgAge": 53.8,
+      "agingIndex": 259.9,
+      "youthDependency": 9.4,
+      "oldAgeDependency": 24.4
+    },
+    "fund": {
+      "2022": 3004767742,
+      "2023": 3738302272,
+      "2024": 3574120609,
+      "2025": 4158947676,
+      "2026": 4292047921
+    }
+  },
+  {
+    "id": "강원-태백시",
+    "sido": "강원",
+    "sigungu": "태백시",
+    "type": "감소",
+    "lafCd": "4215000",
+    "censusCode": "32050",
+    "population": {
+      "total": 40073,
+      "male": 20405,
+      "female": 19668,
+      "density": 2100.7,
+      "avgAge": 46.0,
+      "agingIndex": 189.7,
+      "youthDependency": 11.9,
+      "oldAgeDependency": 22.6
+    },
+    "fund": {
+      "2022": 2620179950,
+      "2023": 2998258479,
+      "2024": 2621626329,
+      "2025": 2557244230,
+      "2026": 2224948076
+    }
+  },
+  {
+    "id": "강원-평창군",
+    "sido": "강원",
+    "sigungu": "평창군",
+    "type": "감소",
+    "lafCd": "4274000",
+    "censusCode": "32540",
+    "population": {
+      "total": 41016,
+      "male": 21086,
+      "female": 19930,
+      "density": 28.2,
+      "avgAge": 59.5,
+      "agingIndex": 256.7,
+      "youthDependency": 8.1,
+      "oldAgeDependency": 20.8
+    },
+    "fund": {
+      "2022": 3360255064,
+      "2023": 3172354836,
+      "2024": 2848630762,
+      "2025": 3435776079,
+      "2026": 3258785988
+    }
+  },
+  {
+    "id": "강원-홍천군",
+    "sido": "강원",
+    "sigungu": "홍천군",
+    "type": "감소",
+    "lafCd": "4271000",
+    "censusCode": "32510",
+    "population": {
+      "total": 60811,
+      "male": 29388,
+      "female": 31423,
+      "density": 67.2,
+      "avgAge": 54.8,
+      "agingIndex": 436.7,
+      "youthDependency": 8.6,
+      "oldAgeDependency": 37.6
+    },
+    "fund": {
+      "2022": 2927020635,
+      "2023": 2798951203,
+      "2024": 2525637292,
+      "2025": 2798912043,
+      "2026": 2890967781
+    }
+  },
+  {
+    "id": "강원-화천군",
+    "sido": "강원",
+    "sigungu": "화천군",
+    "type": "감소",
+    "lafCd": "4277000",
+    "censusCode": "32570",
+    "population": {
+      "total": 23811,
+      "male": 11498,
+      "female": 12313,
+      "density": 179.4,
+      "avgAge": 60.0,
+      "agingIndex": 365.0,
+      "youthDependency": 7.4,
+      "oldAgeDependency": 27.0
+    },
+    "fund": {
+      "2022": 2868240497,
+      "2023": 3508729359,
+      "2024": 4218705550,
+      "2025": 5069652618,
+      "2026": 5058554314
+    }
+  },
+  {
+    "id": "강원-횡성군",
+    "sido": "강원",
+    "sigungu": "횡성군",
+    "type": "감소",
+    "lafCd": "4272000",
+    "censusCode": "32520",
+    "population": {
+      "total": 44610,
+      "male": 22382,
+      "female": 22228,
+      "density": 148.2,
+      "avgAge": 59.8,
+      "agingIndex": 308.9,
+      "youthDependency": 10.2,
+      "oldAgeDependency": 31.5
+    },
+    "fund": {
+      "2022": 3215522738,
+      "2023": 3931627419,
+      "2024": 3504788718,
+      "2025": 4210130202,
+      "2026": 4023985057
+    }
+  },
+  {
+    "id": "충북-괴산군",
+    "sido": "충북",
+    "sigungu": "괴산군",
+    "type": "감소",
+    "lafCd": "4376000",
+    "censusCode": "33560",
+    "population": {
+      "total": 34019,
+      "male": 17081,
+      "female": 16938,
+      "density": 133.4,
+      "avgAge": 55.3,
+      "agingIndex": 298.0,
+      "youthDependency": 8.2,
+      "oldAgeDependency": 24.4
+    },
+    "fund": {
+      "2022": 2866780681,
+      "2023": 2996969049,
+      "2024": 3632729868,
+      "2025": 4317286880,
+      "2026": 3829085433
+    }
+  },
+  {
+    "id": "충북-단양군",
+    "sido": "충북",
+    "sigungu": "단양군",
+    "type": "감소",
+    "lafCd": "4378000",
+    "censusCode": "33580",
+    "population": {
+      "total": 30337,
+      "male": 14615,
+      "female": 15722,
+      "density": 176.7,
+      "avgAge": 49.6,
+      "agingIndex": 320.1,
+      "youthDependency": 8.0,
+      "oldAgeDependency": 25.6
+    },
+    "fund": {
+      "2022": 3396800936,
+      "2023": 3649396380,
+      "2024": 3265295776,
+      "2025": 4009849745,
+      "2026": 4516726228
+    }
+  },
+  {
+    "id": "충북-보은군",
+    "sido": "충북",
+    "sigungu": "보은군",
+    "type": "감소",
+    "lafCd": "4372000",
+    "censusCode": "33520",
+    "population": {
+      "total": 31197,
+      "male": 16016,
+      "female": 15181,
+      "density": 36.0,
+      "avgAge": 49.8,
+      "agingIndex": 409.7,
+      "youthDependency": 8.8,
+      "oldAgeDependency": 36.1
+    },
+    "fund": {
+      "2022": 3505346765,
+      "2023": 4186369154,
+      "2024": 5063705928,
+      "2025": 4729656363,
+      "2026": 4492283876
+    }
+  },
+  {
+    "id": "충북-영동군",
+    "sido": "충북",
+    "sigungu": "영동군",
+    "type": "감소",
+    "lafCd": "4374000",
+    "censusCode": "33540",
+    "population": {
+      "total": 43098,
+      "male": 21652,
+      "female": 21446,
+      "density": 138.7,
+      "avgAge": 59.7,
+      "agingIndex": 514.9,
+      "youthDependency": 12.6,
+      "oldAgeDependency": 64.9
+    },
+    "fund": {
+      "2022": 2745002120,
+      "2023": 3211528439,
+      "2024": 2957242662,
+      "2025": 3001358110,
+      "2026": 2766484626
+    }
+  },
+  {
+    "id": "충북-옥천군",
+    "sido": "충북",
+    "sigungu": "옥천군",
+    "type": "감소",
+    "lafCd": "4373000",
+    "censusCode": "33530",
+    "population": {
+      "total": 51754,
+      "male": 26768,
+      "female": 24986,
+      "density": 148.8,
+      "avgAge": 58.4,
+      "agingIndex": 488.8,
+      "youthDependency": 8.6,
+      "oldAgeDependency": 42.0
+    },
+    "fund": {
+      "2022": 2679714751,
+      "2023": 3212620815,
+      "2024": 3834061513,
+      "2025": 3600082108,
+      "2026": 4235981323
+    }
+  },
+  {
+    "id": "충북-제천시",
+    "sido": "충북",
+    "sigungu": "제천시",
+    "type": "감소",
+    "lafCd": "4313000",
+    "censusCode": "33030",
+    "population": {
+      "total": 128242,
+      "male": 65765,
+      "female": 62477,
+      "density": 2742.1,
+      "avgAge": 42.0,
+      "agingIndex": 202.0,
+      "youthDependency": 13.0,
+      "oldAgeDependency": 26.3
+    },
+    "fund": {
+      "2022": 2633304905,
+      "2023": 3052871100,
+      "2024": 3023741982,
+      "2025": 3186305215,
+      "2026": 3574420282
+    }
+  },
+  {
+    "id": "충남-공주시",
+    "sido": "충남",
+    "sigungu": "공주시",
+    "type": "감소",
+    "lafCd": "4412000",
+    "censusCode": "34020",
+    "population": {
+      "total": 107542,
+      "male": 55660,
+      "female": 51882,
+      "density": 960.7,
+      "avgAge": 48.7,
+      "agingIndex": 96.1,
+      "youthDependency": 15.8,
+      "oldAgeDependency": 15.2
+    },
+    "fund": {
+      "2022": 2680083056,
+      "2023": 2743937384,
+      "2024": 3131979587,
+      "2025": 3055155026,
+      "2026": 3337706582
+    }
+  },
+  {
+    "id": "충남-금산군",
+    "sido": "충남",
+    "sigungu": "금산군",
+    "type": "감소",
+    "lafCd": "4471000",
+    "censusCode": "34510",
+    "population": {
+      "total": 49201,
+      "male": 25386,
+      "female": 23815,
+      "density": 86.9,
+      "avgAge": 48.5,
+      "agingIndex": 268.4,
+      "youthDependency": 10.1,
+      "oldAgeDependency": 27.1
+    },
+    "fund": {
+      "2022": 3374228576,
+      "2023": 4137159365,
+      "2024": 4736282418,
+      "2025": 4399125662,
+      "2026": 4498189396
+    }
+  },
+  {
+    "id": "충남-논산시",
+    "sido": "충남",
+    "sigungu": "논산시",
+    "type": "감소",
+    "lafCd": "4416000",
+    "censusCode": "34060",
+    "population": {
+      "total": 118667,
+      "male": 58527,
+      "female": 60140,
+      "density": 2963.1,
+      "avgAge": 47.6,
+      "agingIndex": 123.9,
+      "youthDependency": 12.5,
+      "oldAgeDependency": 15.5
+    },
+    "fund": {
+      "2022": 3040071490,
+      "2023": 3073391144,
+      "2024": 2975848104,
+      "2025": 2680986550,
+      "2026": 2729722953
+    }
+  },
+  {
+    "id": "충남-보령시",
+    "sido": "충남",
+    "sigungu": "보령시",
+    "type": "감소",
+    "lafCd": "4413000",
+    "censusCode": "34030",
+    "population": {
+      "total": 95358,
+      "male": 48625,
+      "female": 46733,
+      "density": 1802.5,
+      "avgAge": 45.1,
+      "agingIndex": 104.4,
+      "youthDependency": 15.2,
+      "oldAgeDependency": 15.9
+    },
+    "fund": {
+      "2022": 2802219221,
+      "2023": 3262633733,
+      "2024": 3564964474,
+      "2025": 3489742625,
+      "2026": 3582969028
+    }
+  },
+  {
+    "id": "충남-부여군",
+    "sido": "충남",
+    "sigungu": "부여군",
+    "type": "감소",
+    "lafCd": "4473000",
+    "censusCode": "34530",
+    "population": {
+      "total": 59514,
+      "male": 29693,
+      "female": 29821,
+      "density": 43.0,
+      "avgAge": 57.6,
+      "agingIndex": 524.4,
+      "youthDependency": 7.5,
+      "oldAgeDependency": 39.3
+    },
+    "fund": {
+      "2022": 3309529026,
+      "2023": 3256825776,
+      "2024": 3834486963,
+      "2025": 4411405676,
+      "2026": 4936884680
+    }
+  },
+  {
+    "id": "충남-서천군",
+    "sido": "충남",
+    "sigungu": "서천군",
+    "type": "감소",
+    "lafCd": "4474000",
+    "censusCode": "34540",
+    "population": {
+      "total": 53188,
+      "male": 25843,
+      "female": 27345,
+      "density": 115.9,
+      "avgAge": 59.8,
+      "agingIndex": 216.6,
+      "youthDependency": 11.6,
+      "oldAgeDependency": 25.1
+    },
+    "fund": {
+      "2022": 3613364290,
+      "2023": 3903403114,
+      "2024": 4439490120,
+      "2025": 4455434046,
+      "2026": 4499369727
+    }
+  },
+  {
+    "id": "충남-예산군",
+    "sido": "충남",
+    "sigungu": "예산군",
+    "type": "감소",
+    "lafCd": "4477000",
+    "censusCode": "34570",
+    "population": {
+      "total": 79704,
+      "male": 38275,
+      "female": 41429,
+      "density": 32.6,
+      "avgAge": 57.2,
+      "agingIndex": 470.3,
+      "youthDependency": 9.6,
+      "oldAgeDependency": 45.1
+    },
+    "fund": {
+      "2022": 3699559250,
+      "2023": 3911111517,
+      "2024": 3403008671,
+      "2025": 3231766932,
+      "2026": 3843652034
+    }
+  },
+  {
+    "id": "충남-청양군",
+    "sido": "충남",
+    "sigungu": "청양군",
+    "type": "감소",
+    "lafCd": "4475000",
+    "censusCode": "34550",
+    "population": {
+      "total": 27511,
+      "male": 13716,
+      "female": 13795,
+      "density": 67.4,
+      "avgAge": 54.7,
+      "agingIndex": 391.2,
+      "youthDependency": 11.5,
+      "oldAgeDependency": 45.0
+    },
+    "fund": {
+      "2022": 3528007808,
+      "2023": 4257628464,
+      "2024": 4345745631,
+      "2025": 5270267779,
+      "2026": 5419761268
+    }
+  },
+  {
+    "id": "충남-태안군",
+    "sido": "충남",
+    "sigungu": "태안군",
+    "type": "감소",
+    "lafCd": "4478000",
+    "censusCode": "34580",
+    "population": {
+      "total": 63080,
+      "male": 31476,
+      "female": 31604,
+      "density": 120.2,
+      "avgAge": 51.0,
+      "agingIndex": 293.3,
+      "youthDependency": 11.6,
+      "oldAgeDependency": 34.0
+    },
+    "fund": {
+      "2022": 3302098124,
+      "2023": 3169482491,
+      "2024": 2792292970,
+      "2025": 2692583707,
+      "2026": 2581342419
+    }
+  },
+  {
+    "id": "전북-고창군",
+    "sido": "전북",
+    "sigungu": "고창군",
+    "type": "감소",
+    "lafCd": "4577000",
+    "censusCode": "35570",
+    "population": {
+      "total": 58026,
+      "male": 28039,
+      "female": 29987,
+      "density": 40.2,
+      "avgAge": 52.6,
+      "agingIndex": 254.3,
+      "youthDependency": 8.3,
+      "oldAgeDependency": 21.1
+    },
+    "fund": {
+      "2022": 2947057669,
+      "2023": 3054241335,
+      "2024": 2672174937,
+      "2025": 3161601059,
+      "2026": 3179909021
+    }
+  },
+  {
+    "id": "전북-김제시",
+    "sido": "전북",
+    "sigungu": "김제시",
+    "type": "감소",
+    "lafCd": "4516000",
+    "censusCode": "35060",
+    "population": {
+      "total": 81953,
+      "male": 41617,
+      "female": 40336,
+      "density": 1707.4,
+      "avgAge": 46.9,
+      "agingIndex": 199.9,
+      "youthDependency": 11.0,
+      "oldAgeDependency": 22.0
+    },
+    "fund": {
+      "2022": 3454170150,
+      "2023": 4115226401,
+      "2024": 5067375121,
+      "2025": 5156604061,
+      "2026": 5924970385
+    }
+  },
+  {
+    "id": "전북-남원시",
+    "sido": "전북",
+    "sigungu": "남원시",
+    "type": "감소",
+    "lafCd": "4515000",
+    "censusCode": "35050",
+    "population": {
+      "total": 80232,
+      "male": 41392,
+      "female": 38840,
+      "density": 2096.9,
+      "avgAge": 42.5,
+      "agingIndex": 148.4,
+      "youthDependency": 12.9,
+      "oldAgeDependency": 19.1
+    },
+    "fund": {
+      "2022": 3507770789,
+      "2023": 3997710083,
+      "2024": 4742092756,
+      "2025": 5774999505,
+      "2026": 7174217153
+    }
+  },
+  {
+    "id": "전북-무주군",
+    "sido": "전북",
+    "sigungu": "무주군",
+    "type": "감소",
+    "lafCd": "4573000",
+    "censusCode": "35530",
+    "population": {
+      "total": 22410,
+      "male": 11109,
+      "female": 11301,
+      "density": 121.1,
+      "avgAge": 48.3,
+      "agingIndex": 403.2,
+      "youthDependency": 7.8,
+      "oldAgeDependency": 31.4
+    },
+    "fund": {
+      "2022": 2610341560,
+      "2023": 2614626554,
+      "2024": 2443797610,
+      "2025": 2396725967,
+      "2026": 2767000675
+    }
+  },
+  {
+    "id": "전북-부안군",
+    "sido": "전북",
+    "sigungu": "부안군",
+    "type": "감소",
+    "lafCd": "4578000",
+    "censusCode": "35580",
+    "population": {
+      "total": 50385,
+      "male": 26101,
+      "female": 24284,
+      "density": 92.6,
+      "avgAge": 58.0,
+      "agingIndex": 351.8,
+      "youthDependency": 11.5,
+      "oldAgeDependency": 40.5
+    },
+    "fund": {
+      "2022": 3692303630,
+      "2023": 3469616612,
+      "2024": 3044405895,
+      "2025": 3753491383,
+      "2026": 3250911104
+    }
+  },
+  {
+    "id": "전북-순창군",
+    "sido": "전북",
+    "sigungu": "순창군",
+    "type": "감소",
+    "lafCd": "4576000",
+    "censusCode": "35560",
+    "population": {
+      "total": 27636,
+      "male": 13485,
+      "female": 14151,
+      "density": 35.8,
+      "avgAge": 49.8,
+      "agingIndex": 207.3,
+      "youthDependency": 11.0,
+      "oldAgeDependency": 22.8
+    },
+    "fund": {
+      "2022": 2811557449,
+      "2023": 3176458211,
+      "2024": 3674397383,
+      "2025": 3369847371,
+      "2026": 3682902813
+    }
+  },
+  {
+    "id": "전북-임실군",
+    "sido": "전북",
+    "sigungu": "임실군",
+    "type": "감소",
+    "lafCd": "4575000",
+    "censusCode": "35550",
+    "population": {
+      "total": 28855,
+      "male": 14748,
+      "female": 14107,
+      "density": 110.5,
+      "avgAge": 51.7,
+      "agingIndex": 259.0,
+      "youthDependency": 12.6,
+      "oldAgeDependency": 32.6
+    },
+    "fund": {
+      "2022": 3639631381,
+      "2023": 3640078268,
+      "2024": 4464877194,
+      "2025": 4149352854,
+      "2026": 4509679106
+    }
+  },
+  {
+    "id": "전북-장수군",
+    "sido": "전북",
+    "sigungu": "장수군",
+    "type": "감소",
+    "lafCd": "4574000",
+    "censusCode": "35540",
+    "population": {
+      "total": 21374,
+      "male": 10346,
+      "female": 11028,
+      "density": 114.1,
+      "avgAge": 58.2,
+      "agingIndex": 478.1,
+      "youthDependency": 7.7,
+      "oldAgeDependency": 36.8
+    },
+    "fund": {
+      "2022": 3489162415,
+      "2023": 3450368184,
+      "2024": 3524037703,
+      "2025": 3517794343,
+      "2026": 3702071593
+    }
+  },
+  {
+    "id": "전북-정읍시",
+    "sido": "전북",
+    "sigungu": "정읍시",
+    "type": "감소",
+    "lafCd": "4514000",
+    "censusCode": "35040",
+    "population": {
+      "total": 93177,
+      "male": 46290,
+      "female": 46887,
+      "density": 1640.1,
+      "avgAge": 43.9,
+      "agingIndex": 148.6,
+      "youthDependency": 15.5,
+      "oldAgeDependency": 23.0
+    },
+    "fund": {
+      "2022": 2733589378,
+      "2023": 2516145421,
+      "2024": 2663839883,
+      "2025": 2957349661,
+      "2026": 3242334488
+    }
+  },
+  {
+    "id": "전북-진안군",
+    "sido": "전북",
+    "sigungu": "진안군",
+    "type": "감소",
+    "lafCd": "4572000",
+    "censusCode": "35520",
+    "population": {
+      "total": 24128,
+      "male": 12048,
+      "female": 12080,
+      "density": 59.3,
+      "avgAge": 56.8,
+      "agingIndex": 356.8,
+      "youthDependency": 12.1,
+      "oldAgeDependency": 43.2
+    },
+    "fund": {
+      "2022": 2653995477,
+      "2023": 3191834225,
+      "2024": 3024407759,
+      "2025": 3132933751,
+      "2026": 3427845206
+    }
+  },
+  {
+    "id": "전남-강진군",
+    "sido": "전남",
+    "sigungu": "강진군",
+    "type": "감소",
+    "lafCd": "4678000",
+    "censusCode": "36590",
+    "population": {
+      "total": 33221,
+      "male": 16602,
+      "female": 16619,
+      "density": 73.5,
+      "avgAge": 53.9,
+      "agingIndex": 317.0,
+      "youthDependency": 8.6,
+      "oldAgeDependency": 27.3
+    },
+    "fund": {
+      "2022": 3265386009,
+      "2023": 3925134192,
+      "2024": 4208985810,
+      "2025": 4447428647,
+      "2026": 4120198274
+    }
+  },
+  {
+    "id": "전남-고흥군",
+    "sido": "전남",
+    "sigungu": "고흥군",
+    "type": "감소",
+    "lafCd": "4674000",
+    "censusCode": "36550",
+    "population": {
+      "total": 60817,
+      "male": 30380,
+      "female": 30437,
+      "density": 121.6,
+      "avgAge": 56.3,
+      "agingIndex": 472.9,
+      "youthDependency": 9.9,
+      "oldAgeDependency": 46.8
+    },
+    "fund": {
+      "2022": 2661664020,
+      "2023": 2498340483,
+      "2024": 2814917352,
+      "2025": 2737457616,
+      "2026": 2963632480
+    }
+  },
+  {
+    "id": "전남-곡성군",
+    "sido": "전남",
+    "sigungu": "곡성군",
+    "type": "감소",
+    "lafCd": "4672000",
+    "censusCode": "36520",
+    "population": {
+      "total": 26194,
+      "male": 12933,
+      "female": 13261,
+      "density": 73.0,
+      "avgAge": 54.6,
+      "agingIndex": 558.8,
+      "youthDependency": 9.7,
+      "oldAgeDependency": 54.2
+    },
+    "fund": {
+      "2022": 2826645649,
+      "2023": 3218174888,
+      "2024": 3141644042,
+      "2025": 3603944582,
+      "2026": 4434116907
+    }
+  },
+  {
+    "id": "전남-구례군",
+    "sido": "전남",
+    "sigungu": "구례군",
+    "type": "감소",
+    "lafCd": "4673000",
+    "censusCode": "36530",
+    "population": {
+      "total": 23898,
+      "male": 11677,
+      "female": 12221,
+      "density": 176.1,
+      "avgAge": 56.7,
+      "agingIndex": 374.3,
+      "youthDependency": 10.1,
+      "oldAgeDependency": 37.8
+    },
+    "fund": {
+      "2022": 2670631329,
+      "2023": 2477403223,
+      "2024": 2331219748,
+      "2025": 2148863853,
+      "2026": 1838695441
+    }
+  },
+  {
+    "id": "전남-담양군",
+    "sido": "전남",
+    "sigungu": "담양군",
+    "type": "감소",
+    "lafCd": "4671000",
+    "censusCode": "36510",
+    "population": {
+      "total": 44542,
+      "male": 21461,
+      "female": 23081,
+      "density": 170.8,
+      "avgAge": 51.5,
+      "agingIndex": 219.6,
+      "youthDependency": 10.8,
+      "oldAgeDependency": 23.7
+    },
+    "fund": {
+      "2022": 2673105176,
+      "2023": 2285254084,
+      "2024": 2202381014,
+      "2025": 2293748295,
+      "2026": 2262283511
+    }
+  },
+  {
+    "id": "전남-보성군",
+    "sido": "전남",
+    "sigungu": "보성군",
+    "type": "감소",
+    "lafCd": "4675000",
+    "censusCode": "36560",
+    "population": {
+      "total": 34676,
+      "male": 17949,
+      "female": 16727,
+      "density": 81.1,
+      "avgAge": 57.9,
+      "agingIndex": 372.0,
+      "youthDependency": 7.4,
+      "oldAgeDependency": 27.5
+    },
+    "fund": {
+      "2022": 2614330889,
+      "2023": 2378201997,
+      "2024": 2556890198,
+      "2025": 2484106285,
+      "2026": 3099089644
+    }
+  },
+  {
+    "id": "전남-신안군",
+    "sido": "전남",
+    "sigungu": "신안군",
+    "type": "감소",
+    "lafCd": "4687000",
+    "censusCode": "36680",
+    "population": {
+      "total": 42341,
+      "male": 21028,
+      "female": 21313,
+      "density": 143.0,
+      "avgAge": 55.4,
+      "agingIndex": 414.6,
+      "youthDependency": 9.3,
+      "oldAgeDependency": 38.6
+    },
+    "fund": {
+      "2022": 2906823759,
+      "2023": 3155095737,
+      "2024": 3223031051,
+      "2025": 3472660569,
+      "2026": 3035425244
+    }
+  },
+  {
+    "id": "전남-영광군",
+    "sido": "전남",
+    "sigungu": "영광군",
+    "type": "감소",
+    "lafCd": "4683000",
+    "censusCode": "36640",
+    "population": {
+      "total": 54781,
+      "male": 28371,
+      "female": 26410,
+      "density": 124.0,
+      "avgAge": 50.5,
+      "agingIndex": 274.8,
+      "youthDependency": 7.9,
+      "oldAgeDependency": 21.7
+    },
+    "fund": {
+      "2022": 2640077842,
+      "2023": 2246891812,
+      "2024": 2314751274,
+      "2025": 2517348671,
+      "2026": 2433026844
+    }
+  },
+  {
+    "id": "전남-영암군",
+    "sido": "전남",
+    "sigungu": "영암군",
+    "type": "감소",
+    "lafCd": "4680000",
+    "censusCode": "36610",
+    "population": {
+      "total": 51427,
+      "male": 25266,
+      "female": 26161,
+      "density": 53.5,
+      "avgAge": 48.9,
+      "agingIndex": 509.5,
+      "youthDependency": 8.6,
+      "oldAgeDependency": 43.8
+    },
+    "fund": {
+      "2022": 3257747507,
+      "2023": 3816654071,
+      "2024": 3546158963,
+      "2025": 3177041124,
+      "2026": 2986176502
+    }
+  },
+  {
+    "id": "전남-완도군",
+    "sido": "전남",
+    "sigungu": "완도군",
+    "type": "감소",
+    "lafCd": "4685000",
+    "censusCode": "36660",
+    "population": {
+      "total": 49687,
+      "male": 25492,
+      "female": 24195,
+      "density": 65.8,
+      "avgAge": 50.0,
+      "agingIndex": 225.7,
+      "youthDependency": 11.5,
+      "oldAgeDependency": 26.0
+    },
+    "fund": {
+      "2022": 2896332705,
+      "2023": 2605950626,
+      "2024": 2932922369,
+      "2025": 3313889844,
+      "2026": 4066376455
+    }
+  },
+  {
+    "id": "전남-장성군",
+    "sido": "전남",
+    "sigungu": "장성군",
+    "type": "감소",
+    "lafCd": "4684000",
+    "censusCode": "36650",
+    "population": {
+      "total": 43240,
+      "male": 21512,
+      "female": 21728,
+      "density": 136.2,
+      "avgAge": 58.7,
+      "agingIndex": 415.3,
+      "youthDependency": 10.6,
+      "oldAgeDependency": 44.0
+    },
+    "fund": {
+      "2022": 2824709298,
+      "2023": 3162881650,
+      "2024": 3777134613,
+      "2025": 4097621360,
+      "2026": 3516980965
+    }
+  },
+  {
+    "id": "전남-장흥군",
+    "sido": "전남",
+    "sigungu": "장흥군",
+    "type": "감소",
+    "lafCd": "4677000",
+    "censusCode": "36580",
+    "population": {
+      "total": 36868,
+      "male": 18094,
+      "female": 18774,
+      "density": 92.6,
+      "avgAge": 57.1,
+      "agingIndex": 214.5,
+      "youthDependency": 10.9,
+      "oldAgeDependency": 23.4
+    },
+    "fund": {
+      "2022": 2767786976,
+      "2023": 3000646015,
+      "2024": 3312454808,
+      "2025": 3467114385,
+      "2026": 3073586371
+    }
+  },
+  {
+    "id": "전남-진도군",
+    "sido": "전남",
+    "sigungu": "진도군",
+    "type": "감소",
+    "lafCd": "4686000",
+    "censusCode": "36670",
+    "population": {
+      "total": 30602,
+      "male": 15081,
+      "female": 15521,
+      "density": 82.9,
+      "avgAge": 49.9,
+      "agingIndex": 237.7,
+      "youthDependency": 10.0,
+      "oldAgeDependency": 23.8
+    },
+    "fund": {
+      "2022": 3030542705,
+      "2023": 3497852113,
+      "2024": 3024518749,
+      "2025": 2677376334,
+      "2026": 2546076567
+    }
+  },
+  {
+    "id": "전남-함평군",
+    "sido": "전남",
+    "sigungu": "함평군",
+    "type": "감소",
+    "lafCd": "4682000",
+    "censusCode": "36630",
+    "population": {
+      "total": 34106,
+      "male": 16922,
+      "female": 17184,
+      "density": 123.5,
+      "avgAge": 59.9,
+      "agingIndex": 385.3,
+      "youthDependency": 10.3,
+      "oldAgeDependency": 39.7
+    },
+    "fund": {
+      "2022": 2775099049,
+      "2023": 2760423613,
+      "2024": 3181601488,
+      "2025": 3500281818,
+      "2026": 4039311967
+    }
+  },
+  {
+    "id": "전남-해남군",
+    "sido": "전남",
+    "sigungu": "해남군",
+    "type": "감소",
+    "lafCd": "4679000",
+    "censusCode": "36600",
+    "population": {
+      "total": 64814,
+      "male": 31450,
+      "female": 33364,
+      "density": 95.0,
+      "avgAge": 58.6,
+      "agingIndex": 303.7,
+      "youthDependency": 7.2,
+      "oldAgeDependency": 21.9
+    },
+    "fund": {
+      "2022": 3509176479,
+      "2023": 3979101285,
+      "2024": 3876838602,
+      "2025": 3316518288,
+      "2026": 3360283975
+    }
+  },
+  {
+    "id": "전남-화순군",
+    "sido": "전남",
+    "sigungu": "화순군",
+    "type": "감소",
+    "lafCd": "4676000",
+    "censusCode": "36570",
+    "population": {
+      "total": 66272,
+      "male": 34230,
+      "female": 32042,
+      "density": 152.3,
+      "avgAge": 49.4,
+      "agingIndex": 366.1,
+      "youthDependency": 10.0,
+      "oldAgeDependency": 36.6
+    },
+    "fund": {
+      "2022": 3160646418,
+      "2023": 3032229223,
+      "2024": 3589824575,
+      "2025": 4458913397,
+      "2026": 4224786388
+    }
+  },
+  {
+    "id": "경북-고령군",
+    "sido": "경북",
+    "sigungu": "고령군",
+    "type": "감소",
+    "lafCd": "4777000",
+    "censusCode": "37570",
+    "population": {
+      "total": 30407,
+      "male": 14827,
+      "female": 15580,
+      "density": 37.5,
+      "avgAge": 57.0,
+      "agingIndex": 415.8,
+      "youthDependency": 7.4,
+      "oldAgeDependency": 30.8
+    },
+    "fund": {
+      "2022": 3575294855,
+      "2023": 3525062309,
+      "2024": 4107004137,
+      "2025": 3929865209,
+      "2026": 3344417877
+    }
+  },
+  {
+    "id": "경북-문경시",
+    "sido": "경북",
+    "sigungu": "문경시",
+    "type": "감소",
+    "lafCd": "4719000",
+    "censusCode": "37090",
+    "population": {
+      "total": 66082,
+      "male": 33270,
+      "female": 32812,
+      "density": 849.8,
+      "avgAge": 44.4,
+      "agingIndex": 219.8,
+      "youthDependency": 13.7,
+      "oldAgeDependency": 30.1
+    },
+    "fund": {
+      "2022": 3212300900,
+      "2023": 3428720117,
+      "2024": 3538911798,
+      "2025": 3463571692,
+      "2026": 3205400346
+    }
+  },
+  {
+    "id": "경북-봉화군",
+    "sido": "경북",
+    "sigungu": "봉화군",
+    "type": "감소",
+    "lafCd": "4781000",
+    "censusCode": "37610",
+    "population": {
+      "total": 27939,
+      "male": 13838,
+      "female": 14101,
+      "density": 67.5,
+      "avgAge": 52.9,
+      "agingIndex": 508.2,
+      "youthDependency": 9.8,
+      "oldAgeDependency": 49.8
+    },
+    "fund": {
+      "2022": 3007477376,
+      "2023": 3745408869,
+      "2024": 4370732836,
+      "2025": 4855043254,
+      "2026": 4422177929
+    }
+  },
+  {
+    "id": "경북-상주시",
+    "sido": "경북",
+    "sigungu": "상주시",
+    "type": "감소",
+    "lafCd": "4718000",
+    "censusCode": "37080",
+    "population": {
+      "total": 89777,
+      "male": 44896,
+      "female": 44881,
+      "density": 3534.5,
+      "avgAge": 47.8,
+      "agingIndex": 162.6,
+      "youthDependency": 13.2,
+      "oldAgeDependency": 21.5
+    },
+    "fund": {
+      "2022": 3098313689,
+      "2023": 3528909675,
+      "2024": 3578284230,
+      "2025": 3978739073,
+      "2026": 3627593417
+    }
+  },
+  {
+    "id": "경북-성주군",
+    "sido": "경북",
+    "sigungu": "성주군",
+    "type": "감소",
+    "lafCd": "4778000",
+    "censusCode": "37580",
+    "population": {
+      "total": 44694,
+      "male": 21926,
+      "female": 22768,
+      "density": 28.3,
+      "avgAge": 52.8,
+      "agingIndex": 424.4,
+      "youthDependency": 9.0,
+      "oldAgeDependency": 38.2
+    },
+    "fund": {
+      "2022": 3190346774,
+      "2023": 3929409226,
+      "2024": 4325178032,
+      "2025": 5211733445,
+      "2026": 5447194319
+    }
+  },
+  {
+    "id": "경북-안동시",
+    "sido": "경북",
+    "sigungu": "안동시",
+    "type": "감소",
+    "lafCd": "4714000",
+    "censusCode": "37040",
+    "population": {
+      "total": 143993,
+      "male": 69510,
+      "female": 74483,
+      "density": 3990.5,
+      "avgAge": 48.3,
+      "agingIndex": 168.4,
+      "youthDependency": 14.7,
+      "oldAgeDependency": 24.8
+    },
+    "fund": {
+      "2022": 2668131751,
+      "2023": 2944281069,
+      "2024": 3530286314,
+      "2025": 3627268294,
+      "2026": 4090109415
+    }
+  },
+  {
+    "id": "경북-영덕군",
+    "sido": "경북",
+    "sigungu": "영덕군",
+    "type": "감소",
+    "lafCd": "4775000",
+    "censusCode": "37550",
+    "population": {
+      "total": 32691,
+      "male": 16115,
+      "female": 16576,
+      "density": 86.1,
+      "avgAge": 52.3,
+      "agingIndex": 220.2,
+      "youthDependency": 8.5,
+      "oldAgeDependency": 18.7
+    },
+    "fund": {
+      "2022": 3368160445,
+      "2023": 3105520570,
+      "2024": 2857165077,
+      "2025": 3125157774,
+      "2026": 3134588623
+    }
+  },
+  {
+    "id": "경북-영양군",
+    "sido": "경북",
+    "sigungu": "영양군",
+    "type": "감소",
+    "lafCd": "4774000",
+    "censusCode": "37540",
+    "population": {
+      "total": 15419,
+      "male": 7964,
+      "female": 7455,
+      "density": 56.9,
+      "avgAge": 53.5,
+      "agingIndex": 251.5,
+      "youthDependency": 8.5,
+      "oldAgeDependency": 21.4
+    },
+    "fund": {
+      "2022": 3515559692,
+      "2023": 4255527947,
+      "2024": 4770635579,
+      "2025": 4356497891,
+      "2026": 4472781155
+    }
+  },
+  {
+    "id": "경북-영주시",
+    "sido": "경북",
+    "sigungu": "영주시",
+    "type": "감소",
+    "lafCd": "4716000",
+    "censusCode": "37060",
+    "population": {
+      "total": 107895,
+      "male": 53080,
+      "female": 54815,
+      "density": 1990.3,
+      "avgAge": 46.2,
+      "agingIndex": 214.7,
+      "youthDependency": 12.5,
+      "oldAgeDependency": 26.8
+    },
+    "fund": {
+      "2022": 3574002550,
+      "2023": 3190373787,
+      "2024": 3198495582,
+      "2025": 3177972956,
+      "2026": 3077386794
+    }
+  },
+  {
+    "id": "경북-영천시",
+    "sido": "경북",
+    "sigungu": "영천시",
+    "type": "감소",
+    "lafCd": "4717000",
+    "censusCode": "37070",
+    "population": {
+      "total": 98104,
+      "male": 50927,
+      "female": 47177,
+      "density": 2393.9,
+      "avgAge": 42.5,
+      "agingIndex": 172.2,
+      "youthDependency": 14.4,
+      "oldAgeDependency": 24.8
+    },
+    "fund": {
+      "2022": 2608853100,
+      "2023": 2850335318,
+      "2024": 2989120751,
+      "2025": 3621804375,
+      "2026": 3493149410
+    }
+  },
+  {
+    "id": "경북-울릉군",
+    "sido": "경북",
+    "sigungu": "울릉군",
+    "type": "감소",
+    "lafCd": "4783000",
+    "censusCode": "37630",
+    "population": {
+      "total": 8659,
+      "male": 4434,
+      "female": 4225,
+      "density": 56.4,
+      "avgAge": 50.3,
+      "agingIndex": 278.8,
+      "youthDependency": 11.5,
+      "oldAgeDependency": 32.1
+    },
+    "fund": {
+      "2022": 3367026113,
+      "2023": 3046187903,
+      "2024": 2707651552,
+      "2025": 2981078986,
+      "2026": 2580925860
+    }
+  },
+  {
+    "id": "경북-울진군",
+    "sido": "경북",
+    "sigungu": "울진군",
+    "type": "감소",
+    "lafCd": "4782000",
+    "censusCode": "37620",
+    "population": {
+      "total": 47602,
+      "male": 23952,
+      "female": 23650,
+      "density": 63.7,
+      "avgAge": 49.1,
+      "agingIndex": 463.6,
+      "youthDependency": 11.5,
+      "oldAgeDependency": 53.3
+    },
+    "fund": {
+      "2022": 2708591757,
+      "2023": 2886717157,
+      "2024": 3575475840,
+      "2025": 3798374398,
+      "2026": 4616524453
+    }
+  },
+  {
+    "id": "경북-의성군",
+    "sido": "경북",
+    "sigungu": "의성군",
+    "type": "감소",
+    "lafCd": "4772000",
+    "censusCode": "37520",
+    "population": {
+      "total": 49557,
+      "male": 25599,
+      "female": 23958,
+      "density": 63.7,
+      "avgAge": 59.6,
+      "agingIndex": 539.9,
+      "youthDependency": 12.2,
+      "oldAgeDependency": 65.9
+    },
+    "fund": {
+      "2022": 3111997666,
+      "2023": 2738930590,
+      "2024": 3154318439,
+      "2025": 2965834911,
+      "2026": 3323305479
+    }
+  },
+  {
+    "id": "경북-청도군",
+    "sido": "경북",
+    "sigungu": "청도군",
+    "type": "감소",
+    "lafCd": "4776000",
+    "censusCode": "37560",
+    "population": {
+      "total": 43754,
+      "male": 22694,
+      "female": 21060,
+      "density": 145.5,
+      "avgAge": 52.4,
+      "agingIndex": 489.7,
+      "youthDependency": 7.1,
+      "oldAgeDependency": 34.8
+    },
+    "fund": {
+      "2022": 3095743233,
+      "2023": 3464543312,
+      "2024": 3876603340,
+      "2025": 4201555880,
+      "2026": 4953495397
+    }
+  },
+  {
+    "id": "경북-청송군",
+    "sido": "경북",
+    "sigungu": "청송군",
+    "type": "감소",
+    "lafCd": "4773000",
+    "censusCode": "37530",
+    "population": {
+      "total": 23568,
+      "male": 11948,
+      "female": 11620,
+      "density": 170.6,
+      "avgAge": 55.4,
+      "agingIndex": 369.7,
+      "youthDependency": 9.0,
+      "oldAgeDependency": 33.3
+    },
+    "fund": {
+      "2022": 3327182856,
+      "2023": 3673747442,
+      "2024": 3804925995,
+      "2025": 4301205788,
+      "2026": 4773029905
+    }
+  },
+  {
+    "id": "경남-거창군",
+    "sido": "경남",
+    "sigungu": "거창군",
+    "type": "감소",
+    "lafCd": "4879000",
+    "censusCode": "38590",
+    "population": {
+      "total": 59822,
+      "male": 30978,
+      "female": 28844,
+      "density": 31.0,
+      "avgAge": 53.9,
+      "agingIndex": 309.6,
+      "youthDependency": 12.3,
+      "oldAgeDependency": 38.1
+    },
+    "fund": {
+      "2022": 3094372508,
+      "2023": 3460110280,
+      "2024": 3969632447,
+      "2025": 4876255349,
+      "2026": 4962324675
+    }
+  },
+  {
+    "id": "경남-고성군",
+    "sido": "경남",
+    "sigungu": "고성군",
+    "type": "감소",
+    "lafCd": "4874000",
+    "censusCode": "38540",
+    "population": {
+      "total": 51586,
+      "male": 26588,
+      "female": 24998,
+      "density": 116.6,
+      "avgAge": 58.0,
+      "agingIndex": 435.8,
+      "youthDependency": 12.6,
+      "oldAgeDependency": 54.9
+    },
+    "fund": {
+      "2022": 3378336796,
+      "2023": 3165190344,
+      "2024": 3253430608,
+      "2025": 3072686450,
+      "2026": 3057551673
+    }
+  },
+  {
+    "id": "경남-남해군",
+    "sido": "경남",
+    "sigungu": "남해군",
+    "type": "감소",
+    "lafCd": "4875000",
+    "censusCode": "38550",
+    "population": {
+      "total": 43091,
+      "male": 21622,
+      "female": 21469,
+      "density": 80.7,
+      "avgAge": 52.3,
+      "agingIndex": 552.0,
+      "youthDependency": 8.1,
+      "oldAgeDependency": 44.7
+    },
+    "fund": {
+      "2022": 3567639826,
+      "2023": 3681400969,
+      "2024": 4105157813,
+      "2025": 4543103383,
+      "2026": 4946796207
+    }
+  },
+  {
+    "id": "경남-밀양시",
+    "sido": "경남",
+    "sigungu": "밀양시",
+    "type": "감소",
+    "lafCd": "4818000",
+    "censusCode": "38080",
+    "population": {
+      "total": 100267,
+      "male": 49465,
+      "female": 50802,
+      "density": 1059.3,
+      "avgAge": 47.1,
+      "agingIndex": 218.4,
+      "youthDependency": 15.1,
+      "oldAgeDependency": 33.0
+    },
+    "fund": {
+      "2022": 3253659700,
+      "2023": 3823769832,
+      "2024": 3606577685,
+      "2025": 4182719205,
+      "2026": 4874781475
+    }
+  },
+  {
+    "id": "경남-산청군",
+    "sido": "경남",
+    "sigungu": "산청군",
+    "type": "감소",
+    "lafCd": "4877000",
+    "censusCode": "38570",
+    "population": {
+      "total": 32563,
+      "male": 16748,
+      "female": 15815,
+      "density": 56.4,
+      "avgAge": 49.6,
+      "agingIndex": 252.1,
+      "youthDependency": 8.0,
+      "oldAgeDependency": 20.2
+    },
+    "fund": {
+      "2022": 2580936179,
+      "2023": 2209137174,
+      "2024": 2575840393,
+      "2025": 2434613870,
+      "2026": 2384725186
+    }
+  },
+  {
+    "id": "경남-의령군",
+    "sido": "경남",
+    "sigungu": "의령군",
+    "type": "감소",
+    "lafCd": "4871000",
+    "censusCode": "38510",
+    "population": {
+      "total": 24178,
+      "male": 11728,
+      "female": 12450,
+      "density": 25.5,
+      "avgAge": 49.4,
+      "agingIndex": 351.5,
+      "youthDependency": 9.7,
+      "oldAgeDependency": 34.1
+    },
+    "fund": {
+      "2022": 3262399221,
+      "2023": 3362888189,
+      "2024": 3156473784,
+      "2025": 3459630157,
+      "2026": 3947082355
+    }
+  },
+  {
+    "id": "경남-창녕군",
+    "sido": "경남",
+    "sigungu": "창녕군",
+    "type": "감소",
+    "lafCd": "4873000",
+    "censusCode": "38530",
+    "population": {
+      "total": 63082,
+      "male": 31595,
+      "female": 31487,
+      "density": 25.0,
+      "avgAge": 59.6,
+      "agingIndex": 364.9,
+      "youthDependency": 9.9,
+      "oldAgeDependency": 36.1
+    },
+    "fund": {
+      "2022": 3373316995,
+      "2023": 3528852348,
+      "2024": 4283604458,
+      "2025": 3766985852,
+      "2026": 3323672608
+    }
+  },
+  {
+    "id": "경남-하동군",
+    "sido": "경남",
+    "sigungu": "하동군",
+    "type": "감소",
+    "lafCd": "4876000",
+    "censusCode": "38560",
+    "population": {
+      "total": 39932,
+      "male": 19368,
+      "female": 20564,
+      "density": 132.5,
+      "avgAge": 55.0,
+      "agingIndex": 424.8,
+      "youthDependency": 9.3,
+      "oldAgeDependency": 39.5
+    },
+    "fund": {
+      "2022": 2903877295,
+      "2023": 3055519015,
+      "2024": 3122984050,
+      "2025": 3645267022,
+      "2026": 3265304906
+    }
+  },
+  {
+    "id": "경남-함안군",
+    "sido": "경남",
+    "sigungu": "함안군",
+    "type": "감소",
+    "lafCd": "4872000",
+    "censusCode": "38520",
+    "population": {
+      "total": 67394,
+      "male": 34422,
+      "female": 32972,
+      "density": 89.5,
+      "avgAge": 50.6,
+      "agingIndex": 459.5,
+      "youthDependency": 8.4,
+      "oldAgeDependency": 38.6
+    },
+    "fund": {
+      "2022": 3094198683,
+      "2023": 3144930731,
+      "2024": 2792806472,
+      "2025": 2850633212,
+      "2026": 3181429655
+    }
+  },
+  {
+    "id": "경남-함양군",
+    "sido": "경남",
+    "sigungu": "함양군",
+    "type": "감소",
+    "lafCd": "4878000",
+    "censusCode": "38580",
+    "population": {
+      "total": 39349,
+      "male": 19968,
+      "female": 19381,
+      "density": 29.1,
+      "avgAge": 49.1,
+      "agingIndex": 370.7,
+      "youthDependency": 9.6,
+      "oldAgeDependency": 35.6
+    },
+    "fund": {
+      "2022": 2997176231,
+      "2023": 2703591374,
+      "2024": 2362918289,
+      "2025": 2912650873,
+      "2026": 3130148278
+    }
+  },
+  {
+    "id": "경남-합천군",
+    "sido": "경남",
+    "sigungu": "합천군",
+    "type": "감소",
+    "lafCd": "4880000",
+    "censusCode": "38600",
+    "population": {
+      "total": 40725,
+      "male": 20124,
+      "female": 20601,
+      "density": 158.2,
+      "avgAge": 57.0,
+      "agingIndex": 439.5,
+      "youthDependency": 11.3,
+      "oldAgeDependency": 49.7
+    },
+    "fund": {
+      "2022": 3270492109,
+      "2023": 3239940722,
+      "2024": 3502918310,
+      "2025": 3275563226,
+      "2026": 3644701255
+    }
+  },
+  {
+    "id": "부산-중구",
+    "sido": "부산",
+    "sigungu": "중구",
+    "type": "관심",
+    "lafCd": "2611000",
+    "censusCode": "21010",
+    "population": {
+      "total": 44041,
+      "male": 21756,
+      "female": 22285,
+      "density": 1330.7,
+      "avgAge": 41.0,
+      "agingIndex": 157.9,
+      "youthDependency": 12.1,
+      "oldAgeDependency": 19.1
+    },
+    "fund": {
+      "2022": 1074386280,
+      "2023": 1243035931,
+      "2024": 1365710553,
+      "2025": 1529583097,
+      "2026": 1640777520
+    }
+  },
+  {
+    "id": "부산-금정구",
+    "sido": "부산",
+    "sigungu": "금정구",
+    "type": "관심",
+    "lafCd": "2621000",
+    "censusCode": "21110",
+    "population": {
+      "total": 239576,
+      "male": 122945,
+      "female": 116631,
+      "density": 2900.0,
+      "avgAge": 41.6,
+      "agingIndex": 117.4,
+      "youthDependency": 12.5,
+      "oldAgeDependency": 14.7
+    },
+    "fund": {
+      "2022": 852442315,
+      "2023": 1021179079,
+      "2024": 1099328318,
+      "2025": 1110666501,
+      "2026": 1007096696
+    }
+  },
+  {
+    "id": "인천-동구",
+    "sido": "인천",
+    "sigungu": "동구",
+    "type": "관심",
+    "lafCd": "2812000",
+    "censusCode": "23020",
+    "population": {
+      "total": 67161,
+      "male": 32483,
+      "female": 34678,
+      "density": 1978.5,
+      "avgAge": 43.4,
+      "agingIndex": 154.3,
+      "youthDependency": 11.8,
+      "oldAgeDependency": 18.2
+    },
+    "fund": {
+      "2022": 979753156,
+      "2023": 1201728940,
+      "2024": 1308069343,
+      "2025": 1574048073,
+      "2026": 1435896960
+    }
+  },
+  {
+    "id": "광주-동구",
+    "sido": "광주",
+    "sigungu": "동구",
+    "type": "관심",
+    "lafCd": "2911000",
+    "censusCode": "24010",
+    "population": {
+      "total": 99616,
+      "male": 50501,
+      "female": 49115,
+      "density": 2096.9,
+      "avgAge": 46.0,
+      "agingIndex": 118.1,
+      "youthDependency": 13.2,
+      "oldAgeDependency": 15.6
+    },
+    "fund": {
+      "2022": 1151977257,
+      "2023": 1031626740,
+      "2024": 1054286889,
+      "2025": 1015593071,
+      "2026": 1138880485
+    }
+  },
+  {
+    "id": "대전-동구",
+    "sido": "대전",
+    "sigungu": "동구",
+    "type": "관심",
+    "lafCd": "3011000",
+    "censusCode": "25010",
+    "population": {
+      "total": 218822,
+      "male": 107734,
+      "female": 111088,
+      "density": 502.7,
+      "avgAge": 48.9,
+      "agingIndex": 110.9,
+      "youthDependency": 12.0,
+      "oldAgeDependency": 13.3
+    },
+    "fund": {
+      "2022": 1156939810,
+      "2023": 1337034103,
+      "2024": 1291279261,
+      "2025": 1159560689,
+      "2026": 1216325975
+    }
+  },
+  {
+    "id": "대전-중구",
+    "sido": "대전",
+    "sigungu": "중구",
+    "type": "관심",
+    "lafCd": "3012000",
+    "censusCode": "25020",
+    "population": {
+      "total": 227194,
+      "male": 112508,
+      "female": 114686,
+      "density": 3383.4,
+      "avgAge": 44.5,
+      "agingIndex": 178.5,
+      "youthDependency": 15.0,
+      "oldAgeDependency": 26.8
+    },
+    "fund": {
+      "2022": 1194705744,
+      "2023": 1035715384,
+      "2024": 888122435,
+      "2025": 1082146079,
+      "2026": 1292995755
+    }
+  },
+  {
+    "id": "대전-대덕구",
+    "sido": "대전",
+    "sigungu": "대덕구",
+    "type": "관심",
+    "lafCd": "3015000",
+    "censusCode": "25050",
+    "population": {
+      "total": 194059,
+      "male": 96287,
+      "female": 97772,
+      "density": 1798.6,
+      "avgAge": 42.6,
+      "agingIndex": 169.6,
+      "youthDependency": 15.8,
+      "oldAgeDependency": 26.8
+    },
+    "fund": {
+      "2022": 1229045723,
+      "2023": 1270880916,
+      "2024": 1430813674,
+      "2025": 1423289134,
+      "2026": 1458422616
+    }
+  },
+  {
+    "id": "경기-동두천시",
+    "sido": "경기",
+    "sigungu": "동두천시",
+    "type": "관심",
+    "lafCd": "4118000",
+    "censusCode": "31080",
+    "population": {
+      "total": 85801,
+      "male": 43205,
+      "female": 42596,
+      "density": 1448.0,
+      "avgAge": 43.6,
+      "agingIndex": 153.4,
+      "youthDependency": 12.7,
+      "oldAgeDependency": 19.5
+    },
+    "fund": {
+      "2022": 917253083,
+      "2023": 966962067,
+      "2024": 866021531,
+      "2025": 912770087,
+      "2026": 1106614242
+    }
+  },
+  {
+    "id": "경기-포천시",
+    "sido": "경기",
+    "sigungu": "포천시",
+    "type": "관심",
+    "lafCd": "4137000",
+    "censusCode": "31270",
+    "population": {
+      "total": 144914,
+      "male": 75113,
+      "female": 69801,
+      "density": 680.4,
+      "avgAge": 41.3,
+      "agingIndex": 170.4,
+      "youthDependency": 12.3,
+      "oldAgeDependency": 21.0
+    },
+    "fund": {
+      "2022": 911147915,
+      "2023": 1051155771,
+      "2024": 925165616,
+      "2025": 1138431885,
+      "2026": 1253617863
+    }
+  },
+  {
+    "id": "강원-강릉시",
+    "sido": "강원",
+    "sigungu": "강릉시",
+    "type": "관심",
+    "lafCd": "4213000",
+    "censusCode": "32030",
+    "population": {
+      "total": 217480,
+      "male": 111000,
+      "female": 106480,
+      "density": 2388.6,
+      "avgAge": 48.3,
+      "agingIndex": 142.8,
+      "youthDependency": 14.2,
+      "oldAgeDependency": 20.3
+    },
+    "fund": {
+      "2022": 1195698749,
+      "2023": 1316329164,
+      "2024": 1198363641,
+      "2025": 1051341802,
+      "2026": 1079605260
+    }
+  },
+  {
+    "id": "강원-동해시",
+    "sido": "강원",
+    "sigungu": "동해시",
+    "type": "관심",
+    "lafCd": "4214000",
+    "censusCode": "32040",
+    "population": {
+      "total": 90609,
+      "male": 45635,
+      "female": 44974,
+      "density": 2008.4,
+      "avgAge": 40.7,
+      "agingIndex": 129.3,
+      "youthDependency": 11.2,
+      "oldAgeDependency": 14.5
+    },
+    "fund": {
+      "2022": 964830813,
+      "2023": 1068903820,
+      "2024": 1326453430,
+      "2025": 1175395058,
+      "2026": 1278397192
+    }
+  },
+  {
+    "id": "강원-속초시",
+    "sido": "강원",
+    "sigungu": "속초시",
+    "type": "관심",
+    "lafCd": "4216000",
+    "censusCode": "32060",
+    "population": {
+      "total": 80577,
+      "male": 40463,
+      "female": 40114,
+      "density": 1964.0,
+      "avgAge": 48.1,
+      "agingIndex": 190.9,
+      "youthDependency": 15.0,
+      "oldAgeDependency": 28.6
+    },
+    "fund": {
+      "2022": 978610705,
+      "2023": 1018001362,
+      "2024": 926731870,
+      "2025": 810658221,
+      "2026": 722621346
+    }
+  },
+  {
+    "id": "강원-인제군",
+    "sido": "강원",
+    "sigungu": "인제군",
+    "type": "관심",
+    "lafCd": "4279000",
+    "censusCode": "32590",
+    "population": {
+      "total": 32464,
+      "male": 16858,
+      "female": 15606,
+      "density": 444.8,
+      "avgAge": 45.8,
+      "agingIndex": 91.8,
+      "youthDependency": 14.5,
+      "oldAgeDependency": 13.3
+    },
+    "fund": {
+      "2022": 1059627421,
+      "2023": 1159149919,
+      "2024": 1154002347,
+      "2025": 1404622478,
+      "2026": 1411598709
+    }
+  },
+  {
+    "id": "전북-익산시",
+    "sido": "전북",
+    "sigungu": "익산시",
+    "type": "관심",
+    "lafCd": "4513000",
+    "censusCode": "35030",
+    "population": {
+      "total": 267799,
+      "male": 134948,
+      "female": 132851,
+      "density": 543.9,
+      "avgAge": 45.8,
+      "agingIndex": 190.5,
+      "youthDependency": 11.5,
+      "oldAgeDependency": 21.9
+    },
+    "fund": {
+      "2022": 963658789,
+      "2023": 1098082889,
+      "2024": 1221755171,
+      "2025": 1481423446,
+      "2026": 1776688715
+    }
+  },
+  {
+    "id": "경북-경주시",
+    "sido": "경북",
+    "sigungu": "경주시",
+    "type": "관심",
+    "lafCd": "4712000",
+    "censusCode": "37020",
+    "population": {
+      "total": 234411,
+      "male": 118739,
+      "female": 115672,
+      "density": 2727.4,
+      "avgAge": 42.8,
+      "agingIndex": 208.3,
+      "youthDependency": 14.3,
+      "oldAgeDependency": 29.8
+    },
+    "fund": {
+      "2022": 1133533605,
+      "2023": 1001916303,
+      "2024": 1075626111,
+      "2025": 1191145456,
+      "2026": 1168978979
+    }
+  },
+  {
+    "id": "경북-김천시",
+    "sido": "경북",
+    "sigungu": "김천시",
+    "type": "관심",
+    "lafCd": "4713000",
+    "censusCode": "37030",
+    "population": {
+      "total": 141286,
+      "male": 72502,
+      "female": 68784,
+      "density": 2247.7,
+      "avgAge": 46.2,
+      "agingIndex": 183.4,
+      "youthDependency": 14.2,
+      "oldAgeDependency": 26.0
+    },
+    "fund": {
+      "2022": 994731238,
+      "2023": 989796443,
+      "2024": 912696416,
+      "2025": 853989103,
+      "2026": 1049610087
+    }
+  },
+  {
+    "id": "경남-통영시",
+    "sido": "경남",
+    "sigungu": "통영시",
+    "type": "관심",
+    "lafCd": "4815000",
+    "censusCode": "38050",
+    "population": {
+      "total": 120566,
+      "male": 62694,
+      "female": 57872,
+      "density": 3216.0,
+      "avgAge": 42.7,
+      "agingIndex": 101.7,
+      "youthDependency": 13.5,
+      "oldAgeDependency": 13.7
+    },
+    "fund": {
+      "2022": 1145457601,
+      "2023": 1214886823,
+      "2024": 1354321442,
+      "2025": 1625940235,
+      "2026": 1784002090
+    }
+  },
+  {
+    "id": "경남-사천시",
+    "sido": "경남",
+    "sigungu": "사천시",
+    "type": "관심",
+    "lafCd": "4816000",
+    "censusCode": "38060",
+    "population": {
+      "total": 111049,
+      "male": 54024,
+      "female": 57025,
+      "density": 3293.5,
+      "avgAge": 46.9,
+      "agingIndex": 196.4,
+      "youthDependency": 11.8,
+      "oldAgeDependency": 23.2
+    },
+    "fund": {
+      "2022": 1014343444,
+      "2023": 1136617645,
+      "2024": 1074117405,
+      "2025": 1103848420,
+      "2026": 1064078056
+    }
+  }
+]

@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 지방소멸대응기금 워치
 
-## Getting Started
+행정안전부 지정 **인구감소지역 89곳 + 관심지역 18곳**의 인구 현황과 **지방소멸대응기금** 예산·사업 집행을 한눈에 보는 대시보드.
 
-First, run the development server:
+- `/` 전국 개요 — 107개 지역 인구·기금 테이블 (시도/유형 필터, 정렬)
+- `/compare` 지역 비교 — 최대 6개 지역 인구 지표 + 연도별 기금 예산 추이
+- `/region/[id]` 지역 상세 — 인구 지표, 연도별 기금 예산, 세부사업 집행 현황(검색·정렬·페이지네이션)
+- 지방의회 회의록 연계(국회도서관 지방의정포털)는 v2 예정
+
+## 데이터 원천
+
+| 데이터 | 출처 | 방식 |
+|---|---|---|
+| 지역 지정 목록 | 행정안전부 인구감소지역 고시 | 정적 (`data/regions.json`) |
+| 인구 지표 (2024) | 통계청 인구총조사 CSV | 빌드타임 파싱 |
+| 기금 예산 (2024~2026) | 지방재정365 GJSCS `lcl_dspr_cntrm_fnd_amt` | OpenAPI |
+| 세부사업 집행 | 지방재정365 QWGJK (일자별 스냅샷) | OpenAPI |
+
+주의: GJSCS의 기금 재원 컬럼은 **2024 회계연도부터** 반영됨 (2022~2023은 원천 데이터에 미반영). 일부 지자체는 회계처리 방식에 따라 기금액이 0으로 표시될 수 있음.
+
+## 실행
 
 ```bash
+cp .env.example .env.local   # LOFIN_API_KEY 입력
+npm install
+npm run data:build           # OpenAPI + CSV → public/data/*.json (원시 캐시: data/raw/)
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+스키마 계약: `docs/data-contract.md` · 검증: `node scripts/validate-data.mjs`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 기금사업 확정 매핑
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+QWGJK에는 재원 구분이 없어 세부사업이 기금사업인지 API만으로 알 수 없다.
+`data/project_map.csv`(`dbiz_cd,status,note`, status=confirmed|excluded)에 확정 자료를 넣고
+`npm run data:build`를 다시 실행하면 반영된다. 매핑 전에는 사업명 키워드(지방소멸/소멸대응/인구감소) 기반 "후보"로 표시.
 
-## Learn More
+## 스냅샷 갱신
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+QWGJK 지출액은 조회일 기준 스냅샷. `scripts/build-data.mjs`의 `EXE_YMD`를 바꾸고
+`data/raw/qwgjk/`를 비운 뒤 `npm run data:build` 재실행.
