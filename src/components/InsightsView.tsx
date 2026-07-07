@@ -222,7 +222,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
             </div>
 
             {showAllTable && (
-              <div className="rounded-xl border border-stone-200 overflow-hidden">
+              <div className="rounded-xl border border-stone-200 overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead>
                     <tr className="bg-stone-50 border-b border-stone-200">
@@ -320,7 +320,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
             <p className="text-sm text-stone-400">초과집행 사업이 없습니다.</p>
           </div>
         ) : (
-          <div className="rounded-xl border border-stone-200 overflow-hidden">
+          <div className="rounded-xl border border-stone-200 overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
                 <tr className="bg-stone-50 border-b border-stone-200">

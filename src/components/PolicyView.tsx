@@ -727,8 +727,8 @@ export default function PolicyView({ policy }: Props) {
         />
 
         <div className="flex flex-col gap-4">
-          {/* Top 10 table */}
-          <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
+          {/* Top 10 table — overflow-x-auto: 모바일에서 위기점수 열이 잘리지 않도록 */}
+          <div className="bg-white rounded-2xl border border-stone-200 overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
                 <tr className="bg-stone-50 border-b border-stone-200">
