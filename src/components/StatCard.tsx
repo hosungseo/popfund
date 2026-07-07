@@ -22,7 +22,7 @@ export default function StatCard({ label, value, sub, accent }: Props) {
         {label}
       </span>
       <span
-        className={`font-mono text-3xl font-bold tabular-nums leading-tight ${
+        className={`font-mono text-2xl sm:text-3xl font-bold tabular-nums leading-tight break-keep ${
           accent ? "text-white" : "text-stone-900"
         }`}
       >
