@@ -133,7 +133,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       <section className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-base font-semibold text-stone-800">
+            <h2 className="text-lg font-semibold text-stone-800">
               1인당 기금액 랭킹
             </h2>
             <p className="text-xs text-stone-400 mt-0.5">
@@ -298,7 +298,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       {/* ===== Section 2: 초과집행 사업 ===== */}
       <section className="flex flex-col gap-4">
         <div>
-          <h2 className="text-base font-semibold text-stone-800">초과집행 사업</h2>
+          <h2 className="text-lg font-semibold text-stone-800">초과집행 사업</h2>
           <p className="text-xs text-stone-400 mt-0.5">
             예산현액 대비 지출액이 100%를 초과한 사업 전체
           </p>
@@ -382,7 +382,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       {/* ===== Section 3: 인구 × 기금 산점도 ===== */}
       <section className="flex flex-col gap-4">
         <div>
-          <h2 className="text-base font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-stone-800">
             인구 × 기금 산점도
           </h2>
           <p className="text-xs text-stone-400 mt-0.5">
@@ -469,7 +469,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       {/* ===== Section 4: 인구 감소 속도 ===== */}
       <section className="flex flex-col gap-4">
         <div>
-          <h2 className="text-base font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-stone-800">
             인구 감소 속도
           </h2>
           <p className="text-xs text-stone-400 mt-0.5">

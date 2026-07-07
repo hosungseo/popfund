@@ -89,7 +89,7 @@ function SectionHeader({
 }) {
   return (
     <div>
-      <h2 className="text-base font-semibold text-stone-800">{title}</h2>
+      <h2 className="text-lg font-semibold text-stone-800">{title}</h2>
       <p className="text-xs text-stone-400 mt-0.5">{sub}</p>
     </div>
   );

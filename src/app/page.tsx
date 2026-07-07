@@ -89,7 +89,7 @@ export default function HomePage() {
       {/* Map section */}
       <section className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
-          <h2 className="text-base font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-stone-800">
             지정 현황 지도
           </h2>
           <span className="text-xs text-stone-400">클릭하면 지역 상세로 이동</span>

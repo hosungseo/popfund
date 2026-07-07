@@ -43,3 +43,4 @@ next-env.d.ts
 # raw API cache (rebuildable via npm run data:build)
 /data/raw/
 .omc/
+.gstack/

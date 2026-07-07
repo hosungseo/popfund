@@ -168,7 +168,7 @@ export default async function RegionPage({ params }: Props) {
         {/* Population section */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-stone-800">인구 지표</h2>
+            <h2 className="text-lg font-semibold text-stone-800">인구 지표</h2>
             <span className="text-xs text-stone-400">
               {meta.censusYear}년 인구총조사
             </span>
@@ -179,7 +179,7 @@ export default async function RegionPage({ params }: Props) {
         {/* Population trend section */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-stone-800">인구 추이</h2>
+            <h2 className="text-lg font-semibold text-stone-800">인구 추이</h2>
             <span className="text-xs text-stone-400">
               행정안전부 주민등록 인구 (2022.10~)
             </span>
@@ -190,7 +190,7 @@ export default async function RegionPage({ params }: Props) {
         {/* Vital decomposition section */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-stone-800">
+            <h2 className="text-lg font-semibold text-stone-800">
               인구 증감 분해
             </h2>
             <span className="text-xs text-stone-400">
@@ -203,7 +203,7 @@ export default async function RegionPage({ params }: Props) {
         {/* Age pyramid section */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-stone-800">인구 구조</h2>
+            <h2 className="text-lg font-semibold text-stone-800">인구 구조</h2>
           </div>
           <AgePyramidChart regionId={region.id} />
         </section>
@@ -211,7 +211,7 @@ export default async function RegionPage({ params }: Props) {
         {/* Lifepop section */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-stone-800">생활인구</h2>
+            <h2 className="text-lg font-semibold text-stone-800">생활인구</h2>
             <span className="text-xs text-stone-400">
               행안부 생활인구 공표 (2025년 4분기)
             </span>
@@ -221,7 +221,7 @@ export default async function RegionPage({ params }: Props) {
 
         {/* Fund chart section */}
         <section className="flex flex-col gap-4">
-          <h2 className="text-base font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-stone-800">
             지방소멸대응기금 연도별 예산
           </h2>
           <div className="bg-white rounded-2xl border border-stone-200 p-5">
@@ -249,7 +249,7 @@ export default async function RegionPage({ params }: Props) {
         {/* Projects section */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-stone-800">
+            <h2 className="text-lg font-semibold text-stone-800">
               세부사업 현황
             </h2>
             <span className="text-xs text-stone-400">
@@ -268,7 +268,7 @@ export default async function RegionPage({ params }: Props) {
 
         {/* v2 placeholder tab */}
         <section className="flex flex-col gap-4">
-          <h2 className="text-base font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-stone-800">
             지방의회 논의
           </h2>
           <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
