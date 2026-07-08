@@ -144,7 +144,10 @@ function BubbleRow({
   keyword: string;
 }) {
   const profile = byName[utterance.speaker] ?? null;
-  const isCouncilor = !!profile;
+  // 프로필 매칭 + 발언 직위 기반 폴백: 의원정보 데이터가 없거나 미수록 의원이어도
+  // 위원/의장 등 의정 직위면 의원측(좌측)으로 분류한다.
+  const isCouncilor =
+    !!profile || /^(위원장|부위원장|위원|의장|부의장|의원)$/.test(utterance.role);
   // Councilors on the left, exec/others on the right
   const isLeft = isCouncilor;
 
@@ -349,6 +352,17 @@ export default function MinutesChatView({ docid, regionId, onClose }: Props) {
                       수집 완료 후 자동으로 반영됩니다.
                     </p>
                   </div>
+                </div>
+              ) : chat.utterances.length === 0 ? (
+                // 검색은 형태소·첨부 단위로 매칭되어 회의록 본문에는 키워드가 없을 수 있음
+                <div className="flex flex-col items-center gap-2 py-14 text-center">
+                  <p className="text-sm font-medium text-stone-600">
+                    본문에서 『{chat.keyword}』 직접 발언을 찾지 못했습니다.
+                  </p>
+                  <p className="text-xs text-stone-400 max-w-xs">
+                    이 회의는 첨부 자료나 유사 표현으로 검색에 포함된 경우입니다.
+                    안건 요지는 목록에서 확인할 수 있습니다.
+                  </p>
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">

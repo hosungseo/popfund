@@ -330,12 +330,13 @@ interface Councilors {
   updated: string;
   byName: Record<string, {
     name: string;
-    party?: string;      // 정당
-    district?: string;   // 선거구
-    position?: string;   // 의장/부의장/위원장 등
-    committees?: string; // 소속 위원회
+    party?: string;    // 정당 ('정당코드없음'은 제외)
+    photo?: string;    // PHOTO_FILE_URL
+    council?: string;  // 의회명
   }>;
 }
 ```
-발언자 이름 → 프로필 매칭 (해당 지역 의회 rasmblyId로 조회). 집행부(군수·과장 등)는 의원이 아니므로 미매칭이 정상.
+실응답 제약(검증됨): assemblyinfo.do 목록에서 rasmblyId는 무시됨 → 전국 목록(~25,700명, 역대 포함)을
+페이지네이션 수집해 ROW.RASMBLY_ID로 분배. 선거구·직위는 상세 전용이라 v2.3에서는 생략.
+집행부(군수·과장 등)는 의원이 아니므로 미매칭이 정상.
 UI: 채팅 말풍선의 발언자 이름에 마우스오버(모바일 탭) 시 프로필 툴팁. 프로필 없으면 "집행부/외부" 표기.

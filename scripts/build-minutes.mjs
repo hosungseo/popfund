@@ -28,8 +28,13 @@ const SIDO_FULL = {
   충남: '충청남도', 전북: '전북특별자치도', 전남: '전라남도', 경북: '경상북도',
   경남: '경상남도',
 };
-// 특별자치도 개편 이전 명칭도 허용 (회의록 메타가 과거 명칭일 수 있음)
-const SIDO_ALT = { 강원: ['강원도'], 전북: ['전라북도'] };
+// 명칭 변형 허용: 특별자치도 개편 이전 명칭 + 전남·광주 통합("전남광주통합특별시") 신명칭
+const SIDO_ALT = {
+  강원: ['강원도'],
+  전북: ['전라북도'],
+  전남: ['전남광주통합특별시'],
+  광주: ['전남광주통합특별시'],
+};
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -66,22 +71,31 @@ async function discoverIds(regions) {
   let discovered = 0;
   for (const r of regions) {
     if (cached[r.id]) continue;
-    const body = await api({
-      displayType: 'list', startCount: 0, listCount: 100,
-      searchType: 'RASMBLY_NM', searchKeyword: `${r.sigungu}의회`,
-    });
-    const rows = (body.LIST ?? []).map((x) => x.ROW);
     const fulls = [SIDO_FULL[r.sido], ...(SIDO_ALT[r.sido] ?? [])];
     if (r.id === '대구-군위군') fulls.push('경상북도');
-    // 공백·표기 변형에 강건하게: 공백 제거 후 "{시도풀네임}{시군구}의회" 정확 일치
     const norm = (s) => (s || '').replace(/\s+/g, '');
     const wanted = fulls.map((f) => norm(`${f} ${r.sigungu}의회`));
-    const hit = rows.find((row) => wanted.includes(norm(row.RASMBLY_NM)));
+
+    // 1차: "{시도풀네임} {시군구}의회" 전체 명칭으로 조회 (동명 의회가 많아도 정확히 잡힘)
+    // 2차 폴백: "{시군구}의회" 광역 검색
+    // 주의: 공백 포함 searchKeyword는 API가 ERROR11로 거부함 → 단일 키워드 + 페이지네이션 매칭
+    let hit = null;
+    let lastRows = [];
+    for (let startCount = 0; startCount <= 400 && !hit; startCount += 100) {
+      const body = await api({
+        displayType: 'list', startCount, listCount: 100,
+        searchType: 'RASMBLY_NM', searchKeyword: `${r.sigungu}의회`,
+      });
+      lastRows = (body.LIST ?? []).map((x) => x.ROW);
+      if (lastRows.length === 0) break;
+      hit = lastRows.find((row) => wanted.includes(norm(row.RASMBLY_NM)));
+      await sleep(DELAY_MS);
+    }
     if (hit) {
       cached[r.id] = { rasmblyId: hit.RASMBLY_ID, council: hit.RASMBLY_NM };
       discovered++;
     } else {
-      const cands = [...new Set(rows.map((x) => x.RASMBLY_NM))].slice(0, 6);
+      const cands = [...new Set(lastRows.map((x) => x.RASMBLY_NM))].slice(0, 6);
       console.warn(`  [miss] ${r.id}: 의회 미발견 — 후보: ${cands.join(' | ') || '없음'}`);
     }
     await sleep(DELAY_MS);

@@ -16,7 +16,8 @@ const COUNCILOR_DIR = join(ROOT, 'public', 'data', 'councilors');
 
 const KEY = process.env.CLIK_API_KEY;
 const PARSE_ONLY = process.argv.includes('--parse-only');
-const SAMPLE = +(process.argv[process.argv.indexOf('--sample') + 1] || 10);
+const sampleIdx = process.argv.indexOf('--sample');
+const SAMPLE = sampleIdx > -1 ? +process.argv[sampleIdx + 1] || 10 : 10;
 if (!KEY && !PARSE_ONLY) {
   console.error('CLIK_API_KEY not set. Run with --env-file=.env.local');
   process.exit(1);
@@ -74,30 +75,34 @@ function htmlToLines(html) {
 export function parseUtterances(html) {
   const lines = htmlToLines(html);
   const utterances = [];
-  let cur = null;
+  // 첫 발언 마커(○) 이전의 본문(제안설명·서두 낭독 등)도 버리지 않고
+  // 무발언자 블록으로 수집한다 — 기금 언급이 여기에만 있는 회의록이 실제로 존재.
+  let cur = { speaker: '', role: '', text: '' };
   for (const line of lines) {
     const m = line.match(SPEAKER_RE);
     if (m) {
-      if (cur) utterances.push(cur);
+      if (cur.text) utterances.push(cur);
       const g = m.groups;
       cur = {
         speaker: g.name1 || g.name2 || g.only || '',
         role: g.role1 || g.role2 || '',
         text: (g.rest || '').trim(),
       };
-    } else if (cur) {
+    } else {
       cur.text += (cur.text ? ' ' : '') + line;
     }
   }
-  if (cur) utterances.push(cur);
+  if (cur.text) utterances.push(cur);
   return utterances;
 }
 
-// 키워드 발언 + 전후 1발언 컨텍스트, 생략 구간은 gap 마킹
-function filterAroundKeyword(utterances, keyword) {
+// 키워드 발언 + 전후 1발언 컨텍스트, 생략 구간은 gap 마킹.
+// 회의록 원문은 "지방소멸대응 기금", "지방소멸 대응기금" 등 띄어쓰기 변형이 흔해 정규식 매칭.
+const KEYWORD_RE = /지방\s*소멸\s*대응\s*기금/;
+function filterAroundKeyword(utterances) {
   const keep = new Set();
   utterances.forEach((u, i) => {
-    if (u.text.includes(keyword)) {
+    if (KEYWORD_RE.test(u.text)) {
       keep.add(i - 1); keep.add(i); keep.add(i + 1);
     }
   });
@@ -110,7 +115,7 @@ function filterAroundKeyword(utterances, keyword) {
       speaker: u.speaker,
       role: u.role,
       text: u.text.slice(0, 2000),
-      hit: u.text.includes(keyword),
+      hit: KEYWORD_RE.test(u.text),
       ...(i - prev > 1 && out.length > 0 ? { gap: true } : {}),
     });
     prev = i;
@@ -119,31 +124,60 @@ function filterAroundKeyword(utterances, keyword) {
 }
 
 // ── 의원정보 수집 ──────────────────────────────────────────────────────────────
-async function fetchCouncilors(regionId, rasmblyId) {
-  const outPath = join(COUNCILOR_DIR, `${regionId}.json`);
-  if (existsSync(outPath)) return; // 재개 모드
-  const url = `https://clik.nanet.go.kr/openapi/assemblyinfo.do?key=${KEY}&type=json&displayType=list&startCount=0&listCount=100&searchType=ALL&searchKeyword=&rasmblyId=${rasmblyId}`;
-  const body = await api(url);
-  const rows = (body.LIST ?? []).map((x) => x.ROW);
-  const byName = {};
-  for (const r of rows) {
-    // 필드명은 실응답 기준으로 보정할 것 (ASEMBY_NM=의원명, PPRTY_NM=정당명 등 문서 기재)
-    const name = (r.ASEMBY_NM || r.NAME || '').trim();
-    if (!name) continue;
-    byName[name] = {
-      name,
-      party: r.PPRTY_NM || undefined,
-      district: r.ELCTNZN_NM || r.ELECTION_ZONE || undefined,
-      position: r.STPOSI_NM || r.POSITION || undefined,
-      committees: r.MTGNM || r.CMIT_NM || undefined,
-    };
+// 주의(실응답 검증됨): assemblyinfo.do의 rasmblyId 파라미터는 목록에서 무시된다.
+// 전국 목록(~25,700명·역대 포함)을 페이지네이션으로 1회 수집한 뒤 ROW의 RASMBLY_ID로
+// 우리 107개 의회에 분배한다. 목록 필드: ASEMBY_NM(이름), PPRTY_NM(정당),
+// RASMBLY_ID/NM(의회), PHOTO_FILE_URL(사진). 선거구는 상세 전용이라 생략(콜 수 폭증).
+const GLOBAL_DIR = join(ROOT, 'data', 'raw', 'councilors-global');
+
+async function buildCouncilors(ids) {
+  mkdirSync(GLOBAL_DIR, { recursive: true });
+  const wanted = new Map(); // rasmblyId -> regionId
+  for (const [regionId, v] of Object.entries(ids)) wanted.set(v.rasmblyId, regionId);
+  const byRegion = {}; // regionId -> byName
+
+  let total = Infinity;
+  for (let start = 0; start < total; start += 100) {
+    const pagePath = join(GLOBAL_DIR, `page_${start}.json`);
+    let body;
+    if (existsSync(pagePath)) {
+      body = JSON.parse(readFileSync(pagePath, 'utf-8'));
+    } else {
+      body = await api(`https://clik.nanet.go.kr/openapi/assemblyinfo.do?key=${KEY}&type=json&displayType=list&startCount=${start}&listCount=100&searchType=ALL&searchKeyword=`);
+      writeFileSync(pagePath, JSON.stringify(body), 'utf-8');
+      await sleep(DELAY_MS);
+    }
+    total = +body.TOTAL_COUNT || 0;
+    for (const x of body.LIST ?? []) {
+      const r = x.ROW;
+      const regionId = wanted.get(r.RASMBLY_ID);
+      if (!regionId) continue;
+      const name = (r.ASEMBY_NM || '').trim();
+      if (!name) continue;
+      const byName = (byRegion[regionId] ??= {});
+      const party = r.PPRTY_NM && r.PPRTY_NM !== '정당코드없음' ? r.PPRTY_NM : undefined;
+      // 동명 중복(역대 DOCID 다수): 정당·사진이 채워진 레코드를 우선
+      if (!byName[name] || (party && !byName[name].party)) {
+        byName[name] = {
+          name,
+          party,
+          photo: r.PHOTO_FILE_URL || undefined,
+          council: r.RASMBLY_NM,
+        };
+      }
+    }
   }
-  writeFileSync(outPath, JSON.stringify({
-    regionId,
-    updated: new Date().toISOString().slice(0, 10),
-    byName,
-  }), 'utf-8');
-  return Object.keys(byName).length;
+
+  let written = 0;
+  for (const [regionId, byName] of Object.entries(byRegion)) {
+    writeFileSync(join(COUNCILOR_DIR, `${regionId}.json`), JSON.stringify({
+      regionId,
+      updated: new Date().toISOString().slice(0, 10),
+      byName,
+    }), 'utf-8');
+    written++;
+  }
+  return written;
 }
 
 // ── 메인 ──────────────────────────────────────────────────────────────────────
@@ -194,10 +228,11 @@ async function main() {
       chats++;
     }
 
-    if (!PARSE_ONLY && ids[region.regionId]) {
-      const n = await fetchCouncilors(region.regionId, ids[region.regionId].rasmblyId);
-      if (n !== undefined) { councilorRegions++; await sleep(DELAY_MS); }
-    }
+  }
+
+  // 채팅(핵심 데이터)을 먼저 끝낸 뒤 의원정보 전국 수집 — 쿼터 초과 시 채팅은 보존됨
+  if (!PARSE_ONLY && !process.argv.includes('--skip-councilors')) {
+    councilorRegions = await buildCouncilors(ids);
   }
 
   console.log(`chats written: ${chats} (발언 추출 성공 ${parsedOk} / 빈 결과 ${parsedEmpty})`);
