@@ -296,3 +296,46 @@ interface MinuteItem {
 ```
 - 의회 ID 매핑: `data/rasmbly-ids.json` (RASMBLY_NM = "{시도풀네임} {시군구}의회" 매칭, 군위군은 대구/경북 모두 허용). 파이프라인이 자동 발견 후 캐시.
 - UI: 지역 상세 "지방의회 논의" 탭의 준비 중 플레이스홀더를 실데이터로 교체.
+
+### 14. `public/data/minutes-chat/{docid}.json` — 회의록 대화(발언) 뷰 (v2.3)
+회의록 전문(MINTS_HTML)을 발언 단위로 파싱해 기금 관련 구간만 추출. scripts/build-minutes-chat.mjs.
+
+```ts
+interface MinutesChat {
+  docid: string;
+  regionId: string;
+  council: string;
+  committee: string;
+  date: string;           // "20250829"
+  keyword: string;        // "지방소멸대응기금"
+  utterances: Utterance[]; // 키워드 포함 발언 + 전후 1발언 컨텍스트, 사이 생략은 gap으로 표시
+}
+interface Utterance {
+  speaker: string;        // "김철수" (이름만, 파싱 실패 시 직위 문자열)
+  role: string;           // "위원", "위원장", "군수", "의장" 등 (없으면 "")
+  text: string;           // 발언 본문 (태그 제거, 2000자 절단)
+  hit: boolean;           // 키워드 포함 발언 여부
+  gap?: boolean;          // true면 이 항목 앞에 생략 구간 존재 ("…중략…" 표시용)
+}
+```
+발언 마커: 줄 시작 "○/◯ + (직위 이름 | 이름 직위)". 실제 HTML 구조는 쿼터 리셋 후 샘플로 검증·보정할 것.
+`data/raw/minutes-html/{docid}.html`에 원문 캐시(gitignore) — 파서 반복 개선용.
+
+### 15. `public/data/councilors/{regionId}.json` — 의원 프로필 (v2.3)
+출처: 지방의정포털 의원정보 API (assemblyinfo.do, 동일 키·쿼터).
+
+```ts
+interface Councilors {
+  regionId: string;
+  updated: string;
+  byName: Record<string, {
+    name: string;
+    party?: string;      // 정당
+    district?: string;   // 선거구
+    position?: string;   // 의장/부의장/위원장 등
+    committees?: string; // 소속 위원회
+  }>;
+}
+```
+발언자 이름 → 프로필 매칭 (해당 지역 의회 rasmblyId로 조회). 집행부(군수·과장 등)는 의원이 아니므로 미매칭이 정상.
+UI: 채팅 말풍선의 발언자 이름에 마우스오버(모바일 탭) 시 프로필 툴팁. 프로필 없으면 "집행부/외부" 표기.

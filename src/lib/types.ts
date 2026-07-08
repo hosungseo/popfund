@@ -161,6 +161,39 @@ export interface VitalTrend {
   series: Record<string, { births: (number | null)[]; deaths: (number | null)[] }>;
 }
 
+// v2.3 minutes-chat types
+export interface Utterance {
+  speaker: string;
+  role: string;
+  text: string;
+  hit: boolean;
+  gap?: boolean;
+}
+
+export interface MinutesChat {
+  docid: string;
+  regionId: string;
+  council: string;
+  committee: string;
+  date: string;
+  keyword: string;
+  utterances: Utterance[];
+}
+
+export interface CouncilorProfile {
+  name: string;
+  party?: string;
+  district?: string;
+  position?: string;
+  committees?: string;
+}
+
+export interface Councilors {
+  regionId: string;
+  updated: string;
+  byName: Record<string, CouncilorProfile>;
+}
+
 // v2.0 types
 export interface LifepopMonthly {
   living?: number;
