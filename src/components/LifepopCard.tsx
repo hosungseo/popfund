@@ -67,19 +67,19 @@ export default function LifepopCard({ regionId }: Props) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center">
-        <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-8 text-center">
+        <p className="text-sm text-slate-400">데이터를 불러오는 중...</p>
       </div>
     );
   }
 
   if (!data || !regionSeries || !lastMonth || !chartData) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] border border-dashed border-slate-200 p-8 flex flex-col items-center gap-3 text-center">
+        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
           준비 중
         </span>
-        <p className="text-sm text-stone-500 max-w-sm">
+        <p className="text-sm text-slate-500 max-w-sm">
           생활인구 데이터를 준비 중입니다. 파이프라인 실행 후 자동으로
           표시됩니다.
         </p>
@@ -93,29 +93,29 @@ export default function LifepopCard({ regionId }: Props) {
     <div className="flex flex-col gap-4">
       {/* Stat chips: 생활인구 / 주민등록인구 / 체류인구 */}
       <div className="flex flex-wrap gap-2">
-        <div className="bg-stone-50 rounded-xl border border-stone-200 px-4 py-2.5 flex flex-col gap-0.5">
-          <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wide">
+        <div className="bg-slate-50 rounded-xl border border-slate-200 px-4 py-2.5 flex flex-col gap-0.5">
+          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
             생활인구 ({fmtMonthLabel(lastYm)})
           </span>
-          <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+          <span className="font-mono text-sm font-semibold text-slate-800 tabular-nums">
             {lastMonth.living != null ? fmtNum(lastMonth.living) + "명" : "—"}
           </span>
         </div>
-        <div className="bg-stone-50 rounded-xl border border-stone-200 px-4 py-2.5 flex flex-col gap-0.5">
-          <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wide">
+        <div className="bg-slate-50 rounded-xl border border-slate-200 px-4 py-2.5 flex flex-col gap-0.5">
+          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
             주민등록인구 ({fmtMonthLabel(lastYm)})
           </span>
-          <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+          <span className="font-mono text-sm font-semibold text-slate-800 tabular-nums">
             {lastMonth.registered != null
               ? fmtNum(lastMonth.registered) + "명"
               : "—"}
           </span>
         </div>
-        <div className="bg-stone-50 rounded-xl border border-stone-200 px-4 py-2.5 flex flex-col gap-0.5">
-          <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wide">
+        <div className="bg-slate-50 rounded-xl border border-slate-200 px-4 py-2.5 flex flex-col gap-0.5">
+          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
             체류인구 ({fmtMonthLabel(lastYm)})
           </span>
-          <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+          <span className="font-mono text-sm font-semibold text-slate-800 tabular-nums">
             {lastMonth.staying != null
               ? fmtNum(lastMonth.staying) + "명"
               : "—"}
@@ -128,21 +128,21 @@ export default function LifepopCard({ regionId }: Props) {
         <div
           className={`rounded-xl border px-4 py-3 flex items-center justify-between gap-4 ${
             isHighRatio
-              ? "bg-blue-50 border-blue-200"
-              : "bg-stone-50 border-stone-200"
+              ? "bg-[#E8EFF6] border-[#0B4171]/20"
+              : "bg-slate-50 border-slate-200"
           }`}
         >
           <div className="flex flex-col gap-0.5">
             <span
               className={`text-[10px] font-medium uppercase tracking-wide ${
-                isHighRatio ? "text-blue-400" : "text-stone-400"
+                isHighRatio ? "text-[#1E5A8E]" : "text-slate-400"
               }`}
             >
               체류 배율 (분기 평균)
             </span>
             <span
               className={`font-mono text-xl font-bold tabular-nums ${
-                isHighRatio ? "text-blue-700" : "text-stone-700"
+                isHighRatio ? "text-[#0B4171]" : "text-slate-700"
               }`}
             >
               {stayRatio.toFixed(1)}×
@@ -150,13 +150,13 @@ export default function LifepopCard({ regionId }: Props) {
           </div>
           <p
             className={`text-xs leading-snug max-w-[220px] text-right ${
-              isHighRatio ? "text-blue-600" : "text-stone-500"
+              isHighRatio ? "text-[#1E5A8E]" : "text-slate-500"
             }`}
           >
             주민등록인구 1명당 체류인구{" "}
             <span className="font-semibold">{stayRatio.toFixed(1)}명</span>
             {isHighRatio && (
-              <span className="block text-[10px] mt-0.5 text-blue-500">
+              <span className="block text-[10px] mt-0.5 text-[#0B4171]">
                 관광·통근형 수요 기반 신호
               </span>
             )}
@@ -165,13 +165,13 @@ export default function LifepopCard({ regionId }: Props) {
       )}
 
       {/* Mini stacked bar chart */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-5">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
         <div className="flex items-center gap-4 mb-3">
-          <span className="flex items-center gap-1.5 text-xs text-stone-500">
-            <span className="inline-block w-3 h-2.5 rounded-sm bg-stone-300 shrink-0" />
+          <span className="flex items-center gap-1.5 text-xs text-slate-500">
+            <span className="inline-block w-3 h-2.5 rounded-sm bg-slate-300 shrink-0" />
             주민등록인구
           </span>
-          <span className="flex items-center gap-1.5 text-xs text-stone-500">
+          <span className="flex items-center gap-1.5 text-xs text-slate-500">
             <span className="inline-block w-3 h-2.5 rounded-sm bg-sky-400 shrink-0" />
             체류인구
           </span>
@@ -186,17 +186,17 @@ export default function LifepopCard({ regionId }: Props) {
               <CartesianGrid
                 vertical={false}
                 strokeDasharray="3 3"
-                stroke="#e7e5e4"
+                stroke="#e2e8f0"
               />
               <XAxis
                 dataKey="label"
-                tick={{ fontSize: 11, fill: "#78716c" }}
+                tick={{ fontSize: 11, fill: "#64748b" }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
                 tickFormatter={(v: number) => fmtNum(v)}
-                tick={{ fontSize: 11, fill: "#78716c" }}
+                tick={{ fontSize: 11, fill: "#64748b" }}
                 axisLine={false}
                 tickLine={false}
                 width={54}
@@ -212,7 +212,7 @@ export default function LifepopCard({ regionId }: Props) {
                   return [v, label];
                 }}
                 contentStyle={{
-                  border: "1px solid #e7e5e4",
+                  border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "12px",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
@@ -221,7 +221,7 @@ export default function LifepopCard({ regionId }: Props) {
               <Bar
                 dataKey="registered"
                 stackId="a"
-                fill="#d6d3d1"
+                fill="#cbd5e1"
                 radius={[0, 0, 0, 0]}
               />
               <Bar
@@ -233,7 +233,7 @@ export default function LifepopCard({ regionId }: Props) {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <p className="text-[11px] text-stone-400 mt-3 leading-relaxed">
+        <p className="text-[11px] text-slate-400 mt-3 leading-relaxed">
           행정안전부 생활인구 공표 (2025년 4분기). 생활인구 = 주민등록인구 +
           체류인구(월 1회, 하루 3시간 이상 체류) + 등록외국인.
         </p>

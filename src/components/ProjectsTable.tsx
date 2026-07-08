@@ -12,9 +12,9 @@ const FUND_LABELS: Record<string, string> = {
 };
 
 const FUND_BADGE: Record<string, string> = {
-  confirmed: "bg-blue-50 text-blue-700 ring-1 ring-blue-200",
+  confirmed: "bg-[#E8EFF6] text-[#0B4171] ring-1 ring-[#0B4171]/20",
   candidate: "bg-violet-50 text-violet-700 ring-1 ring-violet-200",
-  excluded: "bg-stone-100 text-stone-500 ring-1 ring-stone-200",
+  excluded: "bg-slate-100 text-slate-500 ring-1 ring-slate-200",
 };
 
 type SortCol = "bdgCashAmt" | "epAmt" | "rate";
@@ -22,9 +22,7 @@ type SortDir = "asc" | "desc";
 
 interface Props {
   lafCd: string;
-  /** Display name of the current region, shown in the drawer header */
   regionName?: string;
-  /** lafCd → "시도 시군구" map for resolving similar-project region names */
   lafCdToName?: Record<string, string>;
 }
 
@@ -80,7 +78,6 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
     return list;
   }, [data, search, fundFilter, sortCol, sortDir]);
 
-  // Reset to first page whenever the visible list changes
   useEffect(() => {
     setPage(1);
   }, [search, fundFilter, sortCol, sortDir, lafCd]);
@@ -98,17 +95,17 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
         <button
           onClick={() => setPage((p) => Math.max(1, p - 1))}
           disabled={page === 1}
-          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-white text-stone-600 hover:border-stone-300 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-600 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           이전
         </button>
-        <span className="text-xs text-stone-500 tabular-nums">
+        <span className="text-xs text-slate-500 tabular-nums">
           {page} / {totalPages}
         </span>
         <button
           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
           disabled={page === totalPages}
-          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-white text-stone-600 hover:border-stone-300 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-600 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           다음
         </button>
@@ -126,9 +123,9 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
   }
 
   function SortIndicator({ col }: { col: SortCol }) {
-    if (sortCol !== col) return <span className="text-stone-300 ml-1">↕</span>;
+    if (sortCol !== col) return <span className="text-slate-300 ml-1">↕</span>;
     return (
-      <span className="text-blue-600 ml-1">{sortDir === "desc" ? "↓" : "↑"}</span>
+      <span className="text-[#0B4171] ml-1">{sortDir === "desc" ? "↓" : "↑"}</span>
     );
   }
 
@@ -137,7 +134,7 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
 
   if (loading) {
     return (
-      <div className="py-12 text-center text-stone-400 text-sm">
+      <div className="py-12 text-center text-slate-400 text-sm">
         세부사업 데이터를 불러오는 중...
       </div>
     );
@@ -146,10 +143,10 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
   if (error || !data) {
     return (
       <div className="py-12 text-center">
-        <p className="text-stone-400 text-sm">
+        <p className="text-slate-400 text-sm">
           세부사업 데이터를 준비 중입니다.
         </p>
-        <p className="text-stone-300 text-xs mt-1">
+        <p className="text-slate-300 text-xs mt-1">
           파이프라인 실행 후 public/data/projects/{lafCd}.json 생성 시 자동으로 표시됩니다.
         </p>
       </div>
@@ -166,7 +163,7 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
             placeholder="사업명 검색..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 min-w-[160px] max-w-xs px-3 py-1.5 text-sm border border-stone-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 placeholder:text-stone-400"
+            className="flex-1 min-w-[160px] max-w-xs px-3 py-1.5 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#0B4171]/20 focus:border-[#1E5A8E] placeholder:text-slate-400"
           />
           <div className="flex gap-1.5">
             {(["all", "confirmed", "candidate"] as const).map((f) => (
@@ -175,59 +172,59 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
                 onClick={() => setFundFilter(f)}
                 className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                   fundFilter === f
-                    ? "bg-stone-900 text-white"
-                    : "bg-white text-stone-600 border border-stone-200 hover:border-stone-300"
+                    ? "bg-[#0B4171] text-white"
+                    : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
                 }`}
               >
                 {f === "all" ? "전체" : FUND_LABELS[f]}
               </button>
             ))}
           </div>
-          <span className="text-xs text-stone-400 ml-auto">
+          <span className="text-xs text-slate-400 ml-auto">
             {filtered.length.toLocaleString()}건
           </span>
         </div>
 
-        <p className="text-xs text-stone-400">행을 클릭하면 다른 지역 동일 사업을 비교할 수 있습니다.</p>
+        <p className="text-xs text-slate-400">행을 클릭하면 다른 지역 동일 사업을 비교할 수 있습니다.</p>
 
         {/* Table — desktop */}
-        <div className="hidden md:block overflow-x-auto rounded-xl border border-stone-200">
+        <div className="hidden md:block overflow-x-auto rounded-xl border border-slate-200">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-stone-50 border-b border-stone-200">
-                <th className="px-4 py-3 text-left font-semibold text-stone-600 text-xs">
+              <tr className="bg-slate-50 border-b border-slate-200">
+                <th className="px-4 py-3 text-left font-semibold text-slate-600 text-xs">
                   사업명
                 </th>
-                <th className="px-4 py-3 text-left font-semibold text-stone-600 text-xs">
+                <th className="px-4 py-3 text-left font-semibold text-slate-600 text-xs">
                   분야
                 </th>
-                <th className="px-4 py-3 text-left font-semibold text-stone-600 text-xs">
+                <th className="px-4 py-3 text-left font-semibold text-slate-600 text-xs">
                   기금
                 </th>
                 <th
-                  className="px-4 py-3 text-right font-semibold text-stone-600 text-xs cursor-pointer hover:text-stone-900"
+                  className="px-4 py-3 text-right font-semibold text-slate-600 text-xs cursor-pointer hover:text-slate-900"
                   onClick={() => toggleSort("bdgCashAmt")}
                 >
                   예산현액 <SortIndicator col="bdgCashAmt" />
                 </th>
                 <th
-                  className="px-4 py-3 text-right font-semibold text-stone-600 text-xs cursor-pointer hover:text-stone-900"
+                  className="px-4 py-3 text-right font-semibold text-slate-600 text-xs cursor-pointer hover:text-slate-900"
                   onClick={() => toggleSort("epAmt")}
                 >
                   지출액 <SortIndicator col="epAmt" />
                 </th>
                 <th
-                  className="px-4 py-3 text-right font-semibold text-stone-600 text-xs cursor-pointer hover:text-stone-900"
+                  className="px-4 py-3 text-right font-semibold text-slate-600 text-xs cursor-pointer hover:text-slate-900"
                   onClick={() => toggleSort("rate")}
                 >
                   집행률 <SortIndicator col="rate" />
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-100">
+            <tbody className="divide-y divide-slate-100">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-10 text-center text-stone-400 text-sm">
+                  <td colSpan={6} className="py-10 text-center text-slate-400 text-sm">
                     조건에 맞는 사업이 없습니다
                   </td>
                 </tr>
@@ -241,17 +238,17 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
                       onClick={() => setSelectedProject(isSelected ? null : p)}
                       className={`cursor-pointer transition-colors ${
                         isSelected
-                          ? "bg-blue-50 ring-2 ring-inset ring-blue-300"
-                          : "hover:bg-stone-50/50"
+                          ? "bg-[#E8EFF6] ring-2 ring-inset ring-[#0B4171]/30"
+                          : "hover:bg-slate-50/50"
                       }`}
                     >
-                      <td className="px-4 py-3 text-stone-800 font-medium max-w-[240px]">
+                      <td className="px-4 py-4 text-slate-800 font-medium max-w-[240px]">
                         <span className="line-clamp-2">{p.dbizNm}</span>
                       </td>
-                      <td className="px-4 py-3 text-stone-500 text-xs whitespace-nowrap">
+                      <td className="px-4 py-4 text-slate-500 text-xs whitespace-nowrap">
                         {p.fldNm}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-4">
                         {p.fundRelated && p.fundRelated !== "excluded" && (
                           <span
                             className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold ${FUND_BADGE[p.fundRelated]}`}
@@ -260,13 +257,13 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
                           </span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-right font-mono text-stone-700 text-xs tabular-nums">
+                      <td className="px-4 py-4 text-right font-mono text-slate-700 text-xs tabular-nums">
                         {formatWon(p.bdgCashAmt)}
                       </td>
-                      <td className="px-4 py-3 text-right font-mono text-stone-700 text-xs tabular-nums">
+                      <td className="px-4 py-4 text-right font-mono text-slate-700 text-xs tabular-nums">
                         {formatWon(p.epAmt)}
                       </td>
-                      <td className={`px-4 py-3 text-right font-mono text-xs font-semibold tabular-nums ${rateColorClass(rate)}`}>
+                      <td className={`px-4 py-4 text-right font-mono text-xs font-semibold tabular-nums ${rateColorClass(rate)}`}>
                         {formatRate(rate)}
                       </td>
                     </tr>
@@ -280,7 +277,7 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
         {/* Cards — mobile */}
         <div className="md:hidden flex flex-col gap-2">
           {filtered.length === 0 ? (
-            <p className="text-center text-stone-400 text-sm py-8">
+            <p className="text-center text-slate-400 text-sm py-8">
               조건에 맞는 사업이 없습니다
             </p>
           ) : (
@@ -293,12 +290,12 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
                   onClick={() => setSelectedProject(isSelected ? null : p)}
                   className={`border rounded-xl p-4 flex flex-col gap-2 cursor-pointer transition-colors ${
                     isSelected
-                      ? "bg-blue-50 border-blue-300"
-                      : "bg-white border-stone-200 active:bg-stone-50"
+                      ? "bg-[#E8EFF6] border-[#0B4171]/30"
+                      : "bg-white border-slate-200 active:bg-slate-50"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-sm font-medium text-stone-800 leading-snug">
+                    <span className="text-sm font-medium text-slate-800 leading-snug">
                       {p.dbizNm}
                     </span>
                     {p.fundRelated && p.fundRelated !== "excluded" && (
@@ -309,15 +306,15 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-stone-500">
+                  <div className="flex items-center gap-4 text-xs text-slate-500">
                     <span>{p.fldNm}</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-stone-500">
-                      예산 <span className="font-mono font-semibold text-stone-700">{formatWon(p.bdgCashAmt)}</span>
+                    <span className="text-slate-500">
+                      예산 <span className="font-mono font-semibold text-slate-700">{formatWon(p.bdgCashAmt)}</span>
                     </span>
-                    <span className="text-stone-500">
-                      지출 <span className="font-mono font-semibold text-stone-700">{formatWon(p.epAmt)}</span>
+                    <span className="text-slate-500">
+                      지출 <span className="font-mono font-semibold text-slate-700">{formatWon(p.epAmt)}</span>
                     </span>
                     <span className={`font-mono font-bold ${rateColorClass(rate)}`}>
                       {formatRate(rate)}
@@ -332,7 +329,6 @@ export default function ProjectsTable({ lafCd, regionName, lafCdToName }: Props)
         <Pagination />
       </div>
 
-      {/* Similar projects drawer — rendered outside the table div so fixed positioning works correctly */}
       <SimilarProjectsDrawer
         project={selectedProject}
         regionName={drawerRegionName}

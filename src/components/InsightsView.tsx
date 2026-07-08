@@ -46,21 +46,21 @@ function ScatterTip({
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-white border border-stone-200 rounded-lg p-3 shadow-md text-xs min-w-[140px]">
-      <p className="font-semibold text-stone-800 mb-1.5">{d.name}</p>
-      <p className="text-stone-500">
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-md text-xs min-w-[140px]">
+      <p className="font-semibold text-slate-800 mb-1.5">{d.name}</p>
+      <p className="text-slate-500">
         인구:{" "}
-        <span className="font-mono text-stone-700">
+        <span className="font-mono text-slate-700">
           {d.population.toLocaleString()}명
         </span>
       </p>
-      <p className="text-stone-500">
+      <p className="text-slate-500">
         기금:{" "}
-        <span className="font-mono text-stone-700">{formatWon(d.fund)}</span>
+        <span className="font-mono text-slate-700">{formatWon(d.fund)}</span>
       </p>
-      <p className="text-stone-500">
+      <p className="text-slate-500">
         1인당:{" "}
-        <span className="font-mono text-stone-700">{formatWon(d.perCapita)}</span>
+        <span className="font-mono text-slate-700">{formatWon(d.perCapita)}</span>
       </p>
     </div>
   );
@@ -123,7 +123,6 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       rows.push({ id: regionId, name, declineRate, absRate: Math.abs(declineRate) });
     }
 
-    // 감소율 내림차순 (가장 많이 줄어든 = 가장 음수 = ascending)
     return rows.sort((a, b) => a.declineRate - b.declineRate).slice(0, 15);
   }, [trendData, perCapitaData]);
 
@@ -133,30 +132,30 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       <section className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-stone-800">
+            <h2 className="text-lg font-semibold text-slate-800">
               1인당 기금액 랭킹
             </h2>
-            <p className="text-xs text-stone-400 mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               {latestYear}년 기금 ÷ {censusYear}년 총인구 · 상위 15개 지역
             </p>
           </div>
           <button
             onClick={() => setShowAllTable((v) => !v)}
-            className="shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-white text-stone-600 hover:border-stone-300 transition-colors"
+            className="shrink-0 px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-600 hover:border-slate-300 transition-colors"
           >
             {showAllTable ? "차트만 보기" : "전체 테이블"}
           </button>
         </div>
 
         {perCapitaData.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-10 text-center">
-            <p className="text-sm text-stone-400">
+          <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-10 text-center">
+            <p className="text-sm text-slate-400">
               regions.json에 인구·기금 데이터가 없습니다.
             </p>
           </div>
         ) : (
           <>
-            <div className="bg-white rounded-2xl border border-stone-200 p-5">
+            <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
               <div style={{ height: 420 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
@@ -168,12 +167,12 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                     <CartesianGrid
                       horizontal={false}
                       strokeDasharray="3 3"
-                      stroke="#e7e5e4"
+                      stroke="#e2e8f0"
                     />
                     <XAxis
                       type="number"
                       tickFormatter={(v: number) => formatWon(v, 0)}
-                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      tick={{ fontSize: 11, fill: "#64748b" }}
                       axisLine={false}
                       tickLine={false}
                     />
@@ -181,7 +180,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                       type="category"
                       dataKey="name"
                       width={90}
-                      tick={{ fontSize: 11, fill: "#44403c" }}
+                      tick={{ fontSize: 11, fill: "#334155" }}
                       axisLine={false}
                       tickLine={false}
                     />
@@ -191,7 +190,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                         "1인당 기금",
                       ]}
                       contentStyle={{
-                        border: "1px solid #e7e5e4",
+                        border: "1px solid #e2e8f0",
                         borderRadius: "8px",
                         fontSize: "12px",
                         boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
@@ -210,11 +209,11 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
               </div>
               {/* Legend */}
               <div className="flex items-center gap-4 mt-3 px-2">
-                <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                <span className="flex items-center gap-1.5 text-xs text-slate-500">
                   <span className="w-3 h-3 rounded-sm bg-rose-500 shrink-0" />
                   감소지역
                 </span>
-                <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                <span className="flex items-center gap-1.5 text-xs text-slate-500">
                   <span className="w-3 h-3 rounded-sm bg-amber-400 shrink-0" />
                   관심지역
                 </span>
@@ -222,45 +221,45 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
             </div>
 
             {showAllTable && (
-              <div className="rounded-xl border border-stone-200 overflow-x-auto">
+              <div className="rounded-xl border border-slate-200 overflow-x-auto">
                 <table className="w-full text-xs">
                   <thead>
-                    <tr className="bg-stone-50 border-b border-stone-200">
-                      <th className="px-4 py-2.5 text-left font-semibold text-stone-500 w-8">
+                    <tr className="bg-slate-50 border-b border-slate-200">
+                      <th className="px-4 py-2.5 text-left font-semibold text-slate-500 w-8">
                         순위
                       </th>
-                      <th className="px-4 py-2.5 text-left font-semibold text-stone-500">
+                      <th className="px-4 py-2.5 text-left font-semibold text-slate-500">
                         지역
                       </th>
-                      <th className="px-4 py-2.5 text-left font-semibold text-stone-500">
+                      <th className="px-4 py-2.5 text-left font-semibold text-slate-500">
                         유형
                       </th>
-                      <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                      <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                         {latestYear}년 기금
                       </th>
-                      <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                      <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                         인구
                       </th>
-                      <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                      <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                         1인당 기금
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-stone-100">
+                  <tbody className="divide-y divide-slate-100">
                     {perCapitaData.map((d, i) => (
                       <tr
                         key={d.id}
-                        className={`transition-colors hover:bg-stone-50/50 ${
+                        className={`transition-colors hover:bg-slate-50/50 ${
                           i < 15 ? "bg-amber-50/20" : ""
                         }`}
                       >
-                        <td className="px-4 py-2.5 font-mono text-stone-400 tabular-nums">
+                        <td className="px-4 py-2.5 font-mono text-slate-400 tabular-nums">
                           {i + 1}
                         </td>
                         <td className="px-4 py-2.5">
                           <Link
                             href={`/region/${encodeURIComponent(d.id)}`}
-                            className="font-medium text-stone-800 hover:text-blue-700 transition-colors"
+                            className="font-medium text-slate-800 hover:text-[#1E5A8E] transition-colors"
                           >
                             {d.name}
                           </Link>
@@ -276,13 +275,13 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                             {d.type}
                           </span>
                         </td>
-                        <td className="px-4 py-2.5 text-right font-mono tabular-nums text-stone-700">
+                        <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-700">
                           {formatWon(d.fund)}
                         </td>
-                        <td className="px-4 py-2.5 text-right font-mono tabular-nums text-stone-600">
+                        <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-600">
                           {d.population.toLocaleString()}
                         </td>
-                        <td className="px-4 py-2.5 text-right font-mono font-semibold tabular-nums text-stone-800">
+                        <td className="px-4 py-2.5 text-right font-mono font-semibold tabular-nums text-slate-800">
                           {formatWon(d.perCapita)}
                         </td>
                       </tr>
@@ -298,70 +297,70 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       {/* ===== Section 2: 초과집행 사업 ===== */}
       <section className="flex flex-col gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-stone-800">초과집행 사업</h2>
-          <p className="text-xs text-stone-400 mt-0.5">
+          <h2 className="text-lg font-semibold text-slate-800">초과집행 사업</h2>
+          <p className="text-xs text-slate-400 mt-0.5">
             예산현액 대비 지출액이 100%를 초과한 사업 전체
           </p>
         </div>
 
         {insightsLoading ? (
-          <div className="bg-white rounded-2xl border border-stone-200 p-10 text-center">
-            <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-10 text-center">
+            <p className="text-sm text-slate-400">데이터를 불러오는 중...</p>
           </div>
         ) : !insights ? (
-          <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-10 text-center">
-            <p className="text-sm text-stone-400">인사이트 데이터를 준비 중입니다.</p>
-            <p className="text-xs text-stone-300 mt-1">
+          <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-10 text-center">
+            <p className="text-sm text-slate-400">인사이트 데이터를 준비 중입니다.</p>
+            <p className="text-xs text-slate-300 mt-1">
               파이프라인 실행 후 public/data/insights.json 생성 시 자동으로 표시됩니다.
             </p>
           </div>
         ) : insights.overExecution.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-stone-200 p-6 text-center">
-            <p className="text-sm text-stone-400">초과집행 사업이 없습니다.</p>
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6 text-center">
+            <p className="text-sm text-slate-400">초과집행 사업이 없습니다.</p>
           </div>
         ) : (
-          <div className="rounded-xl border border-stone-200 overflow-x-auto">
+          <div className="rounded-xl border border-slate-200 overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="bg-stone-50 border-b border-stone-200">
-                  <th className="px-4 py-2.5 text-left font-semibold text-stone-500">
+                <tr className="bg-slate-50 border-b border-slate-200">
+                  <th className="px-4 py-2.5 text-left font-semibold text-slate-500">
                     지역
                   </th>
-                  <th className="px-4 py-2.5 text-left font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-left font-semibold text-slate-500">
                     사업명
                   </th>
-                  <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                     예산현액
                   </th>
-                  <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                     지출액
                   </th>
-                  <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                     집행률
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-100">
+              <tbody className="divide-y divide-slate-100">
                 {insights.overExecution.map((p) => (
                   <tr
                     key={`${p.regionId}|${p.dbizCd}|${p.acntDvNm}`}
-                    className="hover:bg-stone-50/50 transition-colors"
+                    className="hover:bg-slate-50/50 transition-colors"
                   >
                     <td className="px-4 py-2.5 whitespace-nowrap">
                       <Link
                         href={`/region/${encodeURIComponent(p.regionId)}`}
-                        className="font-medium text-blue-700 hover:underline"
+                        className="font-medium text-[#0B4171] hover:text-[#1E5A8E] hover:underline transition-colors"
                       >
                         {p.sido} {p.sigungu}
                       </Link>
                     </td>
-                    <td className="px-4 py-2.5 text-stone-700 max-w-[200px]">
+                    <td className="px-4 py-2.5 text-slate-700 max-w-[200px]">
                       <span className="line-clamp-2">{p.dbizNm}</span>
                     </td>
-                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-stone-600">
+                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-600">
                       {formatWon(p.bdgCashAmt)}
                     </td>
-                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-stone-600">
+                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-600">
                       {formatWon(p.epAmt)}
                     </td>
                     <td className="px-4 py-2.5 text-right">
@@ -382,26 +381,26 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       {/* ===== Section 3: 인구 × 기금 산점도 ===== */}
       <section className="flex flex-col gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-slate-800">
             인구 × 기금 산점도
           </h2>
-          <p className="text-xs text-stone-400 mt-0.5">
+          <p className="text-xs text-slate-400 mt-0.5">
             x = {latestYear}년 총인구, y = {latestYear}년 기금 · 점 색상 = 지역 유형
           </p>
         </div>
 
         {scatterDecrease.length + scatterInterest.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-10 text-center">
-            <p className="text-sm text-stone-400">
+          <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-10 text-center">
+            <p className="text-sm text-slate-400">
               regions.json에 인구·기금 데이터가 없습니다.
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
             <div style={{ height: 400 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <ScatterChart margin={{ top: 8, right: 20, left: 8, bottom: 8 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis
                     type="number"
                     dataKey="population"
@@ -411,7 +410,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                         ? `${(v / 10000).toFixed(0)}만`
                         : v.toLocaleString()
                     }
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                     label={{
@@ -419,7 +418,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                       position: "insideBottom",
                       offset: -4,
                       fontSize: 11,
-                      fill: "#a8a29e",
+                      fill: "#94a3b8",
                     }}
                   />
                   <YAxis
@@ -427,7 +426,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                     dataKey="fund"
                     name="기금"
                     tickFormatter={(v: number) => formatWon(v, 0)}
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                     width={52}
@@ -436,7 +435,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                       angle: -90,
                       position: "insideLeft",
                       fontSize: 11,
-                      fill: "#a8a29e",
+                      fill: "#94a3b8",
                     }}
                   />
                   <Tooltip content={<ScatterTip />} />
@@ -469,36 +468,36 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
       {/* ===== Section 4: 인구 감소 속도 ===== */}
       <section className="flex flex-col gap-4">
         <div>
-          <h2 className="text-lg font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-slate-800">
             인구 감소 속도
           </h2>
-          <p className="text-xs text-stone-400 mt-0.5">
+          <p className="text-xs text-slate-400 mt-0.5">
             2022.10 대비 최신월 주민등록 인구 감소율 상위 15개 지역
           </p>
         </div>
 
         {trendLoading ? (
-          <div className="bg-white rounded-2xl border border-stone-200 p-10 text-center">
-            <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-10 text-center">
+            <p className="text-sm text-slate-400">데이터를 불러오는 중...</p>
           </div>
         ) : !trendData ? (
-          <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-10 text-center">
-            <p className="text-sm text-stone-400">
+          <div className="bg-white rounded-2xl border border-dashed border-slate-200 p-10 text-center">
+            <p className="text-sm text-slate-400">
               인구 추이 데이터를 준비 중입니다.
             </p>
-            <p className="text-xs text-stone-300 mt-1">
+            <p className="text-xs text-slate-300 mt-1">
               파이프라인 실행 후 public/data/population-trend.json 생성 시
               자동으로 표시됩니다.
             </p>
           </div>
         ) : declineTop15.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-stone-200 p-6 text-center">
-            <p className="text-sm text-stone-400">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6 text-center">
+            <p className="text-sm text-slate-400">
               감소율 데이터를 계산할 수 없습니다.
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
             <div style={{ height: 420 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -510,12 +509,12 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                   <CartesianGrid
                     horizontal={false}
                     strokeDasharray="3 3"
-                    stroke="#e7e5e4"
+                    stroke="#e2e8f0"
                   />
                   <XAxis
                     type="number"
                     tickFormatter={(v: number) => `${v.toFixed(1)}%`}
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -523,7 +522,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                     type="category"
                     dataKey="name"
                     width={96}
-                    tick={{ fontSize: 11, fill: "#44403c" }}
+                    tick={{ fontSize: 11, fill: "#334155" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -539,7 +538,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                       ];
                     }}
                     contentStyle={{
-                      border: "1px solid #e7e5e4",
+                      border: "1px solid #e2e8f0",
                       borderRadius: "8px",
                       fontSize: "12px",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
@@ -564,7 +563,7 @@ export default function InsightsView({ perCapitaData, latestYear, censusYear }: 
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <p className="text-[11px] text-stone-400 mt-3 leading-relaxed">
+            <p className="text-[11px] text-slate-400 mt-3 leading-relaxed">
               행정안전부 주민등록 인구 (매월 말일 기준). 2022.10 첫 관측 대비
               최신 완결월 감소율. 색이 진할수록 감소 속도가 빠릅니다.
             </p>

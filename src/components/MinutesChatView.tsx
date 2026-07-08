@@ -54,8 +54,8 @@ function SpeakerChip({
         className={[
           "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium transition-colors",
           isCouncilor
-            ? "bg-stone-100 text-stone-700 hover:bg-stone-200"
-            : "bg-stone-200/70 text-stone-600 hover:bg-stone-300/70",
+            ? "bg-slate-100 text-slate-700 hover:bg-slate-200"
+            : "bg-slate-200/70 text-slate-600 hover:bg-slate-300/70",
         ].join(" ")}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
@@ -64,7 +64,7 @@ function SpeakerChip({
         aria-expanded={open}
       >
         {role && (
-          <span className="text-stone-400 font-normal">{role}</span>
+          <span className="text-slate-400 font-normal">{role}</span>
         )}
         <span>{speaker}</span>
       </button>
@@ -72,7 +72,7 @@ function SpeakerChip({
       {open && (
         <div
           className={[
-            "absolute bottom-full mb-2 z-30 w-52 rounded-xl bg-white shadow-xl border border-stone-200 px-3 py-2.5 text-xs",
+            "absolute bottom-full mb-2 z-30 w-52 rounded-xl bg-white shadow-xl border border-slate-200 px-3 py-2.5 text-xs",
             isCouncilor ? "left-0" : "right-0",
           ].join(" ")}
           onMouseEnter={() => setOpen(true)}
@@ -81,36 +81,36 @@ function SpeakerChip({
           {profile ? (
             <dl className="flex flex-col gap-1.5">
               <div className="flex items-start gap-2">
-                <dt className="text-stone-400 shrink-0 w-14">이름</dt>
-                <dd className="text-stone-800 font-semibold">{profile.name}</dd>
+                <dt className="text-slate-400 shrink-0 w-14">이름</dt>
+                <dd className="text-slate-800 font-semibold">{profile.name}</dd>
               </div>
               {profile.party && (
                 <div className="flex items-start gap-2">
-                  <dt className="text-stone-400 shrink-0 w-14">정당</dt>
-                  <dd className="text-stone-700">{profile.party}</dd>
+                  <dt className="text-slate-400 shrink-0 w-14">정당</dt>
+                  <dd className="text-slate-700">{profile.party}</dd>
                 </div>
               )}
               {profile.district && (
                 <div className="flex items-start gap-2">
-                  <dt className="text-stone-400 shrink-0 w-14">선거구</dt>
-                  <dd className="text-stone-700">{profile.district}</dd>
+                  <dt className="text-slate-400 shrink-0 w-14">선거구</dt>
+                  <dd className="text-slate-700">{profile.district}</dd>
                 </div>
               )}
               {profile.position && (
                 <div className="flex items-start gap-2">
-                  <dt className="text-stone-400 shrink-0 w-14">직위</dt>
-                  <dd className="text-stone-700">{profile.position}</dd>
+                  <dt className="text-slate-400 shrink-0 w-14">직위</dt>
+                  <dd className="text-slate-700">{profile.position}</dd>
                 </div>
               )}
               {profile.committees && (
                 <div className="flex items-start gap-2">
-                  <dt className="text-stone-400 shrink-0 w-14">위원회</dt>
-                  <dd className="text-stone-700">{profile.committees}</dd>
+                  <dt className="text-slate-400 shrink-0 w-14">위원회</dt>
+                  <dd className="text-slate-700">{profile.committees}</dd>
                 </div>
               )}
             </dl>
           ) : (
-            <p className="text-stone-500">집행부 또는 외부 인사</p>
+            <p className="text-slate-500">집행부 또는 외부 인사</p>
           )}
         </div>
       )}
@@ -125,11 +125,11 @@ function GapDivider() {
       role="separator"
       aria-label="중략 구간"
     >
-      <div className="flex-1 border-t border-dashed border-stone-300" />
-      <span className="text-[11px] text-stone-400 font-medium tracking-wide shrink-0">
+      <div className="flex-1 border-t border-dashed border-slate-300" />
+      <span className="text-[11px] text-slate-400 font-medium tracking-wide shrink-0">
         ···중략···
       </span>
-      <div className="flex-1 border-t border-dashed border-stone-300" />
+      <div className="flex-1 border-t border-dashed border-slate-300" />
     </div>
   );
 }
@@ -144,11 +144,8 @@ function BubbleRow({
   keyword: string;
 }) {
   const profile = byName[utterance.speaker] ?? null;
-  // 프로필 매칭 + 발언 직위 기반 폴백: 의원정보 데이터가 없거나 미수록 의원이어도
-  // 위원/의장 등 의정 직위면 의원측(좌측)으로 분류한다.
   const isCouncilor =
     !!profile || /^(위원장|부위원장|위원|의장|부의장|의원)$/.test(utterance.role);
-  // Councilors on the left, exec/others on the right
   const isLeft = isCouncilor;
 
   return (
@@ -167,11 +164,11 @@ function BubbleRow({
           isLeft
             ? utterance.hit
               ? "bg-white border-rose-300 shadow-sm shadow-rose-100 rounded-tl-sm"
-              : "bg-white border-stone-200 rounded-tl-sm"
+              : "bg-white border-slate-200 rounded-tl-sm"
             : utterance.hit
             ? "bg-rose-50 border-rose-200 rounded-tr-sm"
-            : "bg-stone-100 border-stone-200 rounded-tr-sm",
-          "text-stone-800",
+            : "bg-slate-100 border-slate-200 rounded-tr-sm",
+          "text-slate-800",
         ].join(" ")}
       >
         {utterance.hit
@@ -262,19 +259,16 @@ export default function MinutesChatView({ docid, regionId, onClose }: Props) {
         }`}
       />
 
-      {/* Drawer — bottom sheet (mobile) / right slide (desktop) */}
+      {/* Drawer */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label="회의록 대화 보기"
         className={[
-          "fixed z-50 bg-stone-50 shadow-2xl flex flex-col",
+          "fixed z-50 bg-slate-50 shadow-2xl flex flex-col",
           "transition-transform duration-300 ease-out",
-          // Mobile: bottom sheet, full width
           "inset-x-0 bottom-0 max-h-[90dvh] rounded-t-2xl",
-          // Desktop: right panel, full height
-          "md:inset-y-0 md:left-auto md:right-0 md:w-[520px] md:max-h-none md:h-full md:rounded-none md:border-l md:border-stone-200",
-          // Slide animations
+          "md:inset-y-0 md:left-auto md:right-0 md:w-[520px] md:max-h-none md:h-full md:rounded-none md:border-l md:border-slate-200",
           isOpen
             ? "translate-y-0 md:translate-x-0"
             : "translate-y-full md:translate-x-full md:translate-y-0",
@@ -282,21 +276,21 @@ export default function MinutesChatView({ docid, regionId, onClose }: Props) {
       >
         {/* Mobile drag handle */}
         <div className="md:hidden flex justify-center pt-3 pb-1 shrink-0">
-          <div className="w-8 h-1 rounded-full bg-stone-300" />
+          <div className="w-8 h-1 rounded-full bg-slate-300" />
         </div>
 
         {docid && (
           <>
             {/* Header */}
-            <div className="shrink-0 border-b border-stone-200 px-5 py-4 flex items-start gap-3 bg-white">
+            <div className="shrink-0 border-b border-slate-200 px-5 py-4 flex items-start gap-3 bg-white">
               <div className="flex-1 min-w-0">
                 {chat ? (
                   <>
-                    <p className="text-xs text-stone-500 mb-1 font-medium truncate">
+                    <p className="text-xs text-slate-500 mb-1 font-medium truncate">
                       {chat.council}
                     </p>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+                      <span className="font-mono text-sm font-semibold text-slate-800 tabular-nums">
                         {fmtDate(chat.date)}
                       </span>
                       <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-sky-50 text-sky-700 ring-1 ring-sky-200">
@@ -305,15 +299,15 @@ export default function MinutesChatView({ docid, regionId, onClose }: Props) {
                     </div>
                   </>
                 ) : loading ? (
-                  <p className="text-sm text-stone-400">불러오는 중...</p>
+                  <p className="text-sm text-slate-400">불러오는 중...</p>
                 ) : (
-                  <p className="text-sm font-medium text-stone-600">회의록 대화 보기</p>
+                  <p className="text-sm font-medium text-slate-600">회의록 대화 보기</p>
                 )}
               </div>
               <button
                 onClick={onClose}
                 aria-label="닫기"
-                className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors text-xl leading-none"
+                className="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors text-xl leading-none"
               >
                 ×
               </button>
@@ -323,14 +317,14 @@ export default function MinutesChatView({ docid, regionId, onClose }: Props) {
             <div className="flex-1 overflow-y-auto px-4 py-5">
               {loading ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-3">
-                  <div className="w-5 h-5 rounded-full border-2 border-stone-300 border-t-stone-600 animate-spin" />
-                  <p className="text-sm text-stone-400">대화 데이터를 불러오는 중...</p>
+                  <div className="w-5 h-5 rounded-full border-2 border-slate-300 border-t-slate-600 animate-spin" />
+                  <p className="text-sm text-slate-400">대화 데이터를 불러오는 중...</p>
                 </div>
               ) : notFound || !chat ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
-                  <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center">
                     <svg
-                      className="w-6 h-6 text-stone-400"
+                      className="w-6 h-6 text-slate-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -345,21 +339,20 @@ export default function MinutesChatView({ docid, regionId, onClose }: Props) {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-stone-600 mb-1">
+                    <p className="text-sm font-medium text-slate-600 mb-1">
                       이 회의의 대화 데이터를 준비 중입니다.
                     </p>
-                    <p className="text-xs text-stone-400">
+                    <p className="text-xs text-slate-400">
                       수집 완료 후 자동으로 반영됩니다.
                     </p>
                   </div>
                 </div>
               ) : chat.utterances.length === 0 ? (
-                // 검색은 형태소·첨부 단위로 매칭되어 회의록 본문에는 키워드가 없을 수 있음
                 <div className="flex flex-col items-center gap-2 py-14 text-center">
-                  <p className="text-sm font-medium text-stone-600">
+                  <p className="text-sm font-medium text-slate-600">
                     본문에서 『{chat.keyword}』 직접 발언을 찾지 못했습니다.
                   </p>
-                  <p className="text-xs text-stone-400 max-w-xs">
+                  <p className="text-xs text-slate-400 max-w-xs">
                     이 회의는 첨부 자료나 유사 표현으로 검색에 포함된 경우입니다.
                     안건 요지는 목록에서 확인할 수 있습니다.
                   </p>
@@ -390,7 +383,7 @@ export default function MinutesChatView({ docid, regionId, onClose }: Props) {
                   ))}
 
                   {/* Source note */}
-                  <p className="text-[11px] text-stone-400 text-center pt-3 pb-1 leading-relaxed">
+                  <p className="text-[11px] text-slate-400 text-center pt-3 pb-1 leading-relaxed">
                     출처: 국회도서관 지방의정포털. 키워드 전후 발언만 추출한 요약본입니다.
                   </p>
                 </div>

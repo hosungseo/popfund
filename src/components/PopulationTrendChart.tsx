@@ -68,19 +68,19 @@ export default function PopulationTrendChart({ regionId }: Props) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center">
-        <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-8 text-center">
+        <p className="text-sm text-slate-400">데이터를 불러오는 중...</p>
       </div>
     );
   }
 
   if (!trend || !chartData || !stats) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] border border-dashed border-slate-200 p-8 flex flex-col items-center gap-3 text-center">
+        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
           준비 중
         </span>
-        <p className="text-sm text-stone-500 max-w-sm">
+        <p className="text-sm text-slate-500 max-w-sm">
           인구 추이 데이터를 준비 중입니다. 파이프라인 실행 후 자동으로
           표시됩니다.
         </p>
@@ -103,19 +103,19 @@ export default function PopulationTrendChart({ regionId }: Props) {
     <div className="flex flex-col gap-4">
       {/* 통계 칩 3개 */}
       <div className="flex flex-wrap gap-2">
-        <div className="bg-stone-50 rounded-xl border border-stone-200 px-4 py-2.5 flex flex-col gap-0.5">
-          <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wide">
+        <div className="bg-slate-50 rounded-xl border border-slate-200 px-4 py-2.5 flex flex-col gap-0.5">
+          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
             최초 관측 ({fmtYm(stats.first.ym)})
           </span>
-          <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+          <span className="font-mono text-sm font-semibold text-slate-800 tabular-nums">
             {stats.first.pop!.toLocaleString("ko-KR")}명
           </span>
         </div>
-        <div className="bg-stone-50 rounded-xl border border-stone-200 px-4 py-2.5 flex flex-col gap-0.5">
-          <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wide">
+        <div className="bg-slate-50 rounded-xl border border-slate-200 px-4 py-2.5 flex flex-col gap-0.5">
+          <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
             최신 ({fmtYm(stats.last.ym)})
           </span>
-          <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+          <span className="font-mono text-sm font-semibold text-slate-800 tabular-nums">
             {stats.last.pop!.toLocaleString("ko-KR")}명
           </span>
         </div>
@@ -147,7 +147,7 @@ export default function PopulationTrendChart({ regionId }: Props) {
       </div>
 
       {/* 차트 */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-5">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
         <div style={{ height: 240 }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
@@ -157,20 +157,20 @@ export default function PopulationTrendChart({ regionId }: Props) {
               <CartesianGrid
                 strokeDasharray="3 3"
                 vertical={false}
-                stroke="#e7e5e4"
+                stroke="#e2e8f0"
               />
               <XAxis
                 dataKey="label"
                 ticks={ticks}
                 interval={0}
-                tick={{ fontSize: 11, fill: "#78716c" }}
+                tick={{ fontSize: 11, fill: "#64748b" }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
                 domain={yDomain}
                 tickFormatter={(v: number) => fmtPop(v)}
-                tick={{ fontSize: 11, fill: "#78716c" }}
+                tick={{ fontSize: 11, fill: "#64748b" }}
                 axisLine={false}
                 tickLine={false}
                 width={54}
@@ -183,7 +183,7 @@ export default function PopulationTrendChart({ regionId }: Props) {
                   "주민등록 총인구",
                 ]}
                 contentStyle={{
-                  border: "1px solid #e7e5e4",
+                  border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "12px",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
@@ -201,7 +201,7 @@ export default function PopulationTrendChart({ regionId }: Props) {
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <p className="text-[11px] text-stone-400 mt-3 leading-relaxed">
+        <p className="text-[11px] text-slate-400 mt-3 leading-relaxed">
           행정안전부 주민등록 인구 (매월 말일 기준). 인구감소지역 최초 지정은
           2021.10이며, 원천 API 제공 시작점(2022.10) 이후 추이만
           표시됩니다.

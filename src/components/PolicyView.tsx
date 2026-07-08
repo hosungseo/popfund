@@ -37,21 +37,21 @@ function ScatterTip({
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-white border border-stone-200 rounded-lg p-3 shadow-md text-xs min-w-[168px]">
-      <p className="font-semibold text-stone-800 mb-1.5">
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-md text-xs min-w-[168px]">
+      <p className="font-semibold text-slate-800 mb-1.5">
         {d.sido} {d.sigungu}
       </p>
-      <p className="text-stone-500">
+      <p className="text-slate-500">
         1인당 기금:{" "}
-        <span className="font-mono text-stone-700">
+        <span className="font-mono text-slate-700">
           {(d.perCapitaFundCum / 10000).toFixed(1)}만원/인
         </span>
       </p>
-      <p className="text-stone-500">
+      <p className="text-slate-500">
         인구 변화:{" "}
         <span
           className={`font-mono font-semibold ${
-            d.declinePct < 0 ? "text-rose-600" : "text-stone-700"
+            d.declinePct < 0 ? "text-rose-600" : "text-slate-700"
           }`}
         >
           {d.declinePct.toFixed(2)}%
@@ -73,8 +73,8 @@ function ScatterTip({
 // ---- Reading guide box ----
 function ReadingGuide({ text }: { text: string }) {
   return (
-    <div className="bg-stone-50 border border-stone-100 rounded-xl px-4 py-3">
-      <p className="text-[11px] text-stone-500 leading-relaxed">{text}</p>
+    <div className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-3">
+      <p className="text-[11px] text-slate-500 leading-relaxed">{text}</p>
     </div>
   );
 }
@@ -89,8 +89,8 @@ function SectionHeader({
 }) {
   return (
     <div>
-      <h2 className="text-lg font-semibold text-stone-800">{title}</h2>
-      <p className="text-xs text-stone-400 mt-0.5">{sub}</p>
+      <h2 className="text-lg font-semibold text-slate-800">{title}</h2>
+      <p className="text-xs text-slate-400 mt-0.5">{sub}</p>
     </div>
   );
 }
@@ -135,28 +135,28 @@ function StayRatioTip({
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-white border border-stone-200 rounded-lg p-3 shadow-md text-xs min-w-[168px]">
-      <p className="font-semibold text-stone-800 mb-1.5">
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-md text-xs min-w-[168px]">
+      <p className="font-semibold text-slate-800 mb-1.5">
         {d.sido} {d.sigungu}
       </p>
-      <p className="text-stone-500">
+      <p className="text-slate-500">
         체류 배율:{" "}
-        <span className="font-mono font-semibold text-stone-700">
+        <span className="font-mono font-semibold text-slate-700">
           {d.stayRatio.toFixed(2)}×
         </span>
       </p>
       {d.registered !== null && (
-        <p className="text-stone-500">
+        <p className="text-slate-500">
           주민등록:{" "}
-          <span className="font-mono text-stone-700">
+          <span className="font-mono text-slate-700">
             {d.registered.toLocaleString("ko-KR")}명
           </span>
         </p>
       )}
       {d.staying !== null && (
-        <p className="text-stone-500">
+        <p className="text-slate-500">
           체류인구:{" "}
-          <span className="font-mono text-stone-700">
+          <span className="font-mono text-slate-700">
             {d.staying.toLocaleString("ko-KR")}명
           </span>
         </p>
@@ -206,11 +206,11 @@ function VitalScatterTip({
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-white border border-stone-200 rounded-lg p-3 shadow-md text-xs min-w-[172px]">
-      <p className="font-semibold text-stone-800 mb-1.5">
+    <div className="bg-white border border-slate-200 rounded-lg p-3 shadow-md text-xs min-w-[172px]">
+      <p className="font-semibold text-slate-800 mb-1.5">
         {d.sido} {d.sigungu}
       </p>
-      <p className="text-stone-500">
+      <p className="text-slate-500">
         자연증감률:{" "}
         <span
           className={`font-mono font-semibold ${
@@ -221,7 +221,7 @@ function VitalScatterTip({
           {d.xNat.toFixed(2)}%
         </span>
       </p>
-      <p className="text-stone-500">
+      <p className="text-slate-500">
         사회적 증감률:{" "}
         <span
           className={`font-mono font-semibold ${
@@ -472,17 +472,17 @@ export default function PolicyView({ policy }: Props) {
           sub="x = 1인당 기금 누계(만원/인) · y = 인구 변화율(%) · 점선 십자선 = 중앙값"
         />
 
-        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+        <div className="bg-white rounded-2xl border border-slate-200 p-5">
           <div style={{ height: 420 }}>
             <ResponsiveContainer width="100%" height="100%">
               <ScatterChart margin={{ top: 12, right: 24, left: 8, bottom: 28 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis
                   type="number"
                   dataKey="xVal"
                   name="1인당 기금"
                   tickFormatter={(v: number) => `${v.toFixed(0)}`}
-                  tick={{ fontSize: 11, fill: "#78716c" }}
+                  tick={{ fontSize: 11, fill: "#64748b" }}
                   axisLine={false}
                   tickLine={false}
                   label={{
@@ -490,7 +490,7 @@ export default function PolicyView({ policy }: Props) {
                     position: "insideBottom",
                     offset: -18,
                     fontSize: 11,
-                    fill: "#a8a29e",
+                    fill: "#94a3b8",
                   }}
                 />
                 <YAxis
@@ -498,7 +498,7 @@ export default function PolicyView({ policy }: Props) {
                   dataKey="yVal"
                   name="인구 변화율"
                   tickFormatter={(v: number) => `${v.toFixed(1)}%`}
-                  tick={{ fontSize: 11, fill: "#78716c" }}
+                  tick={{ fontSize: 11, fill: "#64748b" }}
                   axisLine={false}
                   tickLine={false}
                   width={56}
@@ -507,7 +507,7 @@ export default function PolicyView({ policy }: Props) {
                     angle: -90,
                     position: "insideLeft",
                     fontSize: 11,
-                    fill: "#a8a29e",
+                    fill: "#94a3b8",
                     offset: 8,
                   }}
                 />
@@ -515,13 +515,13 @@ export default function PolicyView({ policy }: Props) {
                 {/* Crosshair at medians */}
                 <ReferenceLine
                   x={medX}
-                  stroke="#a8a29e"
+                  stroke="#94a3b8"
                   strokeDasharray="6 3"
                   strokeWidth={1.5}
                 />
                 <ReferenceLine
                   y={medY}
-                  stroke="#a8a29e"
+                  stroke="#94a3b8"
                   strokeDasharray="6 3"
                   strokeWidth={1.5}
                 />
@@ -545,17 +545,17 @@ export default function PolicyView({ policy }: Props) {
 
           {/* Legend */}
           <div className="flex items-center gap-5 mt-2 px-1">
-            <span className="flex items-center gap-1.5 text-xs text-stone-500">
+            <span className="flex items-center gap-1.5 text-xs text-slate-500">
               <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0" />
               감소지역
             </span>
-            <span className="flex items-center gap-1.5 text-xs text-stone-500">
+            <span className="flex items-center gap-1.5 text-xs text-slate-500">
               <span className="w-3 h-3 rounded-full bg-amber-400 shrink-0" />
               관심지역
             </span>
-            <span className="flex items-center gap-1.5 text-xs text-stone-400">
+            <span className="flex items-center gap-1.5 text-xs text-slate-400">
               <span
-                className="w-5 shrink-0 border-b border-dashed border-stone-300"
+                className="w-5 shrink-0 border-b border-dashed border-slate-300"
                 style={{ borderBottomWidth: "1.5px" }}
               />
               중앙값 기준선
@@ -581,7 +581,7 @@ export default function PolicyView({ policy }: Props) {
                 pos: "좌상",
                 name: "기금↓·감소완만",
                 note: "",
-                cls: "bg-stone-50 border-stone-100 text-stone-500",
+                cls: "bg-slate-50 border-slate-100 text-slate-500",
               },
               {
                 pos: "우상",
@@ -616,9 +616,9 @@ export default function PolicyView({ policy }: Props) {
           sub="집행률 하위 15개 지역 (null 제외) · 막대 우측 = 기금사업 건수"
         />
 
-        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+        <div className="bg-white rounded-2xl border border-slate-200 p-5">
           {execBottom15.length === 0 ? (
-            <p className="text-sm text-stone-400 text-center py-10">
+            <p className="text-sm text-slate-400 text-center py-10">
               집행률 데이터가 없습니다.
             </p>
           ) : (
@@ -633,13 +633,13 @@ export default function PolicyView({ policy }: Props) {
                   <CartesianGrid
                     horizontal={false}
                     strokeDasharray="3 3"
-                    stroke="#e7e5e4"
+                    stroke="#e2e8f0"
                   />
                   <XAxis
                     type="number"
                     domain={[0, 100]}
                     tickFormatter={(v: number) => `${v}%`}
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -647,7 +647,7 @@ export default function PolicyView({ policy }: Props) {
                     type="category"
                     dataKey="name"
                     width={104}
-                    tick={{ fontSize: 11, fill: "#44403c" }}
+                    tick={{ fontSize: 11, fill: "#334155" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -660,7 +660,7 @@ export default function PolicyView({ policy }: Props) {
                       ];
                     }}
                     contentStyle={{
-                      border: "1px solid #e7e5e4",
+                      border: "1px solid #e2e8f0",
                       borderRadius: "8px",
                       fontSize: "12px",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
@@ -679,7 +679,7 @@ export default function PolicyView({ policy }: Props) {
                       formatter={(v: unknown) =>
                         typeof v === "number" ? `${v}건` : ""
                       }
-                      style={{ fontSize: 10, fill: "#78716c" }}
+                      style={{ fontSize: 10, fill: "#64748b" }}
                     />
                   </Bar>
                 </BarChart>
@@ -689,24 +689,24 @@ export default function PolicyView({ policy }: Props) {
 
           {/* Top 5 list */}
           {execTop5.length > 0 && (
-            <div className="mt-5 pt-4 border-t border-stone-100">
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400">
+            <div className="mt-5 pt-4 border-t border-slate-100">
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
                 집행률 상위 5
               </span>
               <ol className="mt-3 flex flex-col gap-2">
                 {execTop5.map((r, i) => (
                   <li key={r.id} className="flex items-center gap-2 text-sm">
-                    <span className="w-4 text-[10px] font-mono text-stone-400 shrink-0">
+                    <span className="w-4 text-[10px] font-mono text-slate-400 shrink-0">
                       {i + 1}
                     </span>
-                    <span className="font-medium text-stone-700">
+                    <span className="font-medium text-slate-700">
                       {r.sido} {r.sigungu}
                     </span>
                     <TypeBadge type={r.type} />
                     <span className="ml-auto font-mono text-xs font-semibold text-emerald-600 tabular-nums">
                       {r.fundExecRate.toFixed(1)}%
                     </span>
-                    <span className="text-[10px] font-mono text-stone-400 tabular-nums">
+                    <span className="text-[10px] font-mono text-slate-400 tabular-nums">
                       {r.fundProjectCount}건
                     </span>
                   </li>
@@ -728,55 +728,55 @@ export default function PolicyView({ policy }: Props) {
 
         <div className="flex flex-col gap-4">
           {/* Top 10 table — overflow-x-auto: 모바일에서 위기점수 열이 잘리지 않도록 */}
-          <div className="bg-white rounded-2xl border border-stone-200 overflow-x-auto">
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="bg-stone-50 border-b border-stone-200">
-                  <th className="px-4 py-2.5 text-left font-semibold text-stone-500 w-10">
+                <tr className="bg-slate-50 border-b border-slate-200">
+                  <th className="px-4 py-2.5 text-left font-semibold text-slate-500 w-10">
                     순위
                   </th>
-                  <th className="px-4 py-2.5 text-left font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-left font-semibold text-slate-500">
                     지역
                   </th>
-                  <th className="px-4 py-2.5 text-left font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-left font-semibold text-slate-500">
                     유형
                   </th>
-                  <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                     감소율
                   </th>
-                  <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                     고령비율
                   </th>
-                  <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                     유소년비율
                   </th>
-                  <th className="px-4 py-2.5 text-right font-semibold text-stone-500">
+                  <th className="px-4 py-2.5 text-right font-semibold text-slate-500">
                     위기점수
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-100">
+              <tbody className="divide-y divide-slate-100">
                 {riskTop10.map((r) => (
                   <tr
                     key={r.id}
-                    className="hover:bg-stone-50/50 transition-colors"
+                    className="hover:bg-slate-50/50 transition-colors"
                   >
-                    <td className="px-4 py-2.5 font-mono text-stone-400 tabular-nums">
+                    <td className="px-4 py-2.5 font-mono text-slate-400 tabular-nums">
                       {r.riskRank}
                     </td>
-                    <td className="px-4 py-2.5 font-medium text-stone-800">
+                    <td className="px-4 py-2.5 font-medium text-slate-800">
                       {r.sido} {r.sigungu}
                     </td>
                     <td className="px-4 py-2.5">
                       <TypeBadge type={r.type} />
                     </td>
-                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-stone-600">
+                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-600">
                       {r.declinePct.toFixed(2)}%
                     </td>
-                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-stone-600">
+                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-600">
                       {r.elderlyPct.toFixed(1)}%
                     </td>
-                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-stone-600">
+                    <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-600">
                       {r.youthPct.toFixed(1)}%
                     </td>
                     <td className="px-4 py-2.5 text-right font-mono font-bold tabular-nums text-rose-600">
@@ -800,31 +800,31 @@ export default function PolicyView({ policy }: Props) {
                     key={r.id}
                     className="flex flex-wrap items-center gap-x-3 gap-y-1"
                   >
-                    <span className="font-semibold text-stone-800 text-sm">
+                    <span className="font-semibold text-slate-800 text-sm">
                       {r.sido} {r.sigungu}
                     </span>
                     <TypeBadge type={r.type} />
-                    <span className="text-xs text-stone-500">
+                    <span className="text-xs text-slate-500">
                       위기점수{" "}
                       <span className="font-mono font-bold text-rose-600">
                         {r.riskScore.toFixed(3)}
                       </span>
                     </span>
-                    <span className="text-xs text-stone-500">
+                    <span className="text-xs text-slate-500">
                       감소율{" "}
-                      <span className="font-mono text-stone-700">
+                      <span className="font-mono text-slate-700">
                         {r.declinePct.toFixed(2)}%
                       </span>
                     </span>
-                    <span className="text-xs text-stone-500">
+                    <span className="text-xs text-slate-500">
                       고령비율{" "}
-                      <span className="font-mono text-stone-700">
+                      <span className="font-mono text-slate-700">
                         {r.elderlyPct.toFixed(1)}%
                       </span>
                     </span>
-                    <span className="text-xs text-stone-500">
+                    <span className="text-xs text-slate-500">
                       유소년비율{" "}
-                      <span className="font-mono text-stone-700">
+                      <span className="font-mono text-slate-700">
                         {r.youthPct.toFixed(1)}%
                       </span>
                     </span>
@@ -845,9 +845,9 @@ export default function PolicyView({ policy }: Props) {
           sub="분야별 총예산(억원) 내림차순 · 막대 색 = 집행률 수준 · 우측 숫자 = 집행률"
         />
 
-        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+        <div className="bg-white rounded-2xl border border-slate-200 p-5">
           {fieldChartData.length === 0 ? (
-            <p className="text-sm text-stone-400 text-center py-10">
+            <p className="text-sm text-slate-400 text-center py-10">
               분야 데이터가 없습니다.
             </p>
           ) : (
@@ -862,12 +862,12 @@ export default function PolicyView({ policy }: Props) {
                   <CartesianGrid
                     horizontal={false}
                     strokeDasharray="3 3"
-                    stroke="#e7e5e4"
+                    stroke="#e2e8f0"
                   />
                   <XAxis
                     type="number"
                     tickFormatter={(v: number) => `${v}억`}
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -875,7 +875,7 @@ export default function PolicyView({ policy }: Props) {
                     type="category"
                     dataKey="fldNm"
                     width={140}
-                    tick={{ fontSize: 11, fill: "#44403c" }}
+                    tick={{ fontSize: 11, fill: "#334155" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -888,7 +888,7 @@ export default function PolicyView({ policy }: Props) {
                       ];
                     }}
                     contentStyle={{
-                      border: "1px solid #e7e5e4",
+                      border: "1px solid #e2e8f0",
                       borderRadius: "8px",
                       fontSize: "12px",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
@@ -904,7 +904,7 @@ export default function PolicyView({ policy }: Props) {
                       formatter={(v: unknown) =>
                         typeof v === "number" ? `${v.toFixed(0)}%` : ""
                       }
-                      style={{ fontSize: 10, fill: "#78716c" }}
+                      style={{ fontSize: 10, fill: "#64748b" }}
                     />
                   </Bar>
                 </BarChart>
@@ -922,7 +922,7 @@ export default function PolicyView({ policy }: Props) {
             ].map((item) => (
               <span
                 key={item.label}
-                className="flex items-center gap-1.5 text-xs text-stone-500"
+                className="flex items-center gap-1.5 text-xs text-slate-500"
               >
                 <span className={`w-3 h-3 rounded-sm ${item.color} shrink-0`} />
                 {item.label}
@@ -941,17 +941,17 @@ export default function PolicyView({ policy }: Props) {
           sub="stayRatio 상위 15 · 분기 평균 체류인구 ÷ 주민등록인구 배율 · 막대 색 = 지역 유형"
         />
 
-        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+        <div className="bg-white rounded-2xl border border-slate-200 p-5">
           {lifepopLoading ? (
-            <p className="text-sm text-stone-400 text-center py-10">
+            <p className="text-sm text-slate-400 text-center py-10">
               데이터를 불러오는 중...
             </p>
           ) : stayRatioChartData.length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-10 text-center">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
                 준비 중
               </span>
-              <p className="text-sm text-stone-500 max-w-sm">
+              <p className="text-sm text-slate-500 max-w-sm">
                 생활인구 데이터를 준비 중입니다. 파이프라인 실행 후 자동으로
                 표시됩니다.
               </p>
@@ -972,12 +972,12 @@ export default function PolicyView({ policy }: Props) {
                   <CartesianGrid
                     horizontal={false}
                     strokeDasharray="3 3"
-                    stroke="#e7e5e4"
+                    stroke="#e2e8f0"
                   />
                   <XAxis
                     type="number"
                     tickFormatter={(v: number) => `${v.toFixed(0)}×`}
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -985,7 +985,7 @@ export default function PolicyView({ policy }: Props) {
                     type="category"
                     dataKey="name"
                     width={112}
-                    tick={{ fontSize: 11, fill: "#44403c" }}
+                    tick={{ fontSize: 11, fill: "#334155" }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -1006,7 +1006,7 @@ export default function PolicyView({ policy }: Props) {
                       formatter={(v: unknown) =>
                         typeof v === "number" ? `${v.toFixed(1)}×` : ""
                       }
-                      style={{ fontSize: 10, fill: "#78716c" }}
+                      style={{ fontSize: 10, fill: "#64748b" }}
                     />
                   </Bar>
                 </BarChart>
@@ -1017,11 +1017,11 @@ export default function PolicyView({ policy }: Props) {
           {/* Legend */}
           {stayRatioChartData.length > 0 && (
             <div className="flex items-center gap-5 mt-3 px-1">
-              <span className="flex items-center gap-1.5 text-xs text-stone-500">
+              <span className="flex items-center gap-1.5 text-xs text-slate-500">
                 <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0" />
                 감소지역
               </span>
-              <span className="flex items-center gap-1.5 text-xs text-stone-500">
+              <span className="flex items-center gap-1.5 text-xs text-slate-500">
                 <span className="w-3 h-3 rounded-full bg-amber-400 shrink-0" />
                 관심지역
               </span>
@@ -1039,18 +1039,18 @@ export default function PolicyView({ policy }: Props) {
           sub="x = 누계 자연증감률(%) · y = 누계 사회적 증감률(%) · 최초월 인구 대비"
         />
 
-        <div className="bg-white rounded-2xl border border-stone-200 p-5">
+        <div className="bg-white rounded-2xl border border-slate-200 p-5">
           {vitalLoading ? (
-            <p className="text-sm text-stone-400 text-center py-10">
+            <p className="text-sm text-slate-400 text-center py-10">
               데이터를 불러오는 중...
             </p>
           ) : vitalScatterDecrease.length === 0 &&
             vitalScatterInterest.length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-10 text-center">
-              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+              <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
                 준비 중
               </span>
-              <p className="text-sm text-stone-500 max-w-sm">
+              <p className="text-sm text-slate-500 max-w-sm">
                 출생·사망 데이터를 준비 중입니다. data.go.kr 활용신청 승인 후
                 파이프라인 실행 시 자동으로 표시됩니다.
               </p>
@@ -1062,13 +1062,13 @@ export default function PolicyView({ policy }: Props) {
                   <ScatterChart
                     margin={{ top: 12, right: 24, left: 8, bottom: 28 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                     <XAxis
                       type="number"
                       dataKey="xNat"
                       name="자연증감률"
                       tickFormatter={(v: number) => `${v.toFixed(1)}%`}
-                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      tick={{ fontSize: 11, fill: "#64748b" }}
                       axisLine={false}
                       tickLine={false}
                       label={{
@@ -1076,7 +1076,7 @@ export default function PolicyView({ policy }: Props) {
                         position: "insideBottom",
                         offset: -18,
                         fontSize: 11,
-                        fill: "#a8a29e",
+                        fill: "#94a3b8",
                       }}
                     />
                     <YAxis
@@ -1084,7 +1084,7 @@ export default function PolicyView({ policy }: Props) {
                       dataKey="ySoc"
                       name="사회적 증감률"
                       tickFormatter={(v: number) => `${v.toFixed(1)}%`}
-                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      tick={{ fontSize: 11, fill: "#64748b" }}
                       axisLine={false}
                       tickLine={false}
                       width={56}
@@ -1093,7 +1093,7 @@ export default function PolicyView({ policy }: Props) {
                         angle: -90,
                         position: "insideLeft",
                         fontSize: 11,
-                        fill: "#a8a29e",
+                        fill: "#94a3b8",
                         offset: 8,
                       }}
                     />
@@ -1103,13 +1103,13 @@ export default function PolicyView({ policy }: Props) {
                     />
                     <ReferenceLine
                       x={0}
-                      stroke="#a8a29e"
+                      stroke="#94a3b8"
                       strokeDasharray="6 3"
                       strokeWidth={1.5}
                     />
                     <ReferenceLine
                       y={0}
-                      stroke="#a8a29e"
+                      stroke="#94a3b8"
                       strokeDasharray="6 3"
                       strokeWidth={1.5}
                     />
@@ -1133,17 +1133,17 @@ export default function PolicyView({ policy }: Props) {
 
               {/* Legend */}
               <div className="flex items-center gap-5 mt-2 px-1">
-                <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                <span className="flex items-center gap-1.5 text-xs text-slate-500">
                   <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0" />
                   감소지역
                 </span>
-                <span className="flex items-center gap-1.5 text-xs text-stone-500">
+                <span className="flex items-center gap-1.5 text-xs text-slate-500">
                   <span className="w-3 h-3 rounded-full bg-amber-400 shrink-0" />
                   관심지역
                 </span>
-                <span className="flex items-center gap-1.5 text-xs text-stone-400">
+                <span className="flex items-center gap-1.5 text-xs text-slate-400">
                   <span
-                    className="w-5 shrink-0 border-b border-dashed border-stone-300"
+                    className="w-5 shrink-0 border-b border-dashed border-slate-300"
                     style={{ borderBottomWidth: "1.5px" }}
                   />
                   0 기준선
@@ -1171,7 +1171,7 @@ export default function PolicyView({ policy }: Props) {
                   {
                     pos: "우하",
                     name: "유출 주도형",
-                    cls: "bg-stone-50 border-stone-100 text-stone-500",
+                    cls: "bg-slate-50 border-slate-100 text-slate-500",
                   },
                 ].map((q) => (
                   <div

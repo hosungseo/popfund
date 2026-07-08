@@ -70,15 +70,15 @@ export default function PopulationCards({ population }: Props) {
         return (
           <div
             key={key}
-            className="bg-white rounded-xl border border-stone-200 p-4 flex flex-col gap-1"
+            className="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-5 flex flex-col gap-1"
           >
-            <span className="text-[11px] font-medium text-stone-500 uppercase tracking-wide">
+            <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wide">
               {label}
             </span>
-            <span className="font-mono text-xl font-bold text-stone-900 tabular-nums">
+            <span className="font-mono text-xl font-bold text-slate-900 tabular-nums">
               {value}
               {raw != null && unit && (
-                <span className="text-sm font-normal text-stone-500 ml-1">
+                <span className="text-sm font-normal text-slate-500 ml-1">
                   {unit}
                 </span>
               )}

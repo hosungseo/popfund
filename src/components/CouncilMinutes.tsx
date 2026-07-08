@@ -47,13 +47,13 @@ function MinuteCard({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="bg-white rounded-xl border border-stone-200 p-4 flex flex-col gap-2">
+    <div className="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-4 flex flex-col gap-2">
       {/* Meta row: date · generation/session · committee */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="font-mono text-xs font-medium text-stone-500 tabular-nums">
+        <span className="font-mono text-xs font-medium text-slate-500 tabular-nums">
           {fmtDate(item.date)}
         </span>
-        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-stone-100 text-stone-600">
+        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">
           제{item.numpr}대 제{item.sesn}회
         </span>
         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-sky-50 text-sky-700 ring-1 ring-sky-200">
@@ -65,7 +65,7 @@ function MinuteCard({
       {item.subject && (
         <div>
           <p
-            className={`text-sm text-stone-700 leading-relaxed ${
+            className={`text-sm text-slate-700 leading-relaxed ${
               expanded ? "" : "line-clamp-3"
             }`}
           >
@@ -73,19 +73,19 @@ function MinuteCard({
           </p>
           <button
             onClick={() => setExpanded((v) => !v)}
-            className="mt-1 text-xs text-stone-400 hover:text-stone-600 transition-colors"
+            className="mt-1 text-xs text-slate-400 hover:text-slate-600 transition-colors"
           >
             {expanded ? "접기" : "더 보기"}
           </button>
         </div>
       )}
 
-      {/* "대화 보기" button — only shown when subject exists (those are the top-10 with chat data) */}
+      {/* "대화 보기" button */}
       {item.subject && (
         <div className="pt-0.5">
           <button
             onClick={() => onChatOpen(item.docid)}
-            className="inline-flex items-center gap-1.5 text-xs text-stone-500 hover:text-stone-800 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 transition-colors"
             aria-label={`${fmtDate(item.date)} 회의록 대화 보기`}
           >
             <ChatIcon />
@@ -112,19 +112,19 @@ export default function CouncilMinutes({ regionId }: Props) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center">
-        <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-8 text-center">
+        <p className="text-sm text-slate-400">데이터를 불러오는 중...</p>
       </div>
     );
   }
 
   if (!data) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] border border-dashed border-slate-200 p-8 flex flex-col items-center gap-3 text-center">
+        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
           준비 중
         </span>
-        <p className="text-sm text-stone-500 max-w-sm">
+        <p className="text-sm text-slate-500 max-w-sm">
           이 지역 의회의 회의록 데이터를 준비 중입니다.
         </p>
       </div>
@@ -136,22 +136,22 @@ export default function CouncilMinutes({ regionId }: Props) {
       <div className="flex flex-col gap-4">
         {/* Header: council name + count badge + collected date */}
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-sm font-semibold text-stone-700">
+          <span className="text-sm font-semibold text-slate-700">
             {data.council}
           </span>
-          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 ring-1 ring-blue-200">
+          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#E8EFF6] text-[#0B4171] ring-1 ring-[#0B4171]/20">
             『지방소멸대응기금』 언급 회의록 총{" "}
             {data.totalCount.toLocaleString("ko-KR")}건
           </span>
-          <span className="text-xs text-stone-400">
+          <span className="text-xs text-slate-400">
             수집일 {fmtUpdated(data.updated)}
           </span>
         </div>
 
-        {/* Item list (already newest-first from pipeline) */}
+        {/* Item list */}
         {data.items.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
-            <p className="text-sm text-stone-500">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] border border-dashed border-slate-200 p-8 flex flex-col items-center gap-3 text-center">
+            <p className="text-sm text-slate-500">
               수집된 회의록 항목이 없습니다.
             </p>
           </div>
@@ -168,13 +168,13 @@ export default function CouncilMinutes({ regionId }: Props) {
         )}
 
         {/* Source caption */}
-        <p className="text-[11px] text-stone-400 leading-relaxed">
+        <p className="text-[11px] text-slate-400 leading-relaxed">
           출처: 국회도서관 지방의정포털 (clik.nanet.go.kr). 회의록 원문은
           포털에서 의회·회기로 검색해 열람할 수 있습니다.
         </p>
       </div>
 
-      {/* Chat drawer — rendered outside the flow to allow fixed positioning */}
+      {/* Chat drawer */}
       <MinutesChatView
         docid={activeChatDocid}
         regionId={regionId}

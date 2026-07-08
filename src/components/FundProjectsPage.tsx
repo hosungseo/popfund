@@ -12,7 +12,7 @@ const FUND_LABELS: Record<string, string> = {
   candidate: "후보",
 };
 const FUND_BADGE: Record<string, string> = {
-  confirmed: "bg-blue-50 text-blue-700 ring-1 ring-blue-200",
+  confirmed: "bg-[#E8EFF6] text-[#0B4171] ring-1 ring-[#0B4171]/20",
   candidate: "bg-violet-50 text-violet-700 ring-1 ring-violet-200",
 };
 
@@ -93,13 +93,13 @@ export default function FundProjectsPage() {
   }
 
   function SortIcon({ col }: { col: SortCol }) {
-    if (sortCol !== col) return <span className="text-stone-300 ml-1">↕</span>;
-    return <span className="text-blue-600 ml-1">{sortDir === "desc" ? "↓" : "↑"}</span>;
+    if (sortCol !== col) return <span className="text-slate-300 ml-1">↕</span>;
+    return <span className="text-[#0B4171] ml-1">{sortDir === "desc" ? "↓" : "↑"}</span>;
   }
 
   if (loading) {
     return (
-      <div className="py-20 text-center text-stone-400 text-sm">
+      <div className="py-20 text-center text-slate-400 text-sm">
         기금사업 목록을 불러오는 중...
       </div>
     );
@@ -108,8 +108,8 @@ export default function FundProjectsPage() {
   if (!data || data.length === 0) {
     return (
       <div className="py-20 text-center">
-        <p className="text-stone-400 text-sm">기금사업 데이터를 준비 중입니다.</p>
-        <p className="text-stone-300 text-xs mt-1">
+        <p className="text-slate-400 text-sm">기금사업 데이터를 준비 중입니다.</p>
+        <p className="text-slate-300 text-xs mt-1">
           파이프라인 실행 후 public/data/fund-projects.json 생성 시 자동으로 표시됩니다.
         </p>
       </div>
@@ -128,12 +128,12 @@ export default function FundProjectsPage() {
           ].map(({ label, value }) => (
             <div
               key={label}
-              className="bg-white rounded-xl border border-stone-200 px-4 py-3 flex flex-col gap-0.5"
+              className="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] px-4 py-3 flex flex-col gap-0.5"
             >
-              <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400">
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
                 {label}
               </span>
-              <span className="font-mono text-lg font-bold text-stone-900 tabular-nums">
+              <span className="font-mono text-lg font-bold text-slate-900 tabular-nums">
                 {value}
               </span>
             </div>
@@ -149,7 +149,7 @@ export default function FundProjectsPage() {
           placeholder="사업명 검색..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 min-w-[180px] max-w-sm px-3 py-1.5 text-sm border border-stone-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 placeholder:text-stone-400"
+          className="flex-1 min-w-[180px] max-w-sm px-3 py-1.5 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#0B4171]/20 focus:border-[#1E5A8E] placeholder:text-slate-400"
         />
 
         {/* Sido filter */}
@@ -160,8 +160,8 @@ export default function FundProjectsPage() {
               onClick={() => setSidoFilter(s)}
               className={`px-2.5 py-1.5 text-xs rounded-lg font-medium transition-colors ${
                 sidoFilter === s
-                  ? "bg-stone-900 text-white"
-                  : "bg-white text-stone-600 border border-stone-200 hover:border-stone-300"
+                  ? "bg-[#0B4171] text-white"
+                  : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
               }`}
             >
               {s}
@@ -177,8 +177,8 @@ export default function FundProjectsPage() {
               onClick={() => setFundFilter(f)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 fundFilter === f
-                  ? "bg-stone-900 text-white"
-                  : "bg-white text-stone-600 border border-stone-200 hover:border-stone-300"
+                  ? "bg-[#0B4171] text-white"
+                  : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
               }`}
             >
               {f === "all" ? "전체" : FUND_LABELS[f]}
@@ -188,46 +188,46 @@ export default function FundProjectsPage() {
       </div>
 
       {/* Desktop table */}
-      <div className="hidden md:block overflow-x-auto rounded-xl border border-stone-200">
+      <div className="hidden md:block overflow-x-auto rounded-xl border border-slate-200">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-stone-50 border-b border-stone-200">
-              <th className="px-4 py-3 text-left text-xs font-semibold text-stone-500">
+            <tr className="bg-slate-50 border-b border-slate-200">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500">
                 지역
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-stone-500">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500">
                 사업명
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-stone-500">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500">
                 분야
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-stone-500">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500">
                 기금
               </th>
               <th
-                className="px-4 py-3 text-right text-xs font-semibold text-stone-500 cursor-pointer hover:text-stone-900"
+                className="px-4 py-3 text-right text-xs font-semibold text-slate-500 cursor-pointer hover:text-slate-900"
                 onClick={() => toggleSort("bdgCashAmt")}
               >
                 예산현액 <SortIcon col="bdgCashAmt" />
               </th>
               <th
-                className="px-4 py-3 text-right text-xs font-semibold text-stone-500 cursor-pointer hover:text-stone-900"
+                className="px-4 py-3 text-right text-xs font-semibold text-slate-500 cursor-pointer hover:text-slate-900"
                 onClick={() => toggleSort("epAmt")}
               >
                 지출액 <SortIcon col="epAmt" />
               </th>
               <th
-                className="px-4 py-3 text-right text-xs font-semibold text-stone-500 cursor-pointer hover:text-stone-900"
+                className="px-4 py-3 text-right text-xs font-semibold text-slate-500 cursor-pointer hover:text-slate-900"
                 onClick={() => toggleSort("rate")}
               >
                 집행률 <SortIcon col="rate" />
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-stone-100">
+          <tbody className="divide-y divide-slate-100">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-10 text-center text-stone-400 text-sm">
+                <td colSpan={7} className="py-10 text-center text-slate-400 text-sm">
                   조건에 맞는 사업이 없습니다
                 </td>
               </tr>
@@ -239,20 +239,20 @@ export default function FundProjectsPage() {
                 return (
                   <tr
                     key={`${p.regionId}|${p.dbizCd}|${p.acntDvNm}`}
-                    className="hover:bg-stone-50/50 transition-colors"
+                    className="hover:bg-slate-50/50 transition-colors"
                   >
                     <td className="px-4 py-3 whitespace-nowrap">
                       <Link
                         href={`/region/${encodeURIComponent(p.regionId)}`}
-                        className="text-xs font-medium text-blue-700 hover:underline"
+                        className="text-xs font-medium text-[#0B4171] hover:text-[#1E5A8E] hover:underline transition-colors"
                       >
                         {p.sido} {p.sigungu}
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-stone-800 font-medium max-w-[200px]">
+                    <td className="px-4 py-3 text-slate-800 font-medium max-w-[200px]">
                       <span className="line-clamp-2 text-sm">{p.dbizNm}</span>
                     </td>
-                    <td className="px-4 py-3 text-stone-500 text-xs whitespace-nowrap">
+                    <td className="px-4 py-3 text-slate-500 text-xs whitespace-nowrap">
                       {p.fldNm}
                     </td>
                     <td className="px-4 py-3">
@@ -264,10 +264,10 @@ export default function FundProjectsPage() {
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-right font-mono text-xs text-stone-700 tabular-nums">
+                    <td className="px-4 py-3 text-right font-mono text-xs text-slate-700 tabular-nums">
                       {formatWon(p.bdgCashAmt)}
                     </td>
-                    <td className="px-4 py-3 text-right font-mono text-xs text-stone-700 tabular-nums">
+                    <td className="px-4 py-3 text-right font-mono text-xs text-slate-700 tabular-nums">
                       {formatWon(p.epAmt)}
                     </td>
                     <td className="px-4 py-3 text-right">
@@ -298,7 +298,7 @@ export default function FundProjectsPage() {
       {/* Mobile cards */}
       <div className="md:hidden flex flex-col gap-2">
         {filtered.length === 0 ? (
-          <p className="text-center text-stone-400 text-sm py-8">
+          <p className="text-center text-slate-400 text-sm py-8">
             조건에 맞는 사업이 없습니다
           </p>
         ) : (
@@ -309,17 +309,17 @@ export default function FundProjectsPage() {
             return (
               <div
                 key={`${p.regionId}|${p.dbizCd}|${p.acntDvNm}`}
-                className="bg-white border border-stone-200 rounded-xl p-4 flex flex-col gap-2"
+                className="bg-white border border-slate-200 rounded-xl p-4 flex flex-col gap-2"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <Link
                       href={`/region/${encodeURIComponent(p.regionId)}`}
-                      className="text-[11px] font-medium text-blue-700 hover:underline"
+                      className="text-[11px] font-medium text-[#0B4171] hover:underline"
                     >
                       {p.sido} {p.sigungu}
                     </Link>
-                    <p className="text-sm font-medium text-stone-800 leading-snug mt-0.5">
+                    <p className="text-sm font-medium text-slate-800 leading-snug mt-0.5">
                       {p.dbizNm}
                     </p>
                   </div>
@@ -331,17 +331,17 @@ export default function FundProjectsPage() {
                     </span>
                   )}
                 </div>
-                <div className="text-xs text-stone-500">{p.fldNm}</div>
+                <div className="text-xs text-slate-500">{p.fldNm}</div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-stone-500">
+                  <span className="text-slate-500">
                     예산{" "}
-                    <span className="font-mono font-semibold text-stone-700">
+                    <span className="font-mono font-semibold text-slate-700">
                       {formatWon(p.bdgCashAmt)}
                     </span>
                   </span>
-                  <span className="text-stone-500">
+                  <span className="text-slate-500">
                     지출{" "}
-                    <span className="font-mono font-semibold text-stone-700">
+                    <span className="font-mono font-semibold text-slate-700">
                       {formatWon(p.epAmt)}
                     </span>
                   </span>
@@ -373,17 +373,17 @@ export default function FundProjectsPage() {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-white text-stone-600 hover:border-stone-300 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-600 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             이전
           </button>
-          <span className="text-xs text-stone-500 tabular-nums">
+          <span className="text-xs text-slate-500 tabular-nums">
             {page} / {totalPages}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-stone-200 bg-white text-stone-600 hover:border-stone-300 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-200 bg-white text-slate-600 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             다음
           </button>

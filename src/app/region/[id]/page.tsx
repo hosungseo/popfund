@@ -21,9 +21,6 @@ interface Props {
 
 export async function generateStaticParams() {
   const regions = loadRegions();
-  // 원본 id 그대로 반환해야 정적 export 폴더가 UTF-8 이름(경북-의성군/)으로 생성된다.
-  // encodeURIComponent를 반환하면 퍼센트 문자열이 리터럴 폴더명이 되어 GitHub Pages에서 404.
-  // (브라우저 요청의 %인코딩은 서버가 UTF-8로 디코드해 매칭하므로 Link href의 encode는 유지)
   return regions.map((r) => ({ id: r.id }));
 }
 
@@ -48,7 +45,6 @@ export default async function RegionPage({ params }: Props) {
   const meta = loadMeta();
   const tf = totalFund(region.fund);
 
-  // v2.0 summary badge data (loaded server-side; null if files not yet built)
   const policy = loadPolicy();
   const lifepop = loadLifepop();
   const vitalTrend = loadVitalTrend();
@@ -70,7 +66,6 @@ export default async function RegionPage({ params }: Props) {
 
   const regionMinutes = loadRegionMinutes(region.id);
 
-  // Build lafCd → "시도 시군구" map for the drawer's region name lookup
   const lafCdToName: Record<string, string> = Object.fromEntries(
     allRegions.map((r) => [r.lafCd, `${r.sido} ${r.sigungu}`])
   );
@@ -78,25 +73,25 @@ export default async function RegionPage({ params }: Props) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col gap-10">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs text-stone-400">
-        <Link href="/" className="hover:text-stone-700 transition-colors">
+      <nav className="flex items-center gap-2 text-xs text-slate-400">
+        <Link href="/" className="hover:text-slate-700 transition-colors">
           전국 개요
         </Link>
         <span>/</span>
-        <span className="text-stone-600">{region.sido}</span>
+        <span className="text-slate-600">{region.sido}</span>
         <span>/</span>
-        <span className="text-stone-900 font-medium">{region.sigungu}</span>
+        <span className="text-slate-900 font-medium">{region.sigungu}</span>
       </nav>
 
-      {/* Region header — title left, mini map right */}
+      {/* Region header */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight text-stone-900">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">
               {region.sigungu}
             </h1>
             <RegionBadge type={region.type} />
-            <span className="text-sm text-stone-500">{region.sido}</span>
+            <span className="text-sm text-slate-500">{region.sido}</span>
           </div>
 
           {/* v2.0 summary badges */}
@@ -107,7 +102,7 @@ export default async function RegionPage({ params }: Props) {
                 className={`inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 ${
                   policyRegion.riskRank <= 20
                     ? "bg-rose-50 text-rose-700 ring-rose-200"
-                    : "bg-stone-50 text-stone-600 ring-stone-200"
+                    : "bg-slate-50 text-slate-600 ring-slate-200"
                 }`}
               >
                 위기 {policyRegion.riskRank}위/107
@@ -123,13 +118,13 @@ export default async function RegionPage({ params }: Props) {
               </span>
             )}
 
-            {/* ③ 체류 배율 */}
+            {/* ③ 체류 배율 — navy tones */}
             {stayRatio != null && (
               <span
                 className={`inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 ${
                   stayRatio >= 5
-                    ? "bg-blue-50 text-blue-700 ring-blue-200"
-                    : "bg-stone-50 text-stone-600 ring-stone-200"
+                    ? "bg-[#E8EFF6] text-[#0B4171] ring-[#0B4171]/20"
+                    : "bg-slate-50 text-slate-600 ring-slate-200"
                 }`}
               >
                 체류 {stayRatio.toFixed(1)}×
@@ -142,14 +137,14 @@ export default async function RegionPage({ params }: Props) {
                 className={`inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 ${
                   policyRegion.fundExecRate < 30
                     ? "bg-rose-50 text-rose-700 ring-rose-200"
-                    : "bg-stone-50 text-stone-600 ring-stone-200"
+                    : "bg-slate-50 text-slate-600 ring-slate-200"
                 }`}
               >
                 집행 {policyRegion.fundExecRate.toFixed(1)}%
               </span>
             )}
 
-            {/* ⑤ 지방의회 회의록 건수 — minutes 파일이 있을 때만 표시 */}
+            {/* ⑤ 지방의회 회의록 건수 */}
             {regionMinutes && (
               <a
                 href="#council"
@@ -160,16 +155,16 @@ export default async function RegionPage({ params }: Props) {
             )}
           </div>
 
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-slate-500">
             {meta.fundYears[0]}~{meta.fundYears[meta.fundYears.length - 1]}년 누계
             기금 총액:{" "}
-            <span className="font-mono font-semibold text-stone-800">
+            <span className="font-mono font-semibold text-slate-800">
               {formatWon(tf)}원
             </span>
           </p>
         </div>
 
-        {/* Mini choropleth — highlight this region, no interaction */}
+        {/* Mini choropleth */}
         <div className="w-24 sm:w-32 shrink-0">
           <KoreaMap
             regions={allRegions}
@@ -179,10 +174,10 @@ export default async function RegionPage({ params }: Props) {
         </div>
       </div>
 
-      {/* 섹션 바로가기 — 긴 페이지에서 하단 섹션(지방의회 논의 등)을 발견 가능하게 */}
+      {/* 섹션 바로가기 */}
       <nav
         aria-label="섹션 바로가기"
-        className="sticky top-[4.7rem] sm:top-14 z-30 -mx-4 sm:mx-0 px-4 sm:px-0 py-2 bg-[#fafaf8]/95 backdrop-blur-sm flex gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-b border-stone-100"
+        className="sticky top-[4.7rem] sm:top-14 z-30 -mx-4 sm:mx-0 px-4 sm:px-0 py-2 bg-[#F8FAFC]/95 backdrop-blur-sm flex gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-b border-slate-100"
       >
         {(
           [
@@ -202,7 +197,7 @@ export default async function RegionPage({ params }: Props) {
             className={`shrink-0 whitespace-nowrap px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
               href === "#council"
                 ? "bg-sky-50 text-sky-700 ring-1 ring-sky-200 hover:bg-sky-100"
-                : "bg-white text-stone-500 ring-1 ring-stone-200 hover:text-stone-800 hover:ring-stone-300"
+                : "bg-white text-slate-500 ring-1 ring-slate-200 hover:text-slate-800 hover:ring-slate-300"
             }`}
           >
             {label}
@@ -215,8 +210,8 @@ export default async function RegionPage({ params }: Props) {
         {/* Population section */}
         <section id="population" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold text-stone-800">인구 지표</h2>
-            <span className="text-xs text-stone-400">
+            <h2 className="text-lg font-semibold text-slate-800">인구 지표</h2>
+            <span className="text-xs text-slate-400">
               {meta.censusYear}년 인구총조사
             </span>
           </div>
@@ -226,8 +221,8 @@ export default async function RegionPage({ params }: Props) {
         {/* Population trend section */}
         <section id="trend" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold text-stone-800">인구 추이</h2>
-            <span className="text-xs text-stone-400">
+            <h2 className="text-lg font-semibold text-slate-800">인구 추이</h2>
+            <span className="text-xs text-slate-400">
               행정안전부 주민등록 인구 (2022.10~)
             </span>
           </div>
@@ -237,10 +232,10 @@ export default async function RegionPage({ params }: Props) {
         {/* Vital decomposition section */}
         <section id="vital" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold text-stone-800">
+            <h2 className="text-lg font-semibold text-slate-800">
               인구 증감 분해
             </h2>
-            <span className="text-xs text-stone-400">
+            <span className="text-xs text-slate-400">
               자연증감 · 사회적 증감 분해
             </span>
           </div>
@@ -250,7 +245,7 @@ export default async function RegionPage({ params }: Props) {
         {/* Age pyramid section */}
         <section id="structure" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold text-stone-800">인구 구조</h2>
+            <h2 className="text-lg font-semibold text-slate-800">인구 구조</h2>
           </div>
           <AgePyramidChart regionId={region.id} />
         </section>
@@ -258,8 +253,8 @@ export default async function RegionPage({ params }: Props) {
         {/* Lifepop section */}
         <section id="lifepop" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold text-stone-800">생활인구</h2>
-            <span className="text-xs text-stone-400">
+            <h2 className="text-lg font-semibold text-slate-800">생활인구</h2>
+            <span className="text-xs text-slate-400">
               행안부 생활인구 공표 (2025년 4분기)
             </span>
           </div>
@@ -268,22 +263,22 @@ export default async function RegionPage({ params }: Props) {
 
         {/* Fund chart section */}
         <section id="fund" className="flex flex-col gap-4 scroll-mt-24">
-          <h2 className="text-lg font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-slate-800">
             지방소멸대응기금 연도별 예산
           </h2>
-          <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
             <FundBarChart fund={region.fund} years={meta.fundYears} />
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
             {meta.fundYears.map((year) => (
               <div
                 key={year}
-                className="bg-white rounded-xl border border-stone-200 p-3 flex flex-col gap-0.5"
+                className="bg-white rounded-xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-3 flex flex-col gap-0.5"
               >
-                <span className="text-[10px] font-medium text-stone-400 uppercase tracking-wide">
+                <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">
                   {year}년
                 </span>
-                <span className="font-mono text-sm font-semibold text-stone-800 tabular-nums">
+                <span className="font-mono text-sm font-semibold text-slate-800 tabular-nums">
                   {region.fund[year] != null
                     ? formatWon(region.fund[year])
                     : "—"}
@@ -296,15 +291,15 @@ export default async function RegionPage({ params }: Props) {
         {/* Projects section */}
         <section id="projects" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold text-stone-800">
+            <h2 className="text-lg font-semibold text-slate-800">
               세부사업 현황
             </h2>
-            <span className="text-xs text-stone-400">
+            <span className="text-xs text-slate-400">
               집행일자 기준{" "}
               {meta.exeYmd.replace(/(\d{4})(\d{2})(\d{2})/, "$1.$2.$3")}
             </span>
           </div>
-          <div className="bg-white rounded-2xl border border-stone-200 p-5">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
             <ProjectsTable
               lafCd={region.lafCd}
               regionName={`${region.sido} ${region.sigungu}`}
@@ -313,9 +308,9 @@ export default async function RegionPage({ params }: Props) {
           </div>
         </section>
 
-        {/* v2.2 council minutes */}
+        {/* Council minutes */}
         <section id="council" className="flex flex-col gap-4 scroll-mt-24">
-          <h2 className="text-lg font-semibold text-stone-800">
+          <h2 className="text-lg font-semibold text-slate-800">
             지방의회 논의
           </h2>
           <CouncilMinutes regionId={region.id} />

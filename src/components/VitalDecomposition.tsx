@@ -34,21 +34,21 @@ function signOf(v: number): Sign {
 function chipBg(s: Sign): string {
   if (s === "negative") return "bg-rose-50 border-rose-200";
   if (s === "positive") return "bg-emerald-50 border-emerald-200";
-  return "bg-stone-50 border-stone-200";
+  return "bg-slate-50 border-slate-200";
 }
 
 function numCls(s: Sign): string {
   const base = "font-mono text-sm font-semibold tabular-nums";
   if (s === "negative") return `${base} text-rose-700`;
   if (s === "positive") return `${base} text-emerald-700`;
-  return `${base} text-stone-700`;
+  return `${base} text-slate-700`;
 }
 
 function labelCls(s: Sign): string {
   const base = "text-[10px] font-medium uppercase tracking-wide";
   if (s === "negative") return `${base} text-rose-400`;
   if (s === "positive") return `${base} text-emerald-500`;
-  return `${base} text-stone-400`;
+  return `${base} text-slate-400`;
 }
 
 interface ChartRow {
@@ -126,9 +126,6 @@ export default function VitalDecomposition({ regionId }: Props) {
     let social = 0;
     let hasNatural = false;
 
-    // 흐름(자연증감)과 저량 변화(총증감)의 창을 일치시키기 위해
-    // totalChange가 계산되는 행(전월 인구가 있는 행)만 누계에 포함한다.
-    // 이렇게 해야 총증감 = 자연증감 + 사회적 증감이 항상 성립한다.
     for (const row of chartData) {
       if (row.totalChange === null || row.natural === null) continue;
       natural += row.natural;
@@ -149,19 +146,19 @@ export default function VitalDecomposition({ regionId }: Props) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 p-8 text-center">
-        <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-8 text-center">
+        <p className="text-sm text-slate-400">데이터를 불러오는 중...</p>
       </div>
     );
   }
 
   if (!vital || !chartData || !cumulative) {
     return (
-      <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
-        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] border border-dashed border-slate-200 p-8 flex flex-col items-center gap-3 text-center">
+        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
           준비 중
         </span>
-        <p className="text-sm text-stone-500 max-w-sm">
+        <p className="text-sm text-slate-500 max-w-sm">
           출생·사망 데이터를 준비 중입니다. data.go.kr 활용신청 승인 후
           파이프라인 실행 시 자동으로 표시됩니다.
         </p>
@@ -193,7 +190,7 @@ export default function VitalDecomposition({ regionId }: Props) {
           <span className={numCls(naturalSign)}>
             {fmtSigned(cumulative.natural)}명
           </span>
-          <span className="text-[10px] text-stone-400 font-mono tabular-nums">
+          <span className="text-[10px] text-slate-400 font-mono tabular-nums">
             출생 {cumulative.births.toLocaleString("ko-KR")} · 사망{" "}
             {cumulative.deaths.toLocaleString("ko-KR")}
           </span>
@@ -210,7 +207,7 @@ export default function VitalDecomposition({ regionId }: Props) {
       </div>
 
       {/* Chart */}
-      <div className="bg-white rounded-2xl border border-stone-200 p-5">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6">
         <div style={{ height: 260 }}>
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
@@ -222,19 +219,19 @@ export default function VitalDecomposition({ regionId }: Props) {
               <CartesianGrid
                 strokeDasharray="3 3"
                 vertical={false}
-                stroke="#e7e5e4"
+                stroke="#e2e8f0"
               />
               <XAxis
                 dataKey="label"
                 ticks={ticks}
                 interval={0}
-                tick={{ fontSize: 11, fill: "#78716c" }}
+                tick={{ fontSize: 11, fill: "#64748b" }}
                 axisLine={false}
                 tickLine={false}
               />
               <YAxis
                 tickFormatter={(v: number) => v.toLocaleString("ko-KR")}
-                tick={{ fontSize: 11, fill: "#78716c" }}
+                tick={{ fontSize: 11, fill: "#64748b" }}
                 axisLine={false}
                 tickLine={false}
                 width={54}
@@ -256,7 +253,7 @@ export default function VitalDecomposition({ regionId }: Props) {
                   ];
                 }}
                 contentStyle={{
-                  border: "1px solid #e7e5e4",
+                  border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   fontSize: "12px",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
@@ -265,14 +262,14 @@ export default function VitalDecomposition({ regionId }: Props) {
               <Bar
                 dataKey="natural"
                 name="natural"
-                fill="#a8a29e"
+                fill="#94a3b8"
                 barSize={6}
                 radius={[2, 2, 0, 0]}
               />
               <Bar
                 dataKey="social"
                 name="social"
-                fill="#3b82f6"
+                fill="#0B4171"
                 barSize={6}
                 radius={[2, 2, 0, 0]}
               />
@@ -280,7 +277,7 @@ export default function VitalDecomposition({ regionId }: Props) {
                 type="monotone"
                 dataKey="totalChange"
                 name="totalChange"
-                stroke="#1c1917"
+                stroke="#0f172a"
                 strokeWidth={1.5}
                 dot={false}
                 activeDot={{ r: 3 }}
@@ -293,17 +290,17 @@ export default function VitalDecomposition({ regionId }: Props) {
 
         {/* Legend */}
         <div className="flex flex-wrap items-center gap-5 mt-3 px-1">
-          <span className="flex items-center gap-1.5 text-xs text-stone-500">
-            <span className="w-3 h-3 rounded-sm bg-stone-400 shrink-0" />
+          <span className="flex items-center gap-1.5 text-xs text-slate-500">
+            <span className="w-3 h-3 rounded-sm bg-slate-400 shrink-0" />
             자연증감
           </span>
-          <span className="flex items-center gap-1.5 text-xs text-stone-500">
-            <span className="w-3 h-3 rounded-sm bg-blue-500 shrink-0" />
+          <span className="flex items-center gap-1.5 text-xs text-slate-500">
+            <span className="w-3 h-3 rounded-sm bg-[#0B4171] shrink-0" />
             사회적 증감(근사)
           </span>
-          <span className="flex items-center gap-1.5 text-xs text-stone-500">
+          <span className="flex items-center gap-1.5 text-xs text-slate-500">
             <span
-              className="w-5 shrink-0 border-b border-dashed border-stone-700"
+              className="w-5 shrink-0 border-b border-dashed border-slate-700"
               style={{ borderBottomWidth: "1.5px" }}
             />
             총증감
@@ -311,7 +308,7 @@ export default function VitalDecomposition({ regionId }: Props) {
         </div>
 
         {/* Caption */}
-        <p className="text-[11px] text-stone-400 mt-3 leading-relaxed">
+        <p className="text-[11px] text-slate-400 mt-3 leading-relaxed">
           자연증감 = 출생등록 - 사망말소 (행정안전부 월별). 사회적 증감은
           총증감에서 자연증감을 뺀 근사치로, 전출입 외 등록 정정이 포함될 수
           있습니다.

@@ -65,8 +65,8 @@ export default function MinutesHub({ summaries, regions }: Props) {
               onClick={() => setSidoFilter(sido)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 sidoFilter === sido
-                  ? "bg-stone-800 text-white"
-                  : "bg-white text-stone-500 ring-1 ring-stone-200 hover:text-stone-800 hover:ring-stone-300"
+                  ? "bg-[#0B4171] text-white"
+                  : "bg-white text-slate-500 ring-1 ring-slate-200 hover:text-slate-800 hover:ring-slate-300"
               }`}
             >
               {sido}
@@ -78,7 +78,7 @@ export default function MinutesHub({ summaries, regions }: Props) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="시군구명 또는 의회명 검색..."
-          className="w-full sm:w-80 px-3 py-2 text-sm border border-stone-200 rounded-lg bg-white text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-300"
+          className="w-full sm:w-80 px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300"
         />
       </div>
 
@@ -86,12 +86,12 @@ export default function MinutesHub({ summaries, regions }: Props) {
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Ranking grid */}
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-stone-400 mb-3">
+          <p className="text-xs text-slate-400 mb-3">
             {filtered.length}개 의회 · 언급 건수 내림차순
           </p>
           {filtered.length === 0 ? (
             <div className="py-16 text-center">
-              <p className="text-sm text-stone-400">검색 결과가 없습니다.</p>
+              <p className="text-sm text-slate-400">검색 결과가 없습니다.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2">
@@ -105,22 +105,22 @@ export default function MinutesHub({ summaries, regions }: Props) {
                     onClick={() => setSelectedId(isSelected ? null : s.regionId)}
                     className={`text-left rounded-xl border p-4 flex flex-col gap-2 transition-all ${
                       isSelected
-                        ? "border-stone-800 bg-stone-50 ring-1 ring-stone-800"
-                        : "border-stone-200 bg-white hover:border-stone-300 hover:shadow-sm"
+                        ? "border-[#0B4171] bg-[#E8EFF6] ring-1 ring-[#0B4171]/30"
+                        : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex flex-col gap-0.5">
-                        <span className="text-[11px] text-stone-400 font-mono tabular-nums">
+                        <span className="text-[11px] text-slate-400 font-mono tabular-nums">
                           #{i + 1}
                         </span>
-                        <span className="text-sm font-semibold text-stone-800 leading-snug">
+                        <span className="text-sm font-semibold text-slate-800 leading-snug">
                           {r.sigungu}
                         </span>
-                        <span className="text-[11px] text-stone-400">{r.sido}</span>
+                        <span className="text-[11px] text-slate-400">{r.sido}</span>
                       </div>
                       <span
-                        className={`shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ring-1 ${TYPE_COLORS[r.type] ?? "bg-stone-50 text-stone-600 ring-stone-200"}`}
+                        className={`shrink-0 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ring-1 ${TYPE_COLORS[r.type] ?? "bg-slate-50 text-slate-600 ring-slate-200"}`}
                       >
                         {r.type}
                       </span>
@@ -130,7 +130,7 @@ export default function MinutesHub({ summaries, regions }: Props) {
                         언급 {s.totalCount.toLocaleString("ko-KR")}건
                       </span>
                       {s.latestDate && (
-                        <span className="text-[11px] text-stone-400 font-mono tabular-nums">
+                        <span className="text-[11px] text-slate-400 font-mono tabular-nums">
                           {fmtDate(s.latestDate)}
                         </span>
                       )}
@@ -145,24 +145,24 @@ export default function MinutesHub({ summaries, regions }: Props) {
         {/* Detail panel */}
         {selectedRegion && selectedId && (
           <div className="w-full lg:w-[420px] xl:w-[480px] shrink-0">
-            <div className="sticky top-20 bg-white rounded-2xl border border-stone-200 p-5 flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
+            <div className="sticky top-20 bg-white rounded-2xl border border-slate-200 p-5 flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base font-semibold text-stone-800">
+                  <h3 className="text-base font-semibold text-slate-800">
                     {selectedRegion.sigungu}
                   </h3>
-                  <span className="text-xs text-stone-400">{selectedRegion.sido}</span>
+                  <span className="text-xs text-slate-400">{selectedRegion.sido}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/region/${encodeURIComponent(selectedId)}#council`}
-                    className="text-xs text-stone-400 hover:text-stone-700 transition-colors whitespace-nowrap"
+                    className="text-xs text-slate-400 hover:text-slate-700 transition-colors whitespace-nowrap"
                   >
                     지역 상세 →
                   </Link>
                   <button
                     onClick={() => setSelectedId(null)}
-                    className="w-6 h-6 flex items-center justify-center rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 transition-colors"
+                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
                     aria-label="패널 닫기"
                   >
                     ×

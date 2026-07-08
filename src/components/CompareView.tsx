@@ -24,7 +24,7 @@ function fmtPopShort(n: number): string {
 }
 
 const PALETTE = [
-  "#1d4ed8", // blue
+  "#0B4171", // navy (brand primary)
   "#be123c", // rose
   "#b45309", // amber
   "#065f46", // emerald
@@ -87,7 +87,7 @@ export default function CompareView({ regions, fundYears }: Props) {
     );
   }
 
-  // Chart keys use r.id (unique) — sigungu collides across sidos (동구×4, 서구×2, 중구×2, 고성군×2)
+  // Chart keys use r.id (unique) — sigungu collides across sidos
   const popData = [
     { metric: "총인구", ...Object.fromEntries(selectedRegions.map((r) => [r.id, r.population?.total ?? 0])) },
     { metric: "남성", ...Object.fromEntries(selectedRegions.map((r) => [r.id, r.population?.male ?? 0])) },
@@ -131,11 +131,11 @@ export default function CompareView({ regions, fundYears }: Props) {
   return (
     <div className="flex flex-col gap-8">
       {/* Selection panel */}
-      <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
-        <div className="px-5 py-4 border-b border-stone-100 flex flex-wrap gap-3 items-center">
-          <h2 className="text-sm font-semibold text-stone-800">
+      <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] overflow-hidden">
+        <div className="px-5 py-4 border-b border-slate-100 flex flex-wrap gap-3 items-center">
+          <h2 className="text-sm font-semibold text-slate-800">
             지역 선택
-            <span className="ml-2 text-xs font-normal text-stone-400">
+            <span className="ml-2 text-xs font-normal text-slate-400">
               ({selected.length}/{MAX_COMPARE}개 선택)
             </span>
           </h2>
@@ -144,7 +144,7 @@ export default function CompareView({ regions, fundYears }: Props) {
             placeholder="시군구명 검색..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="px-3 py-1.5 text-sm border border-stone-200 rounded-lg bg-stone-50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 placeholder:text-stone-400 w-40"
+            className="px-3 py-1.5 text-sm border border-slate-200 rounded-lg bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#0B4171]/20 focus:border-[#1E5A8E] placeholder:text-slate-400 w-40"
           />
           <div className="flex flex-wrap gap-1">
             {sidos.map((s) => (
@@ -153,8 +153,8 @@ export default function CompareView({ regions, fundYears }: Props) {
                 onClick={() => setSidoFilter(s)}
                 className={`px-2 py-1 text-xs rounded-md font-medium transition-colors ${
                   sidoFilter === s
-                    ? "bg-stone-900 text-white"
-                    : "text-stone-500 hover:text-stone-800"
+                    ? "bg-[#0B4171] text-white"
+                    : "text-slate-500 hover:text-slate-800"
                 }`}
               >
                 {s}
@@ -164,7 +164,7 @@ export default function CompareView({ regions, fundYears }: Props) {
           {selected.length > 0 && (
             <button
               onClick={() => setSelected([])}
-              className="ml-auto text-xs text-stone-400 hover:text-rose-600 transition-colors"
+              className="ml-auto text-xs text-slate-400 hover:text-rose-600 transition-colors"
             >
               초기화
             </button>
@@ -172,7 +172,7 @@ export default function CompareView({ regions, fundYears }: Props) {
         </div>
 
         <div className="max-h-56 overflow-y-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px bg-stone-100">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-px bg-slate-100">
             {visible.map((r) => {
               const isSelected = selected.includes(r.id);
               const idx = selected.indexOf(r.id);
@@ -185,15 +185,15 @@ export default function CompareView({ regions, fundYears }: Props) {
                   disabled={isDisabled}
                   className={`bg-white px-4 py-3 text-left flex items-center justify-between gap-2 transition-colors ${
                     isSelected
-                      ? "bg-blue-50 ring-2 ring-inset ring-blue-500"
+                      ? "bg-[#E8EFF6] ring-2 ring-inset ring-[#0B4171]/30"
                       : isDisabled
                       ? "opacity-40 cursor-not-allowed"
-                      : "hover:bg-stone-50"
+                      : "hover:bg-slate-50"
                   }`}
                 >
                   <div className="flex flex-col">
-                    <span className="text-[10px] text-stone-400">{r.sido}</span>
-                    <span className="text-sm font-medium text-stone-800">{r.sigungu}</span>
+                    <span className="text-[10px] text-slate-400">{r.sido}</span>
+                    <span className="text-sm font-medium text-slate-800">{r.sigungu}</span>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
                     <RegionBadge type={r.type} size="sm" />
@@ -214,7 +214,7 @@ export default function CompareView({ regions, fundYears }: Props) {
       </div>
 
       {selected.length === 0 ? (
-        <div className="py-20 text-center text-stone-400 text-sm border-2 border-dashed border-stone-200 rounded-2xl">
+        <div className="py-20 text-center text-slate-400 text-sm border-2 border-dashed border-slate-200 rounded-2xl">
           위에서 2~6개 지역을 선택하면 비교 차트가 표시됩니다
         </div>
       ) : (
@@ -239,24 +239,24 @@ export default function CompareView({ regions, fundYears }: Props) {
           </div>
 
           {/* Population bar chart */}
-          <div className="bg-white rounded-2xl border border-stone-200 p-5 flex flex-col gap-4">
-            <h3 className="text-sm font-semibold text-stone-800">인구 지표 비교</h3>
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6 flex flex-col gap-4">
+            <h3 className="text-sm font-semibold text-slate-800">인구 지표 비교</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={popData}
                   margin={{ top: 4, right: 8, left: 8, bottom: 4 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e7e5e4" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                   <XAxis
                     dataKey="metric"
-                    tick={{ fontSize: 12, fill: "#78716c" }}
+                    tick={{ fontSize: 12, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
                     tickFormatter={(v) => formatNumber(v)}
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                     width={56}
@@ -264,7 +264,7 @@ export default function CompareView({ regions, fundYears }: Props) {
                   <Tooltip
                     formatter={(v, name) => [formatNumber(typeof v === "number" ? v : 0) + "명", String(name ?? "")]}
                     contentStyle={{
-                      border: "1px solid #e7e5e4",
+                      border: "1px solid #e2e8f0",
                       borderRadius: "8px",
                       fontSize: "12px",
                     }}
@@ -290,8 +290,8 @@ export default function CompareView({ regions, fundYears }: Props) {
           </div>
 
           {/* Fund trend line chart */}
-          <div className="bg-white rounded-2xl border border-stone-200 p-5 flex flex-col gap-4">
-            <h3 className="text-sm font-semibold text-stone-800">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6 flex flex-col gap-4">
+            <h3 className="text-sm font-semibold text-slate-800">
               연도별 지방소멸대응기금 예산 추이
             </h3>
             <div className="h-64">
@@ -300,16 +300,16 @@ export default function CompareView({ regions, fundYears }: Props) {
                   data={fundData}
                   margin={{ top: 4, right: 16, left: 8, bottom: 4 }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e7e5e4" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                   <XAxis
                     dataKey="year"
-                    tick={{ fontSize: 12, fill: "#78716c" }}
+                    tick={{ fontSize: 12, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
                     tickFormatter={(v) => formatWon(v, 0)}
-                    tick={{ fontSize: 11, fill: "#78716c" }}
+                    tick={{ fontSize: 11, fill: "#64748b" }}
                     axisLine={false}
                     tickLine={false}
                     width={52}
@@ -317,7 +317,7 @@ export default function CompareView({ regions, fundYears }: Props) {
                   <Tooltip
                     formatter={(v, name) => [formatWon(typeof v === "number" ? v : 0) + "원", String(name ?? "")]}
                     contentStyle={{
-                      border: "1px solid #e7e5e4",
+                      border: "1px solid #e2e8f0",
                       borderRadius: "8px",
                       fontSize: "12px",
                     }}
@@ -345,9 +345,9 @@ export default function CompareView({ regions, fundYears }: Props) {
           </div>
 
           {/* Population trend multi-line chart */}
-          <div className="bg-white rounded-2xl border border-stone-200 p-5 flex flex-col gap-4">
+          <div className="bg-white rounded-2xl shadow-[0_1px_3px_0_rgba(0,0,0,0.05)] p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <h3 className="text-sm font-semibold text-stone-800">
+              <h3 className="text-sm font-semibold text-slate-800">
                 월별 주민등록 인구 추이
               </h3>
               <div className="flex gap-1">
@@ -357,8 +357,8 @@ export default function CompareView({ regions, fundYears }: Props) {
                     onClick={() => setTrendMode(mode)}
                     className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
                       trendMode === mode
-                        ? "bg-stone-900 text-white"
-                        : "text-stone-500 hover:text-stone-800"
+                        ? "bg-[#0B4171] text-white"
+                        : "text-slate-500 hover:text-slate-800"
                     }`}
                   >
                     {mode === "absolute" ? "절대값" : "지수 (첫 관측=100)"}
@@ -369,14 +369,14 @@ export default function CompareView({ regions, fundYears }: Props) {
 
             {trendLoading ? (
               <div className="h-64 flex items-center justify-center">
-                <p className="text-sm text-stone-400">데이터를 불러오는 중...</p>
+                <p className="text-sm text-slate-400">데이터를 불러오는 중...</p>
               </div>
             ) : !trendData ? (
               <div className="h-64 flex flex-col items-center justify-center gap-3">
-                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
                   준비 중
                 </span>
-                <p className="text-xs text-stone-400">
+                <p className="text-xs text-slate-400">
                   인구 추이 데이터 준비 후 자동으로 표시됩니다.
                 </p>
               </div>
@@ -390,13 +390,13 @@ export default function CompareView({ regions, fundYears }: Props) {
                     <CartesianGrid
                       strokeDasharray="3 3"
                       vertical={false}
-                      stroke="#e7e5e4"
+                      stroke="#e2e8f0"
                     />
                     <XAxis
                       dataKey="label"
                       ticks={popTrendTicks}
                       interval={0}
-                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      tick={{ fontSize: 11, fill: "#64748b" }}
                       axisLine={false}
                       tickLine={false}
                     />
@@ -406,7 +406,7 @@ export default function CompareView({ regions, fundYears }: Props) {
                           ? `${v.toFixed(0)}`
                           : fmtPopShort(v)
                       }
-                      tick={{ fontSize: 11, fill: "#78716c" }}
+                      tick={{ fontSize: 11, fill: "#64748b" }}
                       axisLine={false}
                       tickLine={false}
                       width={52}
@@ -419,7 +419,7 @@ export default function CompareView({ regions, fundYears }: Props) {
                         String(name ?? ""),
                       ]}
                       contentStyle={{
-                        border: "1px solid #e7e5e4",
+                        border: "1px solid #e2e8f0",
                         borderRadius: "8px",
                         fontSize: "12px",
                       }}
@@ -446,7 +446,7 @@ export default function CompareView({ regions, fundYears }: Props) {
                 </ResponsiveContainer>
               </div>
             )}
-            <p className="text-[11px] text-stone-400 leading-relaxed">
+            <p className="text-[11px] text-slate-400 leading-relaxed">
               행정안전부 주민등록 인구 (매월 말일 기준, 2022.10~). 지수 모드는
               첫 관측월 인구를 100으로 환산하여 규모가 다른 지역 간 추이를
               비교합니다.

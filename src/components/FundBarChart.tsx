@@ -33,32 +33,32 @@ export default function FundBarChart({ fund, years }: Props) {
           <CartesianGrid
             strokeDasharray="3 3"
             vertical={false}
-            stroke="#e7e5e4"
+            stroke="#e2e8f0"
           />
           <XAxis
             dataKey="year"
-            tick={{ fontSize: 12, fill: "#78716c" }}
+            tick={{ fontSize: 12, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
             tickFormatter={(v) => formatWon(v, 0)}
-            tick={{ fontSize: 11, fill: "#78716c" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
             width={48}
           />
           <Tooltip
             formatter={(v) => [formatWon(typeof v === "number" ? v : 0) + "원", "예산액"]}
-            labelStyle={{ fontWeight: 600, color: "#1c1917" }}
+            labelStyle={{ fontWeight: 600, color: "#0f172a" }}
             contentStyle={{
-              border: "1px solid #e7e5e4",
+              border: "1px solid #e2e8f0",
               borderRadius: "8px",
               fontSize: "12px",
               boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
             }}
           />
-          <Bar dataKey="amount" fill="#1d4ed8" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="amount" fill="#0B4171" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

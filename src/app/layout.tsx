@@ -59,7 +59,7 @@ export default function RootLayout({
       lang="ko"
       className={`${notoSansKR.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#fafaf8] text-stone-900">
+      <body className="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer meta={meta} />

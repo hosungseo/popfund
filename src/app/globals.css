@@ -8,11 +8,21 @@
 }
 
 :root {
-  --background: #fafaf8;
-  --foreground: #1c1917;
+  --background: #F8FAFC;
+  --foreground: #0f172a;
+
+  /* Brand */
+  --color-navy: #0B4171;
+  --color-navy-hover: #1E5A8E;
+  --color-navy-light: #E8EFF6;
+
+  /* Surface */
+  --color-surface: #ffffff;
+  --color-border: #E2E8F0;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: "Pretendard Variable", Pretendard, var(--font-noto-sans-kr), sans-serif;
 }

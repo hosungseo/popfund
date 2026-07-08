@@ -56,10 +56,10 @@ export interface KoreaMapProps {
 // Each ramp: start (light) → end (dark) in RGB
 
 const RAMPS: Record<string, [[number, number, number], [number, number, number]]> = {
-  perCapita:  [[219, 234, 254], [29,  78, 216]],   // blue-200  → blue-700
-  agingIndex: [[237, 233, 254], [109, 40, 217]],   // violet-200 → violet-700
-  fund2026:   [[167, 243, 208], [21,  128,  61]],  // emerald-200 → green-700
-  stayRatio:  [[204, 251, 241], [15,  118, 110]],  // teal-100 → teal-700
+  perCapita:  [[232, 239, 246], [11,  65, 113]],  // navy-50 → navy (#0B4171)
+  agingIndex: [[237, 233, 254], [109, 40, 217]],  // violet-200 → violet-700
+  fund2026:   [[167, 243, 208], [21,  128,  61]], // emerald-200 → green-700
+  stayRatio:  [[204, 251, 241], [15,  118, 110]], // teal-100 → teal-700
 };
 
 // ─── Decline type categorical colors ─────────────────────────────────────────
@@ -84,7 +84,7 @@ function lerp(t: number, a: number, b: number): number {
 
 function makeInterpolator(metric: MapMetric) {
   const r = RAMPS[metric];
-  if (!r) return (_t: number) => "#e7e5e4";
+  if (!r) return (_t: number) => "#e2e8f0";
   return (t: number) =>
     `rgb(${lerp(t, r[0][0], r[1][0])},${lerp(t, r[0][1], r[1][1])},${lerp(t, r[0][2], r[1][2])})`;
 }
@@ -133,8 +133,8 @@ const METRICS: [MapMetric, string][] = [
   ["declineType", "감소 유형"],
 ];
 
-const FILL_UNDESIGNATED = "#e7e5e4"; // stone-200
-const FILL_NO_DATA      = "#f5f5f4"; // stone-100
+const FILL_UNDESIGNATED = "#e2e8f0"; // slate-200
+const FILL_NO_DATA      = "#f1f5f9"; // slate-100
 
 // ─── Lifepop map entry ────────────────────────────────────────────────────────
 
@@ -280,7 +280,7 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
         const r = regionMap.get(regionId);
         return r?.type === "감소" ? "#f43f5e" : "#fbbf24";
       }
-      return "#d6d3d1"; // stone-300 (slightly darker for contrast)
+      return "#cbd5e1"; // slate-300 for contrast
     }
 
     if (!regionId) return FILL_UNDESIGNATED;
@@ -315,10 +315,10 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
       <div
         className={`${
           mini ? "w-full" : "w-full"
-        } aspect-[5/6] bg-stone-100 rounded-xl animate-pulse flex items-center justify-center`}
+        } aspect-[5/6] bg-slate-100 rounded-xl animate-pulse flex items-center justify-center`}
       >
         {!mini && (
-          <span className="text-[10px] text-stone-400">지도 불러오는 중…</span>
+          <span className="text-[10px] text-slate-400">지도 불러오는 중…</span>
         )}
       </div>
     );
@@ -344,8 +344,8 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
               onClick={() => setMetric(key)}
               className={`px-2.5 py-1 text-xs rounded-lg font-medium transition-colors ${
                 metric === key
-                  ? "bg-stone-900 text-white"
-                  : "bg-white text-stone-600 border border-stone-200 hover:border-stone-300"
+                  ? "bg-[#0B4171] text-white"
+                  : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
               }`}
             >
               {label}
@@ -359,7 +359,7 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
         {/* Loading overlay for lazy-fetched metrics */}
         {isDataLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-white/60 rounded-xl z-10">
-            <span className="text-xs text-stone-400">데이터 불러오는 중…</span>
+            <span className="text-xs text-slate-400">데이터 불러오는 중…</span>
           </div>
         )}
 
@@ -429,16 +429,16 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
         {/* Floating tooltip */}
         {tooltip && (
           <div
-            className="absolute z-20 pointer-events-none bg-white rounded-xl shadow-lg border border-stone-200 px-3 py-2.5 text-xs min-w-[148px]"
+            className="absolute z-20 pointer-events-none bg-white rounded-xl shadow-lg border border-slate-200 px-3 py-2.5 text-xs min-w-[148px]"
             style={{
               left: tooltip.x + 14,
               top:  Math.max(tooltip.y - 70, 4),
             }}
           >
-            <p className="font-semibold text-stone-900 leading-tight">
+            <p className="font-semibold text-slate-900 leading-tight">
               {tooltip.name}
             </p>
-            <p className="text-[10px] text-stone-400 mb-1.5">{tooltip.sido}</p>
+            <p className="text-[10px] text-slate-400 mb-1.5">{tooltip.sido}</p>
             {tooltip.region ? (
               <>
                 <RegionBadge type={tooltip.region.type} size="sm" />
@@ -453,12 +453,12 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
                         {entry.stayRatio.toFixed(1)}×
                       </span>
                       {entry.lastRegistered != null && (
-                        <span className="text-[10px] text-stone-400">
+                        <span className="text-[10px] text-slate-400">
                           주민등록 {formatNumber(entry.lastRegistered)}명
                         </span>
                       )}
                       {entry.lastStaying != null && (
-                        <span className="text-[10px] text-stone-400">
+                        <span className="text-[10px] text-slate-400">
                           체류 {formatNumber(entry.lastStaying)}명
                         </span>
                       )}
@@ -482,7 +482,7 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
 
                 {/* Sequential metric tooltip content */}
                 {metric !== "type" && metric !== "stayRatio" && metric !== "declineType" && (
-                  <p className="mt-1.5 font-mono text-stone-700">
+                  <p className="mt-1.5 font-mono text-slate-700">
                     {formatMetricValue(
                       metric,
                       getMetricValue(tooltip.region, metric)
@@ -490,12 +490,12 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
                   </p>
                 )}
 
-                <p className="mt-1 text-stone-500">
+                <p className="mt-1 text-slate-500">
                   {formatNumber(tooltip.region.population?.total ?? 0)}명
                 </p>
               </>
             ) : (
-              <p className="text-[10px] text-stone-400 mt-0.5">지정 외 지역</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">지정 외 지역</p>
             )}
           </div>
         )}
@@ -508,15 +508,15 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
             <>
               <span className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-sm inline-block bg-rose-500 flex-shrink-0" />
-                <span className="text-stone-600">감소지역</span>
+                <span className="text-slate-600">감소지역</span>
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-sm inline-block bg-amber-400 flex-shrink-0" />
-                <span className="text-stone-600">관심지역</span>
+                <span className="text-slate-600">관심지역</span>
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-sm inline-block bg-stone-200 flex-shrink-0" />
-                <span className="text-stone-400">지정 외</span>
+                <span className="w-3 h-3 rounded-sm inline-block bg-slate-200 flex-shrink-0" />
+                <span className="text-slate-400">지정 외</span>
               </span>
             </>
           ) : metric === "declineType" ? (
@@ -527,17 +527,17 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
                     className="w-3 h-3 rounded-sm inline-block flex-shrink-0"
                     style={{ backgroundColor: color }}
                   />
-                  <span className="text-stone-600">{type}</span>
+                  <span className="text-slate-600">{type}</span>
                 </span>
               ))}
               <span className="flex items-center gap-1.5 ml-2">
-                <span className="w-3 h-3 rounded-sm inline-block bg-stone-100 border border-stone-200 flex-shrink-0" />
-                <span className="text-stone-400">데이터 없음</span>
+                <span className="w-3 h-3 rounded-sm inline-block bg-slate-100 border border-slate-200 flex-shrink-0" />
+                <span className="text-slate-400">데이터 없음</span>
               </span>
             </>
           ) : activeRamp ? (
             <>
-              <span className="font-mono text-[10px] text-stone-400">
+              <span className="font-mono text-[10px] text-slate-400">
                 {metric === "stayRatio"
                   ? `${metricMin.toFixed(1)}×`
                   : formatMetricValue(metric, metricMin)}
@@ -551,14 +551,14 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
                   )`,
                 }}
               />
-              <span className="font-mono text-[10px] text-stone-400">
+              <span className="font-mono text-[10px] text-slate-400">
                 {metric === "stayRatio"
                   ? `${metricMax.toFixed(1)}×`
                   : formatMetricValue(metric, metricMax)}
               </span>
               <span className="flex items-center gap-1.5 ml-2">
-                <span className="w-3 h-3 rounded-sm inline-block bg-stone-100 border border-stone-200 flex-shrink-0" />
-                <span className="text-stone-400">데이터 없음</span>
+                <span className="w-3 h-3 rounded-sm inline-block bg-slate-100 border border-slate-200 flex-shrink-0" />
+                <span className="text-slate-400">데이터 없음</span>
               </span>
             </>
           ) : null}
