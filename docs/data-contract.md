@@ -269,5 +269,30 @@ interface Lifepop {
 생활인구 = 주민등록인구 + 체류인구(월 1회 이상, 하루 3시간 이상 체류 등 산정 기준) + 외국인.
 주민등록 총인구(population-trend)와 기준이 다르므로 배율 계산 시 이 파일 내부의 registered 값을 사용.
 
-## 회의록 연계 (v2 슬롯)
-향후 국회도서관 지방의정포털 회의록 연계 예정. Region.id 기준으로 `public/data/minutes/{id}.json`을 추가하는 구조를 가정만 하고 v1에서는 구현하지 않음. UI에는 "지방의회 논의" 탭 자리(준비 중)만 둔다.
+## v2.2 산출물 (지방의회 회의록 — 국회도서관 지방의정포털)
+
+### 13. `public/data/minutes/{regionId}.json` — 지역 의회의 기금 논의 회의록
+출처: 국회도서관 지방의정포털 OpenAPI (clik.nanet.go.kr/openapi/minutes.do).
+**인증키(CLIK_API_KEY, .env.local)는 빌드타임 파이프라인 전용 — 정적 사이트라 클라이언트에서 호출하면 키가 노출되므로 절대 금지.**
+
+```ts
+interface RegionMinutes {
+  regionId: string;
+  council: string;        // "경상북도 의성군의회"
+  rasmblyId: string;      // "054020"
+  keyword: string;        // 검색 키워드 "지방소멸대응기금"
+  totalCount: number;     // 해당 의회의 키워드 언급 회의록 총 건수
+  updated: string;        // 수집일 ISO
+  items: MinuteItem[];    // 최신순 최대 20건
+}
+interface MinuteItem {
+  docid: string;
+  date: string;           // "20250829"
+  committee: string;      // MTGNM 정제 (개행·[임시] 등 제거)
+  sesn: string;           // 회기
+  numpr: string;          // 대수
+  subject?: string;       // 안건(MTR_SJ, 상위 10건만 상세 조회로 채움, 500자 절단)
+}
+```
+- 의회 ID 매핑: `data/rasmbly-ids.json` (RASMBLY_NM = "{시도풀네임} {시군구}의회" 매칭, 군위군은 대구/경북 모두 허용). 파이프라인이 자동 발견 후 캐시.
+- UI: 지역 상세 "지방의회 논의" 탭의 준비 중 플레이스홀더를 실데이터로 교체.

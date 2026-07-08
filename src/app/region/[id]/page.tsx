@@ -11,6 +11,7 @@ import FundBarChart from "@/components/FundBarChart";
 import ProjectsTable from "@/components/ProjectsTable";
 import KoreaMap from "@/components/KoreaMap";
 import VitalDecomposition from "@/components/VitalDecomposition";
+import CouncilMinutes from "@/components/CouncilMinutes";
 import { formatWon, totalFund, computeDeclineType } from "@/lib/utils";
 import type { DeclineType } from "@/lib/types";
 
@@ -269,21 +270,12 @@ export default async function RegionPage({ params }: Props) {
           </div>
         </section>
 
-        {/* v2 placeholder tab */}
+        {/* v2.2 council minutes */}
         <section className="flex flex-col gap-4">
           <h2 className="text-lg font-semibold text-stone-800">
             지방의회 논의
           </h2>
-          <div className="bg-white rounded-2xl border border-stone-200 border-dashed p-8 flex flex-col items-center gap-3 text-center">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-stone-100 text-stone-500">
-              준비 중
-            </span>
-            <p className="text-sm text-stone-500 max-w-sm">
-              지방의회 회의록 연계 기능은 v2에서 제공 예정입니다. 국회도서관
-              지방의정포털 데이터를 기반으로 해당 지역 의회의 소멸 관련 논의를
-              확인할 수 있습니다.
-            </p>
-          </div>
+          <CouncilMinutes regionId={region.id} />
         </section>
       </div>
     </div>

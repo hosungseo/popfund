@@ -134,6 +134,26 @@ export interface Policy {
 // v2.0 decline type classification
 export type DeclineType = "이중감소형" | "자연감소주도형" | "유출주도형" | "회복형";
 
+// v2.2 council minutes types
+export interface MinuteItem {
+  docid: string;
+  date: string;       // "20250829"
+  committee: string;
+  sesn: string;
+  numpr: string;
+  subject?: string;
+}
+
+export interface RegionMinutes {
+  regionId: string;
+  council: string;
+  rasmblyId: string;
+  keyword: string;
+  totalCount: number;
+  updated: string;    // ISO date string
+  items: MinuteItem[];
+}
+
 // v2.0 vital trend type
 export interface VitalTrend {
   firstYm: string;
