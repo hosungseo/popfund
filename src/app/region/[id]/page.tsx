@@ -167,10 +167,41 @@ export default async function RegionPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* 섹션 바로가기 — 긴 페이지에서 하단 섹션(지방의회 논의 등)을 발견 가능하게 */}
+      <nav
+        aria-label="섹션 바로가기"
+        className="sticky top-[4.7rem] sm:top-14 z-30 -mx-4 sm:mx-0 px-4 sm:px-0 py-2 bg-[#fafaf8]/95 backdrop-blur-sm flex gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden border-b border-stone-100"
+      >
+        {(
+          [
+            ["#population", "인구 지표"],
+            ["#trend", "인구 추이"],
+            ["#vital", "증감 분해"],
+            ["#structure", "인구 구조"],
+            ["#lifepop", "생활인구"],
+            ["#fund", "기금 예산"],
+            ["#projects", "세부사업"],
+            ["#council", "지방의회 논의"],
+          ] as [string, string][]
+        ).map(([href, label]) => (
+          <a
+            key={href}
+            href={href}
+            className={`shrink-0 whitespace-nowrap px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+              href === "#council"
+                ? "bg-sky-50 text-sky-700 ring-1 ring-sky-200 hover:bg-sky-100"
+                : "bg-white text-stone-500 ring-1 ring-stone-200 hover:text-stone-800 hover:ring-stone-300"
+            }`}
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
+      {/* Sections */}
       <div className="flex flex-col gap-10">
         {/* Population section */}
-        <section className="flex flex-col gap-4">
+        <section id="population" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-stone-800">인구 지표</h2>
             <span className="text-xs text-stone-400">
@@ -181,7 +212,7 @@ export default async function RegionPage({ params }: Props) {
         </section>
 
         {/* Population trend section */}
-        <section className="flex flex-col gap-4">
+        <section id="trend" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-stone-800">인구 추이</h2>
             <span className="text-xs text-stone-400">
@@ -192,7 +223,7 @@ export default async function RegionPage({ params }: Props) {
         </section>
 
         {/* Vital decomposition section */}
-        <section className="flex flex-col gap-4">
+        <section id="vital" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-stone-800">
               인구 증감 분해
@@ -205,7 +236,7 @@ export default async function RegionPage({ params }: Props) {
         </section>
 
         {/* Age pyramid section */}
-        <section className="flex flex-col gap-4">
+        <section id="structure" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-stone-800">인구 구조</h2>
           </div>
@@ -213,7 +244,7 @@ export default async function RegionPage({ params }: Props) {
         </section>
 
         {/* Lifepop section */}
-        <section className="flex flex-col gap-4">
+        <section id="lifepop" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-stone-800">생활인구</h2>
             <span className="text-xs text-stone-400">
@@ -224,7 +255,7 @@ export default async function RegionPage({ params }: Props) {
         </section>
 
         {/* Fund chart section */}
-        <section className="flex flex-col gap-4">
+        <section id="fund" className="flex flex-col gap-4 scroll-mt-24">
           <h2 className="text-lg font-semibold text-stone-800">
             지방소멸대응기금 연도별 예산
           </h2>
@@ -251,7 +282,7 @@ export default async function RegionPage({ params }: Props) {
         </section>
 
         {/* Projects section */}
-        <section className="flex flex-col gap-4">
+        <section id="projects" className="flex flex-col gap-4 scroll-mt-24">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold text-stone-800">
               세부사업 현황
@@ -271,7 +302,7 @@ export default async function RegionPage({ params }: Props) {
         </section>
 
         {/* v2.2 council minutes */}
-        <section className="flex flex-col gap-4">
+        <section id="council" className="flex flex-col gap-4 scroll-mt-24">
           <h2 className="text-lg font-semibold text-stone-800">
             지방의회 논의
           </h2>
