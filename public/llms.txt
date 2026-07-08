@@ -9,6 +9,7 @@
 - [기금사업 탐색](/projects): 전국 지방소멸대응기금 확정·후보 사업 목록
 - [인사이트](/insights): 1인당 기금 랭킹, 초과집행 사업, 인구 감소 속도
 - [정책 시사점](/policy): 기금 배분×인구 변화 4분면, 집행 역량, 재지정 워치, 분야별 포트폴리오
+- [지방의회 논의](/minutes): 107개 의회의 기금 언급 회의록 랭킹·검색, 발언 대화 뷰
 - 지역 상세(/region/{시도}-{시군구}): 인구 지표·추이·연령 구조, 연도별 기금, 세부사업 집행
 
 ## 데이터 (JSON, 무인증)
@@ -20,6 +21,8 @@
 - [/data/insights.json](/data/insights.json): 초과·저조집행 사업
 - [/data/projects/{lafCd}.json](/data/projects/): 지역별 세부사업 세출현황 (지방재정365 QWGJK 스냅샷)
 - [/data/policy.json](/data/policy.json): 지역별 정책 지표 — 감소율, 1인당 누계기금, 기금사업 집행률, 위기점수(참고용, 공식 인구감소지수와 다름)
+- [/data/minutes/{regionId}.json](/data/minutes/): 지역 의회의 기금 언급 회의록 목록 (국회도서관 지방의정포털)
+- [/data/minutes-chat/{docid}.json](/data/minutes-chat/): 회의록 발언 단위 추출 (키워드 주변 발언)
 - [/data/meta.json](/data/meta.json): 빌드·스냅샷 기준일, 출처
 
 ## 유의사항

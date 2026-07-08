@@ -134,6 +134,14 @@ export interface Policy {
 // v2.0 decline type classification
 export type DeclineType = "이중감소형" | "자연감소주도형" | "유출주도형" | "회복형";
 
+// v2.3 minutes hub summary (server→client serialized)
+export interface MinutesSummary {
+  regionId: string;
+  council: string;
+  totalCount: number;
+  latestDate: string; // items[0].date, "YYYYMMDD"
+}
+
 // v2.2 council minutes types
 export interface MinuteItem {
   docid: string;

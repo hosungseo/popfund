@@ -8,6 +8,7 @@ const NAV = [
   { href: "/compare", label: "지역 비교" },
   { href: "/projects", label: "사업 탐색" },
   { href: "/insights", label: "인사이트" },
+  { href: "/minutes", label: "의회 논의" },
   { href: "/policy", label: "정책 시사점" },
 ];
 

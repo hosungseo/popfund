@@ -1,6 +1,6 @@
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync, readdirSync } from "fs";
 import { join } from "path";
-import type { Region, Meta, Policy, Lifepop, VitalTrend, PopulationTrend } from "./types";
+import type { Region, Meta, Policy, Lifepop, VitalTrend, PopulationTrend, RegionMinutes, MinutesSummary } from "./types";
 
 const PUBLIC_DATA = join(process.cwd(), "public", "data");
 const FIXTURES = join(process.cwd(), "src", "lib", "fixtures");
@@ -61,6 +61,45 @@ export function loadPopulationTrend(): PopulationTrend | null {
   if (!existsSync(p)) return null;
   try {
     return JSON.parse(readFileSync(p, "utf-8")) as PopulationTrend;
+  } catch {
+    return null;
+  }
+}
+
+/** Load all minutes JSON files and return a lightweight summary array (server-side only). */
+export function loadMinutesSummary(): MinutesSummary[] {
+  const dir = join(PUBLIC_DATA, "minutes");
+  if (!existsSync(dir)) return [];
+  try {
+    const files = readdirSync(dir).filter((f) => f.endsWith(".json"));
+    const result: MinutesSummary[] = [];
+    for (const file of files) {
+      try {
+        const raw = JSON.parse(
+          readFileSync(join(dir, file), "utf-8")
+        ) as RegionMinutes;
+        result.push({
+          regionId: raw.regionId,
+          council: raw.council,
+          totalCount: raw.totalCount,
+          latestDate: raw.items[0]?.date ?? "",
+        });
+      } catch {
+        // skip malformed files
+      }
+    }
+    return result;
+  } catch {
+    return [];
+  }
+}
+
+/** Load a single region's minutes file (server-side only). Returns null if not found. */
+export function loadRegionMinutes(regionId: string): RegionMinutes | null {
+  const p = join(PUBLIC_DATA, "minutes", `${regionId}.json`);
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, "utf-8")) as RegionMinutes;
   } catch {
     return null;
   }

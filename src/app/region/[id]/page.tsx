@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { loadRegions, loadMeta, loadPolicy, loadLifepop, loadVitalTrend, loadPopulationTrend } from "@/lib/data";
+import { loadRegions, loadMeta, loadPolicy, loadLifepop, loadVitalTrend, loadPopulationTrend, loadRegionMinutes } from "@/lib/data";
 import RegionBadge from "@/components/RegionBadge";
 import PopulationCards from "@/components/PopulationCards";
 import PopulationTrendChart from "@/components/PopulationTrendChart";
@@ -67,6 +67,8 @@ export default async function RegionPage({ params }: Props) {
     "유출주도형":     "bg-violet-50 text-violet-700 ring-violet-200",
     "회복형":         "bg-emerald-50 text-emerald-700 ring-emerald-200",
   };
+
+  const regionMinutes = loadRegionMinutes(region.id);
 
   // Build lafCd → "시도 시군구" map for the drawer's region name lookup
   const lafCdToName: Record<string, string> = Object.fromEntries(
@@ -145,6 +147,16 @@ export default async function RegionPage({ params }: Props) {
               >
                 집행 {policyRegion.fundExecRate.toFixed(1)}%
               </span>
+            )}
+
+            {/* ⑤ 지방의회 회의록 건수 — minutes 파일이 있을 때만 표시 */}
+            {regionMinutes && (
+              <a
+                href="#council"
+                className="inline-flex items-center rounded-full text-xs font-semibold px-2.5 py-1 ring-1 bg-sky-50 text-sky-700 ring-sky-200 hover:bg-sky-100 transition-colors"
+              >
+                회의록 {regionMinutes.totalCount.toLocaleString("ko-KR")}건
+              </a>
             )}
           </div>
 
