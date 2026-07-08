@@ -307,6 +307,19 @@ type MinutesSummary = Record<string, {  // regionId →
 ```
 build-minutes.mjs가 minutes/{id}.json 생성 후 자동 집계. KoreaMap "의회 논의" 지표와 /minutes 히트맵의 데이터 소스.
 
+### 13-c. `public/data/minutes-topics.json` — 지역별 논의 주제 프로필 (v2.7)
+scripts/build-minutes-topics.mjs (로컬 파생, 발언·안건 규칙 분류).
+```ts
+interface MinutesTopics {
+  global: {
+    period: [string, string];        // 본문 검증 회의 기준 ["20220207","20260619"]
+    topics: [string, number][];      // 전국 주제 빈도 내림차순 (관광·축제/의료·돌봄/교육/청년/...)
+    agendaTypes: [string, number][]; // 안건 유형 분포
+  };
+  regions: Record<string, { topics: [string, number][] }>; // 지역별 상위 5 주제
+}
+```
+
 ### 14. `public/data/minutes-chat/{docid}.json` — 회의록 대화(발언) 뷰 (v2.3)
 회의록 전문(MINTS_HTML)을 발언 단위로 파싱해 기금 관련 구간만 추출. scripts/build-minutes-chat.mjs.
 

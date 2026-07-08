@@ -64,7 +64,7 @@ function htmlToLines(html) {
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<(?:br|\/p|\/div|\/li|\/h\d|\/tr)[^>]*>/gi, '\n')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
+    .replace(/&nbsp;?/g, ' ') // 세미콜론 누락된 &nbsp 변형도 실데이터에 존재
     .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&#\d+;/g, ' ')
     .split('\n')
