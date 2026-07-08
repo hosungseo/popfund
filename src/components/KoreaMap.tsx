@@ -16,7 +16,8 @@ export type MapMetric =
   | "agingIndex"
   | "fund2026"
   | "stayRatio"
-  | "declineType";
+  | "declineType"
+  | "minutes";
 
 interface SigunguProps {
   code: string;
@@ -44,12 +45,25 @@ interface TooltipState {
   region?: Region;
 }
 
+interface MinutesSummaryEntry {
+  council: string;
+  totalCount: number;
+  latestDate: string | null;
+}
+type MinutesSummaryMap = Record<string, MinutesSummaryEntry>;
+
 export interface KoreaMapProps {
   regions: Region[];
   /** regionId of the polygon to highlight (mini mode) */
   highlightId?: string;
   /** Compact display — no switcher, no legend, no interaction */
   mini?: boolean;
+  /** Override the initial metric (e.g. "minutes" on the minutes page) */
+  defaultMetric?: MapMetric;
+  /** Hide the metric switcher buttons */
+  hideSwitcher?: boolean;
+  /** Callback fired on polygon click — overrides router.push when provided */
+  onRegionClick?: (regionId: string) => void;
 }
 
 // ─── Color ramps ─────────────────────────────────────────────────────────────
@@ -60,6 +74,7 @@ const RAMPS: Record<string, [[number, number, number], [number, number, number]]
   agingIndex: [[237, 233, 254], [109, 40, 217]],  // violet-200 → violet-700
   fund2026:   [[167, 243, 208], [21,  128,  61]], // emerald-200 → green-700
   stayRatio:  [[204, 251, 241], [15,  118, 110]], // teal-100 → teal-700
+  minutes:    [[253, 230, 138], [225,  29,  72]], // amber-200 → rose-600 (warm heat)
 };
 
 // ─── Decline type categorical colors ─────────────────────────────────────────
@@ -89,6 +104,11 @@ function makeInterpolator(metric: MapMetric) {
     `rgb(${lerp(t, r[0][0], r[1][0])},${lerp(t, r[0][1], r[1][1])},${lerp(t, r[0][2], r[1][2])})`;
 }
 
+function fmtDate8(d: string | null): string {
+  if (!d || d.length !== 8) return "";
+  return `${d.slice(0, 4)}.${d.slice(4, 6)}.${d.slice(6, 8)}`;
+}
+
 // ─── Pure helpers ─────────────────────────────────────────────────────────────
 
 function getMetricValue(region: Region, metric: MapMetric): number {
@@ -114,6 +134,8 @@ function formatMetricValue(metric: MapMetric, value: number): string {
       return value.toFixed(1);
     case "fund2026":
       return formatWon(value);
+    case "minutes":
+      return `${Math.round(value).toLocaleString("ko-KR")}건`;
     default:
       return "";
   }
@@ -131,6 +153,7 @@ const METRICS: [MapMetric, string][] = [
   ["fund2026",    "2026년 기금"],
   ["stayRatio",   "체류 배율"],
   ["declineType", "감소 유형"],
+  ["minutes",     "의회 논의"],
 ];
 
 const FILL_UNDESIGNATED = "#e2e8f0"; // slate-200
@@ -146,10 +169,17 @@ interface LifepopEntry {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMapProps) {
+export default function KoreaMap({
+  regions,
+  highlightId,
+  mini = false,
+  defaultMetric,
+  hideSwitcher = false,
+  onRegionClick,
+}: KoreaMapProps) {
   const router = useRouter();
   const [geoData,     setGeoData]     = useState<GeoData | null>(null);
-  const [metric,      setMetric]      = useState<MapMetric>("type");
+  const [metric,      setMetric]      = useState<MapMetric>(defaultMetric ?? "type");
   const [hoveredCode, setHoveredCode] = useState<string | null>(null);
   const [tooltip,     setTooltip]     = useState<TooltipState | null>(null);
 
@@ -159,6 +189,10 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
   const [vitalTrend,     setVitalTrend]     = useState<VitalTrend | null>(null);
   const [popTrend,       setPopTrend]       = useState<PopulationTrend | null>(null);
   const [vitalPopFetched, setVitalPopFetched] = useState(false);
+
+  // Lazy-fetched minutes summary map
+  const [minutesData,    setMinutesData]    = useState<MinutesSummaryMap | null>(null);
+  const [minutesFetched, setMinutesFetched] = useState(false);
 
   const [geoError, setGeoError] = useState(false);
 
@@ -200,6 +234,16 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
     });
   }, [metric, vitalPopFetched]);
 
+  // Lazy fetch minutes-summary when "minutes" first selected
+  useEffect(() => {
+    if (metric !== "minutes" || minutesFetched) return;
+    setMinutesFetched(true);
+    fetch(dataUrl("/data/minutes-summary.json"))
+      .then((r) => (r.ok ? (r.json() as Promise<MinutesSummaryMap>) : Promise.resolve(null)))
+      .then((d) => setMinutesData(d ?? null))
+      .catch(() => {});
+  }, [metric, minutesFetched]);
+
   // regionId → Region lookup map
   const regionMap = useMemo(() => {
     const m = new Map<string, Region>();
@@ -238,6 +282,16 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
   // Domain [min, max] for the active sequential metric
   const [metricMin, metricMax] = useMemo((): [number, number] => {
     if (metric === "type" || metric === "declineType") return [0, 1];
+    if (metric === "minutes") {
+      if (!minutesData) return [0, 1];
+      const vals = Object.values(minutesData)
+        .map((e) => e.totalCount)
+        .filter((v) => v > 0);
+      if (!vals.length) return [0, 1];
+      const min = Math.min(...vals);
+      const max = Math.max(...vals);
+      return [min, max > min ? max : min + 1];
+    }
     if (metric === "stayRatio") {
       const vals = [...lifepopMap.values()].map((e) => e.stayRatio).filter((v) => v > 0);
       if (!vals.length) return [0, 1];
@@ -252,7 +306,7 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
     const min = Math.min(...vals);
     const max = Math.max(...vals);
     return [min, max > min ? max : min + 1];
-  }, [regions, metric, lifepopMap]);
+  }, [regions, metric, lifepopMap, minutesData]);
 
   // d3-scale sequential color scale (not used for categorical metrics)
   const colorScale = useMemo(() => {
@@ -303,12 +357,27 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
       return DECLINE_TYPE_COLORS[dt];
     }
 
+    if (metric === "minutes") {
+      if (!minutesData || !colorScale) return FILL_NO_DATA;
+      const entry = minutesData[regionId];
+      if (!entry || entry.totalCount === 0) return FILL_NO_DATA;
+      return colorScale(entry.totalCount) as string;
+    }
+
     const val = getMetricValue(region, metric);
     if (!val || !colorScale) return FILL_NO_DATA;
     return colorScale(val) as string;
   }
 
   // ─── Skeleton ─────────────────────────────────────────────────────────────
+
+  if (geoError) {
+    return (
+      <div className="w-full aspect-[5/6] bg-slate-100 rounded-xl flex items-center justify-center">
+        <span className="text-[10px] text-slate-400">지도를 불러올 수 없습니다</span>
+      </div>
+    );
+  }
 
   if (!geoData || !pathFn) {
     return (
@@ -329,14 +398,15 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
   // Whether lazy data for the current metric is still loading
   const isDataLoading =
     (metric === "stayRatio" && lifepopFetched && lifepopMap.size === 0) ||
-    (metric === "declineType" && vitalPopFetched && declineTypeMap.size === 0);
+    (metric === "declineType" && vitalPopFetched && declineTypeMap.size === 0) ||
+    (metric === "minutes" && minutesFetched && minutesData === null);
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
   return (
     <div className={`flex flex-col ${mini ? "gap-1" : "gap-4"}`}>
-      {/* Metric switcher — full mode only */}
-      {!mini && (
+      {/* Metric switcher — full mode, not hidden */}
+      {!mini && !hideSwitcher && (
         <div className="flex flex-wrap gap-1.5">
           {METRICS.map(([key, label]) => (
             <button
@@ -415,10 +485,13 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
                 }
                 onClick={
                   canClick
-                    ? () =>
-                        router.push(
-                          `/region/${encodeURIComponent(regionId!)}`
-                        )
+                    ? () => {
+                        if (onRegionClick) {
+                          onRegionClick(regionId!);
+                        } else {
+                          router.push(`/region/${encodeURIComponent(regionId!)}`);
+                        }
+                      }
                     : undefined
                 }
               />
@@ -442,6 +515,27 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
             {tooltip.region ? (
               <>
                 <RegionBadge type={tooltip.region.type} size="sm" />
+
+                {/* minutes tooltip content */}
+                {metric === "minutes" && (() => {
+                  const entry = minutesData?.[tooltip.region!.id];
+                  if (!entry) return null;
+                  return (
+                    <div className="mt-1.5 flex flex-col gap-0.5">
+                      <span className="text-[10px] text-slate-500 leading-tight">
+                        {entry.council}
+                      </span>
+                      <span className="font-semibold text-rose-600 font-mono">
+                        언급 {entry.totalCount.toLocaleString("ko-KR")}건
+                      </span>
+                      {entry.latestDate && (
+                        <span className="text-[10px] text-slate-400">
+                          최신 회의일 {fmtDate8(entry.latestDate)}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })()}
 
                 {/* stayRatio tooltip content */}
                 {metric === "stayRatio" && (() => {
@@ -481,7 +575,10 @@ export default function KoreaMap({ regions, highlightId, mini = false }: KoreaMa
                 })()}
 
                 {/* Sequential metric tooltip content */}
-                {metric !== "type" && metric !== "stayRatio" && metric !== "declineType" && (
+                {metric !== "type" &&
+                  metric !== "stayRatio" &&
+                  metric !== "declineType" &&
+                  metric !== "minutes" && (
                   <p className="mt-1.5 font-mono text-slate-700">
                     {formatMetricValue(
                       metric,

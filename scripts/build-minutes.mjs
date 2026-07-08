@@ -1,6 +1,6 @@
 // 지방의회 회의록 (국회도서관 지방의정포털) — 107개 지역 의회의 지방소멸대응기금 논의 수집.
 // CLIK_API_KEY는 빌드타임 전용. 클라이언트에서 이 API를 직접 호출하면 키가 노출된다.
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -172,6 +172,19 @@ async function main() {
     await sleep(DELAY_MS);
   }
   console.log(`Phase B/C done — fetched ${done}, skipped(cached) ${skipped}, 기금 언급 합계 ${totalMentions.toLocaleString()}건`);
+
+  // 지도 히트맵·허브 공용 요약 (minutes/{id}.json 107개 → 단일 파일)
+  const summary = {};
+  for (const f of readdirSync(OUT_DIR).filter((x) => x.endsWith('.json'))) {
+    const d = JSON.parse(readFileSync(join(OUT_DIR, f), 'utf-8'));
+    summary[d.regionId] = {
+      council: d.council,
+      totalCount: d.totalCount,
+      latestDate: d.items[0]?.date ?? null,
+    };
+  }
+  writeFileSync(join(ROOT, 'public', 'data', 'minutes-summary.json'), JSON.stringify(summary), 'utf-8');
+  console.log(`minutes-summary.json — ${Object.keys(summary).length} regions`);
 }
 
 main().catch((e) => { console.error(e.message || e); process.exit(1); });

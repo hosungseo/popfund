@@ -297,6 +297,16 @@ interface MinuteItem {
 - 의회 ID 매핑: `data/rasmbly-ids.json` (RASMBLY_NM = "{시도풀네임} {시군구}의회" 매칭, 군위군은 대구/경북 모두 허용). 파이프라인이 자동 발견 후 캐시.
 - UI: 지역 상세 "지방의회 논의" 탭의 준비 중 플레이스홀더를 실데이터로 교체.
 
+### 13-b. `public/data/minutes-summary.json` — 논의 열기 요약 (v2.6, 지도·허브 공용)
+```ts
+type MinutesSummary = Record<string, {  // regionId →
+  council: string;
+  totalCount: number;   // 기금 언급 회의록 총 건수
+  latestDate: string | null; // 최신 회의일 "20260624"
+}>;
+```
+build-minutes.mjs가 minutes/{id}.json 생성 후 자동 집계. KoreaMap "의회 논의" 지표와 /minutes 히트맵의 데이터 소스.
+
 ### 14. `public/data/minutes-chat/{docid}.json` — 회의록 대화(발언) 뷰 (v2.3)
 회의록 전문(MINTS_HTML)을 발언 단위로 파싱해 기금 관련 구간만 추출. scripts/build-minutes-chat.mjs.
 
